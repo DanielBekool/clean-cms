@@ -2,27 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
-use App\Models\Post;
-use Filament\Forms;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Split;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -31,7 +20,6 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 use CodeZero\UniqueTranslation\UniqueTranslationRule as UTR;
-use Illuminate\Database\Eloquent\Model;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 
 abstract class BaseResource extends Resource
@@ -290,9 +278,7 @@ abstract class BaseResource extends Resource
     protected static function tableDateColumns(): array
     {
         return [
-            TextColumn::make('published_at')
-                ->dateTime()
-                ->sortable(),
+            ...static::tablePublishedAtColumn(),
             TextColumn::make('created_at')
                 ->dateTime()
                 ->sortable()
@@ -308,6 +294,15 @@ abstract class BaseResource extends Resource
         ];
     }
 
+    protected static function tablePublishedAtColumn(): array
+    {
+        return [
+            TextColumn::make('published_at')
+                ->dateTime()
+                ->sortable(),
+        ];
+    }
+
 
     protected static function tableFilters(): array
     {
@@ -319,14 +314,44 @@ abstract class BaseResource extends Resource
 
     protected static function tableActions(): array
     {
-        return
-            [
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
-            ];
+        return [
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\Action::make('replicate')
+                ->icon('heroicon-o-document-duplicate')
+                ->action(function (\Filament\Tables\Actions\Action $action, \Illuminate\Database\Eloquent\Model $record, \Livewire\Component $livewire) {
+                    $newRecord = $record->replicate();
+
+                    // Handle multilingual slug uniqueness
+                    $originalSlugs = $newRecord->getTranslations('slug');
+                    $newSlugs = [];
+                    $locales = array_keys(config('app.language_available')); // Get locales from app config
+        
+                    foreach ($locales as $locale) {
+                        $originalSlug = $originalSlugs[$locale] ?? null;
+                        if ($originalSlug) {
+                            $count = 1;
+                            $newSlug = $originalSlug;
+                            // Check for uniqueness across all translations of the slug field
+                            while (static::getModel()::whereJsonContains('slug->' . $locale, $newSlug)->exists()) {
+                                $newSlug = $originalSlug . '-' . $count++;
+                            }
+                            $newSlugs[$locale] = $newSlug;
+                        } else {
+                            $newSlugs[$locale] = null; // Or handle as needed for missing translations
+                        }
+                    }
+                    $newRecord->setTranslations('slug', $newSlugs);
+
+
+                    $newRecord->save();
+
+                    $livewire->redirect(static::getUrl('index', ['record' => $newRecord]));
+                }),
+            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+            Tables\Actions\RestoreAction::make(),
+        ];
     }
 
     protected static function tableBulkActions(): array
