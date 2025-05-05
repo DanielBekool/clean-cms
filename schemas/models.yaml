@@ -1,0 +1,210 @@
+models:
+  Post:
+    fields:
+      title:
+        type: json
+        nullable: false
+        translatable: true
+      slug:
+        type: json
+        nullable: false
+        unique: true
+        translatable: true
+      content:
+        type: json
+        nullable: true
+        translatable: true
+      excerpt:
+        type: json
+        nullable: true
+        translatable: true
+      custom_fields:
+        type: json
+        nullable: true
+        translatable: true # Assuming custom fields can also be translated
+      featured_image:
+        type: string
+        nullable: true
+      template:
+        type: string
+        nullable: true
+      menu_order:
+        type: int
+        nullable: false
+        default: 0
+      featured:
+        type: bool
+        nullable: false
+        default: false
+      status:
+        type: enum
+        nullable: false
+        enum: [draft, published]
+        default: draft
+      published_at:
+        type: datetime
+        nullable: true
+      # author_id is handled by the relationship definition below
+
+    relationships:
+      author:
+        type: belongsTo
+        model: User        # Assumes 'author_id' foreign key by convention
+        # Add onDelete: cascade (or restrict, set null) if needed
+      categories:
+        type: belongsToMany
+        model: Category    # Assumes 'category_post' pivot table
+      tags:
+        type: belongsToMany
+        model: Tag         # Assumes 'post_tag' pivot table
+
+    traits:
+      - Spatie\Translatable\HasTranslations
+      - Illuminate\Database\Eloquent\SoftDeletes
+
+  Page:
+    fields:
+      title:
+        type: json
+        nullable: false
+        translatable: true
+      slug:
+        type: json
+        nullable: false
+        unique: true
+        translatable: true
+      content:
+        type: json
+        nullable: true
+        translatable: true
+      excerpt:
+        type: json
+        nullable: true
+        translatable: true
+      custom_fields:
+        type: json
+        nullable: true
+        translatable: true # Assuming custom fields can also be translated
+      featured_image:
+        type: string
+        nullable: true
+      template:
+        type: string
+        nullable: true
+      menu_order:
+        type: int
+        nullable: false
+        default: 0
+      parent_id:
+        type: bigint
+        nullable: true
+        unsigned: true
+        index: true
+      status:
+        type: enum
+        nullable: false
+        enum: [draft, published]
+        default: draft
+      published_at:
+        type: datetime
+        nullable: true
+
+    relationships:
+      author:
+        type: belongsTo
+        model: User        # Assumes 'author_id' foreign key by convention
+        # Add onDelete: cascade (or restrict, set null) if needed
+      parent:             # Relationship to parent category
+        type: belongsTo
+        model: Page    # Relates to self
+        foreign_key: parent_id # Explicitly state foreign key if needed
+        nullable: true     # Matches parent_id field nullability
+
+    traits:
+      - Spatie\Translatable\HasTranslations
+      - Illuminate\Database\Eloquent\SoftDeletes
+
+  Category:
+    fields:
+      title:
+        type: json
+        nullable: false
+        translatable: true
+      slug:
+        type: json
+        nullable: false
+        unique: true
+        translatable: true
+      content:
+        type: json
+        nullable: true
+        translatable: true
+      featured_image:
+        type: string
+        nullable: true
+      parent_id:          # For self-referencing hierarchy
+        type: bigint       # Assuming standard ID type
+        nullable: true
+        unsigned: true     # Foreign keys are typically unsigned
+        index: true        # Good to index foreign keys
+      menu_order:       # Renamed from 'order' to avoid SQL keyword conflict
+        type: int
+        nullable: false
+        default: 0
+      template:
+        type: string
+        nullable: true
+
+    relationships:
+      posts:
+        type: belongsToMany
+        model: Post        # Assumes 'category_post' pivot table
+      parent:             # Relationship to parent category
+        type: belongsTo
+        model: Category    # Relates to self
+        foreign_key: parent_id # Explicitly state foreign key if needed
+        nullable: true     # Matches parent_id field nullability
+      children:           # Relationship to child categories
+        type: hasMany
+        model: Category    # Relates to self
+        foreign_key: parent_id # Explicitly state foreign key if needed
+
+    traits:
+      - Spatie\Translatable\HasTranslations
+      - Illuminate\Database\Eloquent\SoftDeletes
+
+  Tag:
+    fields:
+      title:
+        type: json
+        nullable: false
+        translatable: true
+      slug:
+        type: json
+        nullable: false
+        unique: true
+        translatable: true
+      content:            # Optional content/description for a tag
+        type: json
+        nullable: true
+        translatable: true
+      featured_image:     # Less common for tags, but included
+        type: string
+        nullable: true
+      menu_order:       # Renamed from 'order'
+        type: int
+        nullable: false
+        default: 0
+      template:           # Less common for tags, but included
+        type: string
+        nullable: true
+
+    relationships:
+      posts:
+        type: belongsToMany
+        model: Post        # Assumes 'post_tag' pivot table
+
+    traits:
+      - Spatie\Translatable\HasTranslations
+      - Illuminate\Database\Eloquent\SoftDeletes
+
