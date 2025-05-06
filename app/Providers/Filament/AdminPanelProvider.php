@@ -63,7 +63,10 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 CuratorPlugin::make(),
                 BreezyCore::make()
-                    ->myProfile()
+                    ->myProfile(
+                        shouldRegisterNavigation: true,
+                        navigationGroup: 'Users'
+                    )
                     ->passwordUpdateRules(
                         rules: [Password::default()->mixedCase()->uncompromised(3)], // you may pass an array of validation rules as well. (default = ['min:8'])
                         requiresCurrentPassword: true, // when false, the user can update their password without entering their current password. (default = true)
@@ -86,9 +89,11 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Users')
                     ->icon('heroicon-o-users'),
                 NavigationGroup::make()
+                    ->label('Profile')
+                    ->icon('heroicon-o-cog-6-tooth'),
+                NavigationGroup::make()
                     ->label('Settings')
                     ->icon('heroicon-o-cog-6-tooth'),
-
             ]);
     }
 }
