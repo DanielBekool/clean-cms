@@ -6,7 +6,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -21,7 +21,7 @@ use Filament\Forms\Set;
 use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 use CodeZero\UniqueTranslation\UniqueTranslationRule as UTR;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
-
+use Filament\Forms\Components\DateTimePicker;
 abstract class BaseResource extends Resource
 {
 
@@ -41,33 +41,48 @@ abstract class BaseResource extends Resource
     {
 
         return [
-            Split::make([
-                Translate::make()
-                    ->columnSpanFull()
-                    ->schema(function (string $locale): array {
-                        return [
-                            ...static::formTitleSlugFields($locale), // Common title/slug fields
-                            ...static::formContentFields($locale), // Specific content fields
-                        ];
-                    }),
-                // Section for non-translatable fields and relationships
-                Section::make()
-                    ->schema([
-                        ...static::formFeaturedImageField(),
-                        ...static::formRelationshipsFields(), // taxonomy and parent relationships
-                        ...static::formAuthorRelationshipField(),
-                        ...static::formStatusField(),
-                        ...static::formTemplateField(),
-                        ...static::formFeaturedField(),
-                        ...static::formPublishedDateField(),
-                        ...static::formMenuOrderField(),
+            Grid::make()
+                ->columns([
+                    'sm' => 3,
+                    'xl' => 4,
+                    '2xl' => 4,
+                ])
+                ->schema([
+                    Translate::make()
+                        ->columnSpanFull()
+                        ->schema(function (string $locale): array {
+                            return [
+                                ...static::formTitleSlugFields($locale),
+                                ...static::formContentFields($locale),
+                            ];
+                        })
+                        ->columnSpan([
+                            'sm' => 2,
+                            'xl' => 3,
+                            '2xl' => 3,
+                        ]),
+                    // Section for non-translatable fields and relationships
+                    Section::make()
+                        ->schema([
+                            ...static::formFeaturedImageField(),
+                            ...static::formRelationshipsFields(),
+                            ...static::formAuthorRelationshipField(),
+                            ...static::formStatusField(),
+                            ...static::formTemplateField(),
+                            ...static::formFeaturedField(),
+                            ...static::formPublishedDateField(),
+                            ...static::formMenuOrderField(),
 
-                    ])
-                    ->grow(false),
-            ])
-                ->from('md')
-                ->columnSpanFull(),
+                        ])
+                        ->columnSpan([
+                            'sm' => 1,
+                            'xl' => 1,
+                            '2xl' => 1,
+                        ]),
+                ])
+
         ];
+
     }
 
     protected static function modelStatusOptions(): array
@@ -83,9 +98,13 @@ abstract class BaseResource extends Resource
         return $statusOptions;
     }
 
-    protected static function formTitleSlugFields(string $locale): array
+    protected static function formTitleSlugFields(string $locale, string $tableName = ''): array
     {
         $defaultLocale = config('app.default_language', 'en'); // Default fallback
+
+        if ($tableName === '') {
+            $tableName = app(static::$model)->getTable();
+        }
 
         return [
             TextInput::make('title')
@@ -101,12 +120,10 @@ abstract class BaseResource extends Resource
                 ->required($locale === $defaultLocale),
             TextInput::make('slug')
                 ->maxLength(255)
-                ->rules(function (Get $get): array {
-                    // Determine the table name dynamically
-                    $table = app(static::$model)->getTable();
+                ->rules(function (Get $get) use ($tableName): array {
 
                     return [
-                        UTR::for($table, 'slug')
+                        UTR::for($tableName, 'slug')
                             ->ignore($get('id')),
                         'alpha_dash',
                     ];
@@ -143,7 +160,13 @@ abstract class BaseResource extends Resource
                 ->searchable()
                 ->preload()
                 ->createOptionForm([
-                    TextInput::make('title')->required(),
+                    Translate::make()
+                        ->columnSpanFull()
+                        ->schema(function (string $locale) use ($taxonomy): array {
+                            return [
+                                ...static::formTitleSlugFields($locale, $taxonomy),
+                            ];
+                        }),
                 ]),
         ];
     }
@@ -199,16 +222,19 @@ abstract class BaseResource extends Resource
     {
 
         return [
-            TextInput::make('menu_order') // Common menu order field
-                ->numeric()
-                ->default(0),
+            DateTimePicker::make('published_at')
+                ->nullable(),
         ];
     }
 
     protected static function formMenuOrderField(): array
     {
 
-        return [];
+        return [
+            TextInput::make('menu_order') // Common menu order field
+                ->numeric()
+                ->default(0),
+        ];
     }
 
     public static function table(Table $table): Table
@@ -226,6 +252,11 @@ abstract class BaseResource extends Resource
             ->bulkActions([
                 ...static::tableBulkActions(),
             ])
+            ->headerActions(
+                [
+                    ...static::tableHeaderActions(),
+                ]
+            )
             ->reorderable('menu_order')
             ->defaultSort('created_at', 'desc');
         ;
@@ -334,7 +365,7 @@ abstract class BaseResource extends Resource
                             $newSlug = $originalSlug;
                             // Check for uniqueness across all translations of the slug field
                             while (static::getModel()::whereJsonContains('slug->' . $locale, $newSlug)->exists()) {
-                                $newSlug = $originalSlug . '-' . $count++;
+                                $newSlug = $originalSlug . '-copy-' . $count++;
                             }
                             $newSlugs[$locale] = $newSlug;
                         } else {
@@ -356,17 +387,65 @@ abstract class BaseResource extends Resource
 
     protected static function tableBulkActions(): array
     {
-        return
-            [
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
-            ];
-
+        return [
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\ForceDeleteBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
+                ...static::tableEditBulkAction(),
+                ...static::tableExportBulkAction(),
+            ]),
+        ];
     }
 
+    protected static function tableEditBulkAction(): array
+    {
+        return [
+            Tables\Actions\BulkAction::make('edit')
+                ->form([
+                    Select::make('status')
+                        ->options(static::modelStatusOptions())
+                        ->nullable(),
+                    Select::make('author_id')
+                        ->relationship('author', 'name')
+                        ->searchable()
+                        ->preload()
+                        ->nullable(),
+                    DateTimePicker::make('published_at')
+                        ->nullable(),
+                ])
+                ->action(function (\Illuminate\Support\Collection $records, array $data) {
+                    $records->each(function (\Illuminate\Database\Eloquent\Model $record) use ($data) {
+                        $updateData = [];
+                        if (isset($data['status'])) {
+                            $updateData['status'] = $data['status'];
+                        }
+                        if (isset($data['author_id'])) {
+                            $updateData['author_id'] = $data['author_id'];
+                        }
+                        if (isset($data['published_at'])) {
+                            $updateData['published_at'] = $data['published_at'];
+                        }
+                        $record->update($updateData);
+                    });
+                })
+                ->deselectRecordsAfterCompletion()
+                ->icon('heroicon-o-pencil-square')
+                ->color('primary')
+                ->label('Edit selected'),
+        ];
+    }
+
+    protected static function tableExportBulkAction(): array
+    {
+        return [];
+    }
+
+    protected static function tableHeaderActions(): array
+    {
+        return [];
+
+    }
 
     public static function getEloquentQuery(): Builder
     {

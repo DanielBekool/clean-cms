@@ -13,9 +13,7 @@ abstract class BaseEditResource extends EditRecord
             $this->getSaveFormAction()
                 ->formId('form'),
             Actions\DeleteAction::make(),
-            // Actions\Action::make('create_new')
-            //     ->url(static::$resource::getUrl('create'))
-            //     ->color('success'),
+            Actions\RestoreAction::make(),
         ];
     }
 }

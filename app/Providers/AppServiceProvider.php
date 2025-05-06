@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Migrations\MigrationCreator;
 use Illuminate\Filesystem\Filesystem;
 use SolutionForest\FilamentTranslateField\Facades\FilamentTranslateField;
-
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -25,10 +25,14 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {   
+    {
         if (config('app.multilanguage_enabled') && config('app.language_available')) {
             $localeKeys = array_keys(config('app.language_available'));
             FilamentTranslateField::defaultLocales($localeKeys);
+            LanguageSwitch::configureUsing(function (LanguageSwitch $switch) use ($localeKeys) {
+                $switch
+                    ->locales($localeKeys);
+            });
         }
     }
 }

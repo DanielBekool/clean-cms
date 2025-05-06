@@ -17,7 +17,9 @@ class TagResource extends BaseTaxonomyResource
 {
     protected static ?string $model = Tag::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationGroup = 'Contents';
+    protected static ?int $navigationSort = 40;
 
     public static function getRelations(): array
     {

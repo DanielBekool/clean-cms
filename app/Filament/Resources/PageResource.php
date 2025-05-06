@@ -20,7 +20,9 @@ class PageResource extends BaseContentResource
 {
     protected static ?string $model = Page::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationGroup = 'Contents';
+    protected static ?int $navigationSort = 0;
 
     protected static function formRelationshipsFields(): array
     {

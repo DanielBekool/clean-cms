@@ -32,6 +32,11 @@ abstract class BaseTaxonomyResource extends BaseResource
         return []; // No featured field for taxonomy resources
     }
 
+    protected static function formPublishedDateField(): array
+    {
+
+        return []; // No published at field for taxonomy resources
+    }
 
     protected static function tableFeaturedColumn(): array
     {
@@ -50,6 +55,11 @@ abstract class BaseTaxonomyResource extends BaseResource
     protected static function tablePublishedAtColumn(): array
     {
         return [];
+    }
+
+    protected static function tableBulkEditAction(): array
+    {
+        return []; // no bulk edit action for taxonomy resources
     }
 
 }

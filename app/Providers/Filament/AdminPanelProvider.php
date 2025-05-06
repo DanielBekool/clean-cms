@@ -21,7 +21,8 @@ use Awcodes\Curator\CuratorPlugin;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Illuminate\Validation\Rules\Password;
 use Outerweb\FilamentTranslatableFields\Filament\Plugins\FilamentTranslatableFieldsPlugin;
-
+use Filament\Navigation\NavigationGroup;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -66,15 +67,28 @@ class AdminPanelProvider extends PanelProvider
                     ->passwordUpdateRules(
                         rules: [Password::default()->mixedCase()->uncompromised(3)], // you may pass an array of validation rules as well. (default = ['min:8'])
                         requiresCurrentPassword: true, // when false, the user can update their password without entering their current password. (default = true)
-                        ),
+                    ),
                 FilamentTranslatableFieldsPlugin::make()
-                ->supportedLocales([
-                    'en' => 'English',
-                    'id' => 'Indonesia',
-                    'zh-CN' => '中文',
-                ]),
+                    ->supportedLocales([
+                        'en' => 'English',
+                        'id' => 'Indonesia',
+                        'zh-CN' => '中文',
+                    ]),
+                FilamentShieldPlugin::make(),
             ])
             ->unsavedChangesAlerts()
-            ->sidebarCollapsibleOnDesktop();
+            ->sidebarCollapsibleOnDesktop()
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Contents')
+                    ->icon('heroicon-o-document-text'),
+                NavigationGroup::make()
+                    ->label('Users')
+                    ->icon('heroicon-o-users'),
+                NavigationGroup::make()
+                    ->label('Settings')
+                    ->icon('heroicon-o-cog-6-tooth'),
+
+            ]);
     }
 }
