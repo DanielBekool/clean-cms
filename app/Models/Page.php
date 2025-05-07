@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
-
+use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
 class Page extends Model
 {
-    use HasFactory, HasTranslations, SoftDeletes;
+    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite;
 
     public const STATUS_OPTIONS = ['draft' => 'Draft', 'published' => 'Published'];
 

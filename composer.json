@@ -5,6 +5,12 @@
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/afatmustafa/seo-suite"
+        }
+    ],
     "require": {
         "php": "^8.2",
         "awcodes/filament-curator": "*",
@@ -18,7 +24,8 @@
         "outerweb/filament-translatable-fields": "^2.1",
         "solution-forest/filament-translate-field": "^1.4",
         "spatie/laravel-translatable": "^6.11",
-        "stechstudio/filament-impersonate": "^3.16"
+        "stechstudio/filament-impersonate": "^3.16",
+        "afatmustafa/seo-suite": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

@@ -12,10 +12,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
-
+use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
 class Post extends Model
 {
-    use HasFactory, HasTranslations, SoftDeletes;
+    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite;
 
     public const STATUS_OPTIONS = ['draft' => 'Draft', 'published' => 'Published'];
 

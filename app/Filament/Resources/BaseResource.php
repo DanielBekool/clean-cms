@@ -22,6 +22,7 @@ use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 use CodeZero\UniqueTranslation\UniqueTranslationRule as UTR;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\DateTimePicker;
+use Afatmustafa\SeoSuite\SeoSuite;
 abstract class BaseResource extends Resource
 {
 
@@ -79,7 +80,8 @@ abstract class BaseResource extends Resource
                             'xl' => 1,
                             '2xl' => 1,
                         ]),
-                ])
+                ]),
+            ...static::formSeoSection(),
 
         ];
 
@@ -237,6 +239,19 @@ abstract class BaseResource extends Resource
                 ->default(0),
         ];
     }
+
+    protected static function formSeoSection(): array
+    {
+
+        return [
+            Section::make('SEO Settings')
+                ->schema([
+                    SeoSuite::make()
+                ]),
+        ];
+    }
+
+
 
     public static function table(Table $table): Table
     {
