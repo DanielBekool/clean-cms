@@ -11,7 +11,11 @@
 
 .fi-sidebar-nav {
     @apply bg-white shadow-sm;
-  }
+}
+
+.seo-tabs .fi-tabs {
+@apply !mx-0 !ring-0 !border-0 !shadow-none !p-0;
+}
 
 .curator-grid-container {
     /**

@@ -22,7 +22,8 @@ use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 use CodeZero\UniqueTranslation\UniqueTranslationRule as UTR;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\DateTimePicker;
-use Afatmustafa\SeoSuite\SeoSuite;
+use App\Filament\Forms\Components\SeoFields;
+
 abstract class BaseResource extends Resource
 {
 
@@ -140,6 +141,7 @@ abstract class BaseResource extends Resource
         return [];
     }
 
+
     protected static function formFeaturedImageField(): array
     {
         return [
@@ -246,8 +248,8 @@ abstract class BaseResource extends Resource
         return [
             Section::make('SEO Settings')
                 ->schema([
-                    SeoSuite::make()
-                ]),
+                    SeoFields::make(),
+                ])
         ];
     }
 

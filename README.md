@@ -1,61 +1,175 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Project Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This document provides an overview of key development aspects of this project, including model and migration generation from YAML schemas, Tailwind CSS compilation, and the structure of Filament resources.
 
-## About Laravel
+## 1. Generating Models from YAML
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Eloquent models can be generated automatically from a YAML schema file using the `make:model:from-yaml` Artisan command.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The command reads the model definitions from `schemas/models.yaml` by default, but a different file can be specified. It creates or updates model files in the `app/Models` directory.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Command Signature:**
 
-## Learning Laravel
+```bash
+php artisan make:model:from-yaml {yaml_file?} {--model=} {--force}
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   `yaml_file`: Optional. The path to the YAML definition file (defaults to `schemas/models.yaml`).
+-   `--model`: Optional. Specify a single model name from the YAML file to generate.
+-   `--force`: Optional. Overwrite existing model files without prompting.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**Example Usage:**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Generate all models from the default schema file:
 
-## Laravel Sponsors
+```bash
+php artisan make:model:from-yaml
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Generate only the `Post` model:
 
-### Premium Partners
+```bash
+php artisan make:model:from-yaml --model=Post
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+Generate all models and overwrite existing files:
 
-## Contributing
+```bash
+php artisan make:model:from-yaml --force
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The `CreateModelCommand.php` file (`app/Console/Commands/CreateModelCommand.php`) contains the logic for parsing the YAML and generating the model files, including fields, casts, translatable attributes, relationships, and constants for enums.
 
-## Code of Conduct
+## 2. Generating Migrations from YAML
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Database migrations can also be generated from the same YAML schema file using the `make:migration:from-yaml` Artisan command.
 
-## Security Vulnerabilities
+This command reads the model and relationship definitions from `schemas/models.yaml` (by default) and generates migration files in the `database/migrations` directory. It handles both main model tables and pivot tables for `belongsToMany` relationships.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Command Signature:**
 
-## License
+```bash
+php artisan make:migration:from-yaml {yaml_file?} {--model=}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   `yaml_file`: Optional. The path to the YAML definition file (defaults to `schemas/models.yaml`).
+-   `--model`: Optional. Specify a single model name from the YAML file to generate the migration for its main table and any associated pivot tables.
+
+**Example Usage:**
+
+Generate migrations for all models and pivot tables from the default schema:
+
+```bash
+php artisan make:migration:from-yaml
+```
+
+Generate migration only for the `Category` model's main table and its pivot tables:
+
+```bash
+php artisan make:migration:from-yaml --model=Category
+```
+
+The `CreateMigrationCommand.php` file (`app/Console/Commands/CreateMigrationCommand.php`) contains the logic for parsing the YAML, determining the necessary tables and columns (including foreign keys and constraints), and using Laravel's `MigrationCreator` to generate the migration files.
+
+## 3. Modifying the `schemas/models.yaml` File
+
+The `schemas/models.yaml` file defines the structure of your Eloquent models and their corresponding database tables. You can modify this file to add, remove, or change models, fields, relationships, and traits.
+
+The basic structure is a top-level `models` key, under which each key represents a model name (e.g., `Post`, `Page`, `Category`, `Tag`). Each model definition can have the following keys:
+
+-   `fields`: Defines the columns for the model's main database table. Each field has a name (the key) and properties like `type`, `nullable`, `unique`, `default`, `index`, `unsigned`, `comment`, and `translatable`. For `enum` types, an `enum` array is required.
+-   `relationships`: Defines the Eloquent relationships for the model. Each relationship has a name (the method name on the model) and properties like `type` (e.g., `belongsTo`, `hasMany`, `belongsToMany`), `model` (the related model name), and optional keys like `foreign_key`, `related_key`, `onDelete`, `onUpdate`.
+-   `traits`: Lists the fully qualified class names of traits to be used by the model (e.g., `Spatie\Translatable\HasTranslations`, `Illuminate\Database\Eloquent\SoftDeletes`).
+
+**Example Snippet from `schemas/models.yaml`:**
+
+```yaml
+models:
+    Post:
+        fields:
+            title:
+                type: json
+                nullable: false
+                translatable: true
+            slug:
+                type: json
+                nullable: false
+                unique: false
+                translatable: true
+            # ... other fields
+        relationships:
+            author:
+                type: belongsTo
+                model: User
+            categories:
+                type: belongsToMany
+                model: Category
+            # ... other relationships
+        traits:
+            - Spatie\Translatable\HasTranslations
+            - Illuminate\Database\Eloquent\SoftDeletes
+    # ... other models
+```
+
+After modifying the `schemas/models.yaml` file, you should run the `make:model:from-yaml` and `make:migration:from-yaml` commands to regenerate your models and migrations based on the updated schema. Remember to run `php artisan migrate` after generating new migration files.
+
+## 4. Building Tailwind CSS
+
+The project uses Tailwind CSS for styling the Filament admin panel. To compile the CSS after making changes to the Tailwind configuration or source CSS files, use the following command:
+
+```bash
+npx tailwindcss@3 --input ./resources/css/filament/admin/theme.css --output ./public/css/filament/admin/theme.css --config ./resources/css/filament/admin/tailwind.config.js --minify
+```
+
+This command reads the input CSS file (`./resources/css/filament/admin/theme.css`), processes it using the specified Tailwind configuration (`./resources/css/filament/admin/tailwind.config.js`), and outputs the minified result to `./public/css/filament/admin/theme.css`.
+
+You can add this command to your `package.json` scripts for easier execution (e.g., `npm run build-tailwind`).
+
+## 5. Filament Resource Structure
+
+The Filament admin panel resources in this project follow a hierarchical structure based on base classes to promote code reusability and consistency.
+
+### BaseResource (`app/Filament/Resources/BaseResource.php`)
+
+This is the foundational class for most Filament resources in the project. It provides common configurations and methods for forms and tables, including:
+
+-   Handling translatable fields (`title`, `slug`, `content`, `excerpt`, `custom_fields`) using `SolutionForest\FilamentTranslateField\Forms\Component\Translate`.
+-   Defining standard form fields like `featured_image` (using `Awcodes\Curator\Components\Forms\CuratorPicker`), `author_id`, `status`, `template`, `featured`, `published_at`, and `menu_order`.
+-   Defining standard table columns like `title`, `slug`, `featured`, `status`, `author.name`, `created_at`, `updated_at`, `deleted_at`, and `menu_order`.
+-   Including common table filters (`TrashedFilter`).
+-   Providing standard table actions (`EditAction`, `DeleteAction`, `ForceDeleteAction`, `RestoreAction`) and bulk actions (`DeleteBulkAction`, `ForceDeleteBulkAction`, `RestoreBulkAction`, and a custom `edit` bulk action).
+-   Implementing reordering based on `menu_order`.
+-   Handling soft deletes in the Eloquent query.
+
+New resources typically extend this class and override specific methods (like `formContentFields`, `formRelationshipsFields`, `tableColumns`, etc.) to define resource-specific fields, columns, and relationships while inheriting the common functionality.
+
+### BaseContentResource (`app/Filament/Resources/BaseContentResource.php`)
+
+This abstract class extends `BaseResource` and is specifically designed for content-based resources (like `Post` and `Page`). It provides default implementations for content-related form fields:
+
+-   `content` (using `RichEditor`)
+-   `excerpt` (using `Textarea`)
+-   `custom_fields` (using `KeyValue`)
+
+Resources extending `BaseContentResource` inherit these fields and can add their own specific fields and relationships.
+
+### BaseTaxonomyResource (`app/Filament/Resources/BaseTaxonomyResource.php`)
+
+This abstract class also extends `BaseResource` but is tailored for taxonomy resources (like `Category` and `Tag`). It overrides several methods from `BaseResource` to remove fields and columns that are not typically relevant to taxonomies:
+
+-   It provides a default `content` field (using `RichEditor`).
+-   It explicitly returns empty arrays for `formAuthorRelationshipField`, `formStatusField`, `formFeaturedField`, `formPublishedDateField`, `tableFeaturedColumn`, `tableStatusColumn`, `tableAuthorColumn`, `tablePublishedAtColumn`, and `tableBulkEditAction`.
+
+Resources extending `BaseTaxonomyResource` inherit the base functionality but exclude the content/status/author/featured fields and columns, providing a cleaner base for taxonomy management.
+
+### BaseEditResource (`app/Filament/Resources/BaseEditResource.php`)
+
+This abstract class extends Filament's `EditRecord` page class and provides a base for the edit pages of resources. It defines common header actions for edit pages:
+
+-   A save action (`getSaveFormAction`).
+-   Delete action (`Actions\DeleteAction`).
+-   Restore action (`Actions\RestoreAction`).
+
+Resource edit pages (e.g., `EditPost`, `EditCategory`) extend this class to inherit these standard actions.
+
+By using these base classes, the project maintains a consistent structure across different Filament resources, reduces code duplication, and simplifies the creation of new resources. Developers creating new resources should extend the most appropriate base class (`BaseContentResource` for content types, `BaseTaxonomyResource` for taxonomies, or `BaseResource` for other types) and override methods as needed to define the unique aspects of the resource.

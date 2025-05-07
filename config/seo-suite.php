@@ -40,7 +40,7 @@ return [
             ],
         ],
         'x' => [
-            'enabled' => true,
+            'enabled' => false,
             'fields' => [
                 'x_card_type' => true,
                 'x_title' => true,
@@ -51,7 +51,7 @@ return [
     // SEO fallbacks
     'fallbacks' => [
         'title' => 'title',
-        'description' => 'excerpt',
+        'description' => 'content',
         'og_type' => 'article',
     ],
 ];

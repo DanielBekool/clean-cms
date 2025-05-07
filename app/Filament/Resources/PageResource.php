@@ -27,7 +27,7 @@ class PageResource extends BaseContentResource
     protected static function formRelationshipsFields(): array
     {
         return [
-            ...static::formParentRelationshipField()
+            ...static::formParentRelationshipField(),
         ];
     }
 
