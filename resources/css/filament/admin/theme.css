@@ -4,6 +4,15 @@
 @tailwind variants;
 @import '../../../../vendor/filament/filament/resources/css/base.css';
 @import '../../../../node_modules/cropperjs/dist/cropper.css'; 
+
+.fi-sidebar-item-grouped-border {
+    @apply invisible;
+}
+
+.fi-sidebar-nav {
+    @apply bg-white shadow-sm;
+  }
+
 .curator-grid-container {
     /**
      * User input values.
