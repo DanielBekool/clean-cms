@@ -11,62 +11,54 @@ class ContentController extends Controller
 {
     public function home($lang)
     {
-        App::setLocale($lang);
-        // Try to find a Page with slug 'home'
+       
         $content = Page::where('slug', 'home')->first();
 
-        // If no Page with slug 'home' is found, find the Post with the smallest ID
         if (!$content) {
-            $content = Post::orderBy('id', 'asc')->first();
+            $content = Page::orderBy('id', 'asc')->first();
         }
 
-        // Determine the template based on the content type and hierarchy
-        $template = null;
-        $content = null; // Initialize $content to null
-        // Try to find a Page with slug 'home'
-        $content = Page::where('slug', 'home')->first();
-
-        // If no Page with slug 'home' is found, find the Post with the smallest ID
-        if (!$content) {
-            $content = Post::orderBy('id', 'asc')->first();
-        }
+        $viewName = 'templates.default'; // Default view
 
         if ($content) {
-            if ($content instanceof \App\Models\Page) {
-                // Check for {page_slug}.blade.php
-                $template = 'templates.' . $content->slug;
-                if (!View::exists($template)) {
-                    // Use static-page.blade.php if it exists
-                    if (View::exists('templates.static-page')) {
-                        $template = 'templates.static-page';
-                    } else {
-                        // Use default.blade.php
-                        $template = 'templates.default';
-                    }
+            // 2. Determine the view to render
+            // Check if $content->template is not empty and the corresponding view exists
+            if (!empty($content->template)) {
+                $templatePath = 'templates.' . $content->template;
+                if (View::exists($templatePath)) {
+                    $viewName = $templatePath;
                 }
-            } elseif ($content instanceof \App\Models\Post) {
-                // Check for single-{model_name}.blade.php
-                $modelName = \Illuminate\Support\Str::singular(\Illuminate\Support\Str::studly(class_basename($content)));
-                $template = 'templates.single-' . \Illuminate\Support\Str::kebab($modelName);
-                if (!View::exists($template)) {
-                    // Use single-content.blade.php if it exists
-                    if (View::exists('templates.single-content')) {
-                        $template = 'templates.single-content';
-                    } else {
-                        // Use default.blade.php
-                        $template = 'templates.default';
+            }
+
+            // If $viewName is still 'templates.default' (meaning the $content->template condition wasn't met or its view didn't exist)
+            // then proceed to check the slug-based view for the default language.
+            if ($viewName === 'templates.default') {
+                // Get the slug for the default language
+                // Ensure $content is not null before attempting to get a translation
+                $defaultLanguage = config('app.default_language');
+                $defaultSlug = $content->getTranslation('slug', $defaultLanguage);
+
+                if (!empty($defaultSlug)) {
+                    $slugTemplatePath = 'templates.' . $defaultSlug;
+                    if (View::exists($slugTemplatePath)) {
+                        $viewName = $slugTemplatePath;
                     }
                 }
             }
-        } else {
-            // If no content is found, use the default template
-            $template = 'templates.default';
+
+            // If $viewName is still 'templates.default' (meaning neither template nor slug-based view was found)
+            // then check for templates/page.blade.php
+            if ($viewName === 'templates.default') {
+                if (View::exists('templates.page')) {
+                    $viewName = 'templates.page';
+                }
+            }
+        
         }
 
-
-        return view($template, [
+        return view($viewName, [
             'lang' => $lang,
-            'content' => $content, // Pass the fetched content to the view
+            'content' => $content,
         ]);
     }
 
@@ -152,5 +144,37 @@ class ContentController extends Controller
             'taxonomy_slug' => $taxonomy_slug,
             // Pass fetched content data to the view
         ]);
+    }
+
+    private function determineView(?Model $content): string
+    {
+        $viewName = 'templates.default';
+
+        if ($content) {
+            if (!empty($content->template)) {
+                $templatePath = 'templates.' . $content->template;
+                if (View::exists($templatePath)) {
+                    return $templatePath;
+                }
+            }
+
+            $defaultLanguage = Config::get('app.default_language');
+            if (method_exists($content, 'getTranslation')) {
+                $defaultSlug = $content->getTranslation('slug', $defaultLanguage);
+
+                if (!empty($defaultSlug)) {
+                    $slugTemplatePath = 'templates.' . $defaultSlug;
+                    if (View::exists($slugTemplatePath)) {
+                        return $slugTemplatePath;
+                    }
+                }
+            }
+
+            if (View::exists('templates.page')) {
+                return 'templates.page';
+            }
+        }
+
+        return $viewName;
     }
 }

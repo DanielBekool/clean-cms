@@ -14,7 +14,7 @@ class SetLocale
         $locale = $request->route('lang');
 
         // Validate against supported locales (optional but recommended)
-        if (in_array($locale, Config::get('app.language_available', ['en', 'id']))) {
+        if (array_key_exists($locale, Config::get('app.language_available', ['en' => 'English', 'id' => 'Indonesian']))) {
             App::setLocale($locale);
         } else {
             App::setLocale(Config::get('app.default_language', 'en'));
