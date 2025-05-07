@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Models\Page;
 use App\Models\Post;
-
+use Illuminate\Support\Facades\App;
 class ContentController extends Controller
 {
     public function home($lang)
     {
+        App::setLocale($lang);
         // Try to find a Page with slug 'home'
         $content = Page::where('slug', 'home')->first();
 
