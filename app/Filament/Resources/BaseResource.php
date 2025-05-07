@@ -346,7 +346,6 @@ abstract class BaseResource extends Resource
     protected static function tableActions(): array
     {
         return [
-            Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),
             Tables\Actions\Action::make('replicate')
                 ->icon('heroicon-o-document-duplicate')
