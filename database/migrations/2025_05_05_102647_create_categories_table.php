@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->json('title');
-            $table->json('slug')->unique();
+            $table->json('slug');
             $table->json('content')->nullable();
             $table->string('featured_image', 255)->nullable();
             $table->bigInteger('parent_id')->nullable()->index()->unsigned();

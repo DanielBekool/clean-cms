@@ -8,7 +8,7 @@ models:
       slug:
         type: json
         nullable: false
-        unique: true
+        unique: false
         translatable: true
       content:
         type: json
@@ -71,7 +71,7 @@ models:
       slug:
         type: json
         nullable: false
-        unique: true
+        unique: false
         translatable: true
       content:
         type: json
@@ -133,7 +133,7 @@ models:
       slug:
         type: json
         nullable: false
-        unique: true
+        unique: false
         translatable: true
       content:
         type: json
@@ -182,7 +182,7 @@ models:
       slug:
         type: json
         nullable: false
-        unique: true
+        unique: false
         translatable: true
       content:            # Optional content/description for a tag
         type: json
