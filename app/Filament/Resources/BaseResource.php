@@ -142,7 +142,8 @@ abstract class BaseResource extends Resource
     {
         return [
             CuratorPicker::make('featured_image')
-                ->relationship('featuredImage', 'id'),
+                ->relationship('featuredImage', 'id')
+                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']),
         ];
     }
 
