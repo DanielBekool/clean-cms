@@ -13,11 +13,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
+use App\Enums\ContentStatus;
+
 class Post extends Model
 {
     use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite;
-
-    public const STATUS_OPTIONS = ['draft' => 'Draft', 'published' => 'Published'];
 
 
     /**
@@ -49,7 +49,7 @@ class Post extends Model
     protected $casts = [
         'menu_order' => 'integer',
         'featured' => 'boolean',
-        'status' => 'string',
+        'status' => ContentStatus::class,
         'published_at' => 'datetime'
     ];
 

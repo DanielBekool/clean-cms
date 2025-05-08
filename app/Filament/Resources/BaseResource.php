@@ -24,6 +24,7 @@ use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Forms\Components\SeoFields;
 use Illuminate\Support\Facades\File;
+use App\Enums\ContentStatus;
 
 abstract class BaseResource extends Resource
 {
@@ -91,15 +92,7 @@ abstract class BaseResource extends Resource
 
     protected static function modelStatusOptions(): array
     {
-        $statusOptions = [];
-
-        if (defined(static::$model . '::STATUS_OPTIONS')) {
-            $statusOptions = constant(static::$model . '::STATUS_OPTIONS');
-        } else {
-            $statusOptions = ['draft' => 'Draft', 'published' => 'Published'];
-        }
-
-        return $statusOptions;
+        return ContentStatus::class::all();
     }
 
     protected static function formTitleSlugFields(string $locale, string $tableName = ''): array
@@ -201,8 +194,9 @@ abstract class BaseResource extends Resource
     {
         return [
             Select::make('status')
-                ->options(static::modelStatusOptions())
-                ->default('draft')
+                ->enum(ContentStatus::class)
+                ->options(ContentStatus::class)
+                ->default(ContentStatus::Draft)
                 ->required(),
         ];
     }
@@ -380,7 +374,6 @@ abstract class BaseResource extends Resource
     {
         return [
             TextColumn::make('status')
-                ->formatStateUsing(fn(string $state): string => static::modelStatusOptions()[$state] ?? $state)
                 ->badge()
                 ->sortable(),
         ];
@@ -490,7 +483,8 @@ abstract class BaseResource extends Resource
             Tables\Actions\BulkAction::make('edit')
                 ->form([
                     Select::make('status')
-                        ->options(static::modelStatusOptions())
+                        ->enum(ContentStatus::class)
+                        ->options(ContentStatus::class)
                         ->nullable(),
                     Select::make('author_id')
                         ->relationship('author', 'name')

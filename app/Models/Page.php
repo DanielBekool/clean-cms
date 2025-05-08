@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
+use App\Enums\ContentStatus;
+
 class Page extends Model
 {
     use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite;
-
-    public const STATUS_OPTIONS = ['draft' => 'Draft', 'published' => 'Published'];
 
 
     /**
@@ -46,7 +46,7 @@ class Page extends Model
     protected $casts = [
         'menu_order' => 'integer',
         'parent_id' => 'integer',
-        'status' => 'string',
+        'status' => ContentStatus::class,
         'published_at' => 'datetime'
     ];
 
