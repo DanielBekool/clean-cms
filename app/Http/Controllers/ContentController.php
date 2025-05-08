@@ -17,7 +17,7 @@ class ContentController extends Controller
      * Base template directory
      */
     protected string $templateBase = 'templates';
-    
+
     /**
      * Home page
      */
@@ -63,7 +63,7 @@ class ContentController extends Controller
         // Determine the model class based on content type
         $modelName = Str::singular(Str::studly($content_type));
         $modelClass = "App\\Models\\$modelName";
-        
+
         // Fetch the content if the model exists
         $content = null;
         if (class_exists($modelClass)) {
@@ -83,34 +83,97 @@ class ContentController extends Controller
     }
 
     /**
-     * Taxonomy archive
+     * Archive for custom post types
      */
-    public function taxonomyArchive($lang, $taxonomy_slug)
+    public function archiveContent($lang, $post_type)
     {
-        // In a real application, you would fetch the taxonomy and related posts
-        // For demonstration purposes, we'll create some example data
-        
-        // Example: Get the taxonomy (category, tag, etc.)
-        // $taxonomy = Category::where('slug', $taxonomy_slug)->firstOrFail();
-        
-        // Example: Get posts related to this taxonomy
-        // $posts = $taxonomy->posts()->paginate(10);
-        
-        // For now, we'll just use placeholder data
-        $taxonomy = (object) [
-            'name' => Str::title($taxonomy_slug),
-            'slug' => $taxonomy_slug,
-            'description' => 'This is the description for the ' . Str::title($taxonomy_slug) . ' taxonomy.'
+        // Check if the post type exists
+        // This could be done in several ways depending on your application structure:
+
+        // Option 1: Check if a model class exists for this post type
+        $modelName = Str::singular(Str::studly($post_type));
+        $modelClass = "App\\Models\\$modelName";
+
+        if (!class_exists($modelClass)) {
+            // Option 2: Check if it's a valid post type in a generic Post model
+            // For example, if you have a Post model with a 'type' column
+            $validPostTypes = ['post', 'page']; // Add your valid post types here
+
+            if (!in_array($post_type, $validPostTypes)) {
+                // If the post type doesn't exist, return a 404
+                abort(404, "Post type '$post_type' not found");
+            }
+        }
+
+        // Fetch posts of the specified type
+        // In a real application, you would do something like:
+        // $posts = Post::where('post_type', $post_type)->paginate(10);
+        // or if you have a model for each post type:
+        // $posts = $modelClass::paginate(10);
+
+        // For demonstration purposes, we'll use placeholder data
+        $archive = (object) [
+            'name' => Str::title($post_type),
+            'post_type' => $post_type,
+            'description' => 'Archive of all ' . Str::title($post_type) . ' content.'
         ];
-        
-        // Determine the template using our taxonomy archive template hierarchy
-        $viewName = $this->resolveTaxonomyTemplate($taxonomy_slug);
+
+        // Determine the template using our archive template hierarchy
+        $viewName = $this->resolveArchiveTemplate($post_type);
 
         return view($viewName, [
             'lang' => $lang,
-            'taxonomy_slug' => $taxonomy_slug,
+            'post_type' => $post_type,
+            'archive' => $archive,
+            'title' => 'Archive: ' . Str::title($post_type),
+            'posts' => collect(), // Empty collection for demonstration
+        ]);
+    }
+
+    /**
+     * Taxonomy archive
+     */
+    public function taxonomyArchive($lang, $taxonomy, $taxonomy_slug)
+    {
+        // Check if the taxonomy exists
+        // This could be done in several ways depending on your application structure:
+
+        // Option 1: Check if a model class exists for this taxonomy
+        $modelName = Str::singular(Str::studly($taxonomy));
+        $modelClass = "App\\Models\\$modelName";
+
+        if (!class_exists($modelClass)) {
+            // Option 2: Check if it's a valid taxonomy type
+            $validTaxonomies = ['category', 'tag']; // Add your valid taxonomies here
+
+            if (!in_array($taxonomy, $validTaxonomies)) {
+                // If the taxonomy doesn't exist, return a 404
+                abort(404, "Taxonomy '$taxonomy' not found");
+            }
+        }
+
+        // In a real application, you would fetch the taxonomy and related posts
+        // For example:
+        // $taxonomyModel = $modelClass::where('slug', $taxonomy_slug)->firstOrFail();
+        // $posts = $taxonomyModel->posts()->paginate(10);
+
+        // For demonstration purposes, we'll use placeholder data
+        $taxonomyModel = (object) [
+            'name' => Str::title($taxonomy_slug),
+            'slug' => $taxonomy_slug,
             'taxonomy' => $taxonomy,
-            'title' => 'Archive: ' . Str::title($taxonomy_slug),
+            'description' => 'This is the description for the ' . Str::title($taxonomy_slug) . ' ' . $taxonomy . '.'
+        ];
+
+        // Determine the template using our taxonomy archive template hierarchy
+        $viewName = $this->resolveTaxonomyTemplate($taxonomy_slug, $taxonomy);
+
+        return view($viewName, [
+            'lang' => $lang,
+            'taxonomy' => $taxonomy,
+            'taxonomy_slug' => $taxonomy_slug,
+            'taxonomy_model' => $taxonomyModel,
+            'title' => Str::title($taxonomy) . ': ' . Str::title($taxonomy_slug),
             'posts' => collect(), // Empty collection for demonstration
         ]);
     }
@@ -118,38 +181,53 @@ class ContentController extends Controller
     /**
      * Sub-taxonomy archive
      */
-    public function subTaxonomyArchive($lang, $taxonomy_parent, $taxonomy_slug)
+    public function subTaxonomyArchive($lang, $taxonomy, $taxonomy_parent, $taxonomy_slug)
     {
+        // Check if the taxonomy exists
+        // This could be done in several ways depending on your application structure:
+
+        // Option 1: Check if a model class exists for this taxonomy
+        $modelName = Str::singular(Str::studly($taxonomy));
+        $modelClass = "App\\Models\\$modelName";
+
+        if (!class_exists($modelClass)) {
+            // Option 2: Check if it's a valid taxonomy type
+            $validTaxonomies = ['category', 'tag']; // Add your valid taxonomies here
+
+            if (!in_array($taxonomy, $validTaxonomies)) {
+                // If the taxonomy doesn't exist, return a 404
+                abort(404, "Taxonomy '$taxonomy' not found");
+            }
+        }
+
         // In a real application, you would fetch the sub-taxonomy and related posts
-        // For demonstration purposes, we'll create some example data
-        
-        // Example: Get the parent taxonomy and child taxonomy
-        // $parentTaxonomy = Category::where('slug', $taxonomy_parent)->firstOrFail();
+        // For example:
+        // $parentTaxonomy = $modelClass::where('slug', $taxonomy_parent)->firstOrFail();
         // $childTaxonomy = $parentTaxonomy->children()->where('slug', $taxonomy_slug)->firstOrFail();
-        
-        // Example: Get posts related to this sub-taxonomy
         // $posts = $childTaxonomy->posts()->paginate(10);
-        
+
         // For now, we'll just use placeholder data
-        $taxonomy = (object) [
+        $taxonomyModel = (object) [
             'name' => Str::title($taxonomy_slug),
             'slug' => $taxonomy_slug,
+            'taxonomy' => $taxonomy,
             'parent' => (object) [
                 'name' => Str::title($taxonomy_parent),
                 'slug' => $taxonomy_parent
             ],
             'description' => 'This is a sub-taxonomy of ' . Str::title($taxonomy_parent) . '.'
         ];
-        
+
         // Determine the template using our sub-taxonomy archive template hierarchy
-        $viewName = $this->resolveSubTaxonomyTemplate($taxonomy_parent, $taxonomy_slug);
+        $viewName = $this->resolveSubTaxonomyTemplate($taxonomy_parent, $taxonomy_slug, $taxonomy);
 
         return view($viewName, [
             'lang' => $lang,
+            'taxonomy' => $taxonomy,
             'taxonomy_parent' => $taxonomy_parent,
             'taxonomy_slug' => $taxonomy_slug,
-            'taxonomy' => $taxonomy,
-            'title' => Str::title($taxonomy_parent) . ': ' . Str::title($taxonomy_slug),
+            'taxonomy_model' => $taxonomyModel,
+            'title' => Str::title($taxonomy) . ': ' . Str::title($taxonomy_parent) . ' / ' . Str::title($taxonomy_slug),
             'posts' => collect(), // Empty collection for demonstration
         ]);
     }
@@ -168,7 +246,6 @@ class ContentController extends Controller
         $templates = [
             "{$this->templateBase}.home",
             "{$this->templateBase}.front-page",
-            "{$this->templateBase}.index",
             "{$this->templateBase}.default"
         ];
 
@@ -185,27 +262,29 @@ class ContentController extends Controller
      * Resolve page template
      *
      * Hierarchy:
-     * 1. templates/page-{slug}.blade.php
-     * 2. templates/page-{id}.blade.php
-     * 3. templates/page.blade.php
-     * 4. templates/singular.blade.php
-     * 5. templates/index.blade.php
-     * 6. templates/default.blade.php
+     * 1. Custom template specified in content model (`template` field)
+     * 2. templates/pages/{slug}.blade.php
+     * 3. templates/singles/page-{slug}.blade.php
+     * 4. templates/singles/page-{id}.blade.php
+     * 5. templates/pages/default.blade.php
+     * 6. templates/singles/page.blade.php
+     * 7. templates/singles/default.blade.php
      */
     private function resolvePageTemplate(Model $content): string
     {
         $slug = $content->slug;
         $id = $content->id;
 
+        $defaultLanguage = Config::get('app.default_language');
+        $defaultSlug = method_exists($content, 'getTranslation') ? $content->getTranslation('slug', $defaultLanguage) : $slug;
+
         $templates = [
-            "{$this->templateBase}.page-{$slug}",
-            "{$this->templateBase}.page-{$id}",
-            "{$this->templateBase}.pages.{$slug}",
-            "{$this->templateBase}.pages.page",
-            "{$this->templateBase}.page",
-            "{$this->templateBase}.singular",
-            "{$this->templateBase}.index",
-            "{$this->templateBase}.default"
+            "{$this->templateBase}.pages.{$defaultSlug}", // Use default language slug
+            "{$this->templateBase}.singles.page-{$defaultSlug}", // Use default language slug
+            "{$this->templateBase}.singles.page-{$id}",
+            "{$this->templateBase}.pages.default",
+            "{$this->templateBase}.singles.page",
+            "{$this->templateBase}.singles.default"
         ];
 
         // Check for custom template first
@@ -219,24 +298,21 @@ class ContentController extends Controller
      * Resolve single content template
      *
      * Hierarchy:
-     * 1. templates/single-{post_type}-{slug}.blade.php
-     * 2. templates/single-{post_type}.blade.php
-     * 3. templates/single.blade.php
-     * 4. templates/singular.blade.php
-     * 5. templates/index.blade.php
-     * 6. templates/default.blade.php
+     * 1. Custom template specified in content model (`template` field)
+     * 2. templates/singles/{post_type}-{slug}.blade.php
+     * 3. templates/singles/{post_type}.blade.php
+     * 4. templates/singles/default.blade.php
      */
     private function resolveSingleTemplate(?Model $content = null, string $contentType, string $contentSlug): string
     {
         $postType = Str::kebab(Str::singular($contentType));
+        $defaultLanguage = Config::get('app.default_language');
+        $defaultSlug = method_exists($content, 'getTranslation') ? $content->getTranslation('slug', $defaultLanguage) : $contentSlug;
 
         $templates = [
-            "{$this->templateBase}.single-{$postType}-{$contentSlug}",
-            "{$this->templateBase}.single-{$postType}",
-            "{$this->templateBase}.single",
-            "{$this->templateBase}.singular",
-            "{$this->templateBase}.index",
-            "{$this->templateBase}.default"
+            "{$this->templateBase}.singles.{$postType}-{$defaultSlug}", // Use default language slug
+            "{$this->templateBase}.singles.{$postType}",
+            "{$this->templateBase}.singles.default"
         ];
 
         // If we have content, check for custom template first
@@ -249,26 +325,45 @@ class ContentController extends Controller
     }
 
     /**
+     * Resolve archive template for custom post types
+     *
+     * Hierarchy:
+     * 1. templates/archives/archive-{post_type}.blade.php
+     * 2. templates/archives/archive.blade.php
+     * 3. templates/archives/default.blade.php
+     */
+    private function resolveArchiveTemplate(string $postType): string
+    {
+        $templates = [
+            "{$this->templateBase}.archives.archive-{$postType}", // e.g., archives/archive-post.blade.php
+            "{$this->templateBase}.archives.archive",
+            "{$this->templateBase}.archives.default"
+        ];
+
+        return $this->findFirstExistingTemplate($templates);
+    }
+
+    /**
      * Resolve taxonomy template
      *
      * Hierarchy:
-     * 1. templates/taxonomy-{taxonomy}.blade.php
-     * 2. templates/archive-{taxonomy}.blade.php
-     * 3. templates/taxonomy.blade.php
-     * 4. templates/archive.blade.php
-     * 5. templates/index.blade.php
-     * 6. templates/default.blade.php
+     * 1. Custom template specified in content model (`template` field)
+     * 2. templates/archives/{taxonomy}-{slug}.blade.php
+     * 3. templates/archives/{taxonomy}.blade.php
+     * 4. templates/archives/default.blade.php
      */
-    private function resolveTaxonomyTemplate(string $taxonomySlug): string
+    private function resolveTaxonomyTemplate(string $taxonomySlug, string $taxonomyType = 'taxonomy'): string
     {
+
         $templates = [
-            "{$this->templateBase}.taxonomy-{$taxonomySlug}",
-            "{$this->templateBase}.archive-{$taxonomySlug}",
-            "{$this->templateBase}.taxonomy",
-            "{$this->templateBase}.archive",
-            "{$this->templateBase}.index",
-            "{$this->templateBase}.default"
+            "{$this->templateBase}.archives.{$taxonomyType}-{$taxonomySlug}", // e.g., archives/category-news.blade.php
+            "{$this->templateBase}.archives.{$taxonomyType}", // e.g., archives/category.blade.php
+            "{$this->templateBase}.archives.default"
         ];
+
+        // Taxonomy archives don't have a content model with a 'template' field in this implementation,
+        // so we don't check for custom templates here based on the current code structure.
+        // If the taxonomy model were passed in, we could check $taxonomy->template.
 
         return $this->findFirstExistingTemplate($templates);
     }
@@ -277,25 +372,27 @@ class ContentController extends Controller
      * Resolve sub-taxonomy template
      *
      * Hierarchy:
-     * 1. templates/taxonomy-{parent}-{slug}.blade.php
-     * 2. templates/taxonomy-{parent}.blade.php
-     * 3. templates/taxonomy-{slug}.blade.php
-     * 4. templates/taxonomy.blade.php
-     * 5. templates/archive.blade.php
-     * 6. templates/index.blade.php
-     * 7. templates/default.blade.php
+     * 1. Custom template specified in content model (`template` field)
+     * 2. templates/archives/{taxonomy}-{parent}-{slug}.blade.php
+     * 3. templates/archives/{taxonomy}-{parent}.blade.php
+     * 4. templates/archives/{taxonomy}-{slug}.blade.php
+     * 5. templates/archives/{taxonomy}.blade.php
+     * 6. templates/archives/default.blade.php
      */
-    private function resolveSubTaxonomyTemplate(string $taxonomyParent, string $taxonomySlug): string
+    private function resolveSubTaxonomyTemplate(string $taxonomyParent, string $taxonomySlug, string $taxonomyType = 'taxonomy'): string
     {
+
         $templates = [
-            "{$this->templateBase}.taxonomy-{$taxonomyParent}-{$taxonomySlug}",
-            "{$this->templateBase}.taxonomy-{$taxonomyParent}",
-            "{$this->templateBase}.taxonomy-{$taxonomySlug}",
-            "{$this->templateBase}.taxonomy",
-            "{$this->templateBase}.archive",
-            "{$this->templateBase}.index",
-            "{$this->templateBase}.default"
+            "{$this->templateBase}.archives.{$taxonomyType}-{$taxonomyParent}-{$taxonomySlug}", // e.g., archives/category-news-featured.blade.php
+            "{$this->templateBase}.archives.{$taxonomyType}-{$taxonomyParent}", // e.g., archives/category-news.blade.php
+            "{$this->templateBase}.archives.{$taxonomyType}-{$taxonomySlug}", // e.g., archives/category-featured.blade.php
+            "{$this->templateBase}.archives.{$taxonomyType}", // e.g., archives/category.blade.php
+            "{$this->templateBase}.archives.default"
         ];
+
+        // Sub-taxonomy archives don't have a content model with a 'template' field in this implementation,
+        // so we don't check for custom templates here based on the current code structure.
+        // If the sub-taxonomy model were passed in, we could check $subTaxonomy->template.
 
         return $this->findFirstExistingTemplate($templates);
     }
@@ -312,15 +409,16 @@ class ContentController extends Controller
             $templates[] = "{$this->templateBase}.{$content->template}";
         }
 
-        // // Check for translated slug template
-        // $defaultLanguage = Config::get('app.default_language');
-        // if (method_exists($content, 'getTranslation')) {
-        //     $defaultSlug = $content->getTranslation('slug', $defaultLanguage);
+        // Check for translated slug template
+        $defaultLanguage = Config::get('app.default_language');
+        if (method_exists($content, 'getTranslation')) {
+            $defaultSlug = $content->getTranslation('slug', $defaultLanguage);
 
-        //     if (!empty($defaultSlug)) {
-        //         $templates[] = "{$this->templateBase}.{$defaultSlug}";
-        //     }
-        // }
+            if (!empty($defaultSlug)) {
+                // Add default language slug template as a potential custom template
+                $templates[] = "{$this->templateBase}.{$defaultSlug}";
+            }
+        }
 
         return $templates;
     }
