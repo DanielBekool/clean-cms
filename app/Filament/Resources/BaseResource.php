@@ -220,7 +220,7 @@ abstract class BaseResource extends Resource
      * @param string $subPath The subdirectory within 'resources/views/templates/'.
      * @return array An array containing the configured Filament Select component.
      */
-    protected static function getTemplateOptions(string $subPath = 'singles'): array
+    protected static function getTemplateOptions(string $subPath = ''): array
     {
         return [
             Select::make('template')
@@ -262,7 +262,7 @@ abstract class BaseResource extends Resource
      * @param string $subPath The subdirectory within 'resources/views/templates/'.
      * @return array An array of [filename => label] for file-based templates.
      */
-    protected static function fetchRawTemplateData(string $subPath = 'singles'): array
+    protected static function fetchRawTemplateData(string $subPath = ''): array
     {
         $options = [];
         $fullPath = 'views/templates/' . ($subPath ? ltrim($subPath, '/') : '');

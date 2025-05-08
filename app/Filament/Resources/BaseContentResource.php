@@ -26,7 +26,7 @@ abstract class BaseContentResource extends BaseResource
 
     protected static function formTemplateField(): array
     {
-        $subPath = 'singles';
+        $subPath = '';
 
         return static::getTemplateOptions($subPath);
     }
