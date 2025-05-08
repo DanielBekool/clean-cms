@@ -174,7 +174,7 @@ Resource edit pages (e.g., `EditPost`, `EditCategory`) extend this class to inhe
 
 By using these base classes, the project maintains a consistent structure across different Filament resources, reduces code duplication, and simplifies the creation of new resources. Developers creating new resources should extend the most appropriate base class (`BaseContentResource` for content types, `BaseTaxonomyResource` for taxonomies, or `BaseResource` for other types) and override methods as needed to define the unique aspects of the resource.
 
-## 6. WordPress-like Template Hierarchy
+## 6. Template Hierarchy
 
 This project implements a WordPress-like template hierarchy system for Laravel 12, providing a flexible and powerful way to customize the appearance of different content types and pages.
 
