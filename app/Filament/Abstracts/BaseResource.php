@@ -461,6 +461,11 @@ abstract class BaseResource extends Resource
                         $newRecord->status = ContentStatus::Draft;
                     }
 
+                    // Check if the record has a 'published_at' attribute and set it to null
+                    if (array_key_exists('published_at', $newRecord->getAttributes()) || $newRecord->isFillable('published_at')) {
+                        $newRecord->published_at = null;
+                    }
+
                     $newRecord->save();
 
                     $livewire->redirect(static::getUrl('index', ['record' => $newRecord]));
