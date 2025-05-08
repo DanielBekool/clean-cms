@@ -23,6 +23,7 @@ use CodeZero\UniqueTranslation\UniqueTranslationRule as UTR;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Forms\Components\SeoFields;
+use Illuminate\Support\Facades\File;
 
 abstract class BaseResource extends Resource
 {
@@ -208,11 +209,79 @@ abstract class BaseResource extends Resource
 
     protected static function formTemplateField(): array
     {
+        $subPath = '';
+
+        return static::getTemplateOptions($subPath);
+    }
+
+    /**
+     * Constructs the Filament Select component for templates.
+     *
+     * @param string $subPath The subdirectory within 'resources/views/templates/'.
+     * @return array An array containing the configured Filament Select component.
+     */
+    protected static function getTemplateOptions(string $subPath = 'singles'): array
+    {
         return [
-            TextInput::make('template')
-                ->nullable(),
+            Select::make('template')
+                ->options(function () use ($subPath) {
+                    // Dynamically fetch file-based options when the field is rendered
+                    return static::fetchRawTemplateData($subPath);
+                })
+                ->nullable()
+                ->placeholder('Default System Template')
+                ->default(null)
+                ->label('Template')
+                ->dehydrateStateUsing(function ($state) use ($subPath) {
+                    // $state is the value of the 'template' field just before saving.
+        
+                    // If the state is already null (meaning "Default System Template" was selected
+                    // or it was already null), keep it as null.
+                    if ($state === null) {
+                        return null;
+                    }
+
+                    // Fetch the current list of valid *file-based* template keys.
+                    $currentFileOptions = static::fetchRawTemplateData($subPath);
+                    $validFileOptionKeys = array_keys($currentFileOptions);
+
+                    // Check if the current state is a valid file-based template.
+                    if (in_array($state, $validFileOptionKeys, true)) {
+                        return $state;
+                    } else {
+                        // If the state is not a valid file-based template, set it to null.
+                        return null;
+                    }
+                }),
         ];
     }
+
+    /**
+     * Fetches only file-based template options.
+     *
+     * @param string $subPath The subdirectory within 'resources/views/templates/'.
+     * @return array An array of [filename => label] for file-based templates.
+     */
+    protected static function fetchRawTemplateData(string $subPath = 'singles'): array
+    {
+        $options = [];
+        $fullPath = 'views/templates/' . ($subPath ? ltrim($subPath, '/') : '');
+        $templatesPath = resource_path(rtrim($fullPath, '/'));
+
+        if (File::isDirectory($templatesPath)) {
+            $files = File::files($templatesPath);
+            foreach ($files as $file) {
+                $filename = $file->getFilenameWithoutExtension();
+                // Ensure filename is not empty and use it as both key and value
+                if (!empty($filename)) {
+                    $options[$filename] = $filename;
+                }
+            }
+        }
+        return $options;
+    }
+
+
 
     protected static function formFeaturedField(): array
     {

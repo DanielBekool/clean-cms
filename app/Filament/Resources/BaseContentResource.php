@@ -24,6 +24,13 @@ abstract class BaseContentResource extends BaseResource
         ];
     }
 
+    protected static function formTemplateField(): array
+    {
+        $subPath = 'singles';
+
+        return static::getTemplateOptions($subPath);
+    }
+
     protected static function formRelationshipsFields(): array
     {
         return []; // relationships are handled in the child class

@@ -17,6 +17,13 @@ abstract class BaseTaxonomyResource extends BaseResource
         ];
     }
 
+    protected static function formTemplateField(): array
+    {
+        $subPath = 'archives';
+
+        return static::getTemplateOptions($subPath);
+    }
+
     protected static function formAuthorRelationshipField(): array
     {
         return []; // No author relationship for taxonomy resources
