@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
@@ -438,12 +439,14 @@ abstract class BaseResource extends Resource
                     $locales = array_keys(config('cms.language_available')); // Get locales from app config
         
                     foreach ($locales as $locale) {
-                        $originalSlug = $originalSlugs[$locale] ?? null;
+
+                        $originalSlug = Arr::get($originalSlugs, $locale);
                         if ($originalSlug) {
                             $count = 1;
                             $newSlug = $originalSlug;
                             // Check for uniqueness across all translations of the slug field
-                            while (static::getModel()::whereJsonContains('slug->' . $locale, $newSlug)->exists()) {
+                            $modelClass = static::getModel();
+                            while ($modelClass::whereJsonContains('slug->' . $locale, $newSlug)->exists()) {
                                 $newSlug = $originalSlug . '-copy-' . $count++;
                             }
                             $newSlugs[$locale] = $newSlug;
@@ -453,6 +456,10 @@ abstract class BaseResource extends Resource
                     }
                     $newRecord->setTranslations('slug', $newSlugs);
 
+                    // Check if the record has a 'status' attribute and set it to 'Draft'
+                    if (array_key_exists('status', $newRecord->getAttributes()) || $newRecord->isFillable('status')) {
+                        $newRecord->status = ContentStatus::Draft;
+                    }
 
                     $newRecord->save();
 
