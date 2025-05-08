@@ -26,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (config('app.multilanguage_enabled') && config('app.language_available')) {
-            $localeKeys = array_keys(config('app.language_available'));
+        if (config('cms.multilanguage_enabled') && config('cms.language_available')) {
+            $localeKeys = array_keys(config('cms.language_available'));
             FilamentTranslateField::defaultLocales($localeKeys);
             LanguageSwitch::configureUsing(function (LanguageSwitch $switch) use ($localeKeys) {
                 $switch

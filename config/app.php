@@ -123,21 +123,4 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-     /*
-    |--------------------------------------------------------------------------
-    | Additional Config for CMS
-    |--------------------------------------------------------------------------
-    |
-    |
-    */
-
-    'multilanguage_enabled' => env('MULTILANGUAGE_ENABLED', true),
-
-    'language_available' => [
-        'en' => 'English',
-        'id' => 'Indonesian',
-        'zh-CN' => 'Chinese',
-    ],
-
-    'default_language' => 'en',
 ];

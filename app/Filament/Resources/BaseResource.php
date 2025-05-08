@@ -103,7 +103,7 @@ abstract class BaseResource extends Resource
 
     protected static function formTitleSlugFields(string $locale, string $tableName = ''): array
     {
-        $defaultLocale = config('app.default_language', 'en'); // Default fallback
+        $defaultLocale = config('cms.default_language', 'en'); // Default fallback
 
         if ($tableName === '') {
             $tableName = app(static::$model)->getTable();
@@ -373,7 +373,7 @@ abstract class BaseResource extends Resource
                     // Handle multilingual slug uniqueness
                     $originalSlugs = $newRecord->getTranslations('slug');
                     $newSlugs = [];
-                    $locales = array_keys(config('app.language_available')); // Get locales from app config
+                    $locales = array_keys(config('cms.language_available')); // Get locales from app config
         
                     foreach ($locales as $locale) {
                         $originalSlug = $originalSlugs[$locale] ?? null;

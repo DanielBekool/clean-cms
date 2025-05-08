@@ -275,7 +275,7 @@ class ContentController extends Controller
         $slug = $content->slug;
         $id = $content->id;
 
-        $defaultLanguage = Config::get('app.default_language');
+        $defaultLanguage = Config::get('cms.default_language');
         $defaultSlug = method_exists($content, 'getTranslation') ? $content->getTranslation('slug', $defaultLanguage) : $slug;
 
         $templates = [
@@ -306,7 +306,7 @@ class ContentController extends Controller
     private function resolveSingleTemplate(?Model $content = null, string $contentType, string $contentSlug): string
     {
         $postType = Str::kebab(Str::singular($contentType));
-        $defaultLanguage = Config::get('app.default_language');
+        $defaultLanguage = Config::get('cms.default_language');
         $defaultSlug = method_exists($content, 'getTranslation') ? $content->getTranslation('slug', $defaultLanguage) : $contentSlug;
 
         $templates = [
@@ -410,7 +410,7 @@ class ContentController extends Controller
         }
 
         // Check for translated slug template
-        $defaultLanguage = Config::get('app.default_language');
+        $defaultLanguage = Config::get('cms.default_language');
         if (method_exists($content, 'getTranslation')) {
             $defaultSlug = $content->getTranslation('slug', $defaultLanguage);
 
