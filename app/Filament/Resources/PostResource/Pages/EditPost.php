@@ -3,8 +3,7 @@
 namespace App\Filament\Resources\PostResource\Pages;
 
 use App\Filament\Resources\PostResource;
-use Filament\Actions;
-use App\Filament\Resources\BaseEditResource;
+use App\Filament\Abstracts\BaseEditResource;
 
 class EditPost extends BaseEditResource
 {

@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
-
+use App\Filament\Abstracts\BaseContentResource;
 class PostResource extends BaseContentResource
 {
 

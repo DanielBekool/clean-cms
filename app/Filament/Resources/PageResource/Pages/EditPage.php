@@ -3,8 +3,7 @@
 namespace App\Filament\Resources\PageResource\Pages;
 
 use App\Filament\Resources\PageResource;
-use App\Filament\Resources\BaseEditResource;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\Abstracts\BaseEditResource;
 
 class EditPage extends BaseEditResource
 {
