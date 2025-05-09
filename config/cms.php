@@ -9,7 +9,7 @@ return [
     'language_available' => [
         'en' => 'English',
         'id' => 'Indonesian',
-        'zh-CN' => 'Chinese',
+        'zh-cn' => 'Chinese',
     ],
 
     'content_models' => [

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Models\Page;
+use App\Enums\ContentStatus;
 
 class ContentController extends Controller
 {
@@ -39,7 +40,9 @@ class ContentController extends Controller
             $modelClass = Page::class; // Fallback to default Page model
         }
 
-        $content = $modelClass::where('slug', 'home')->first();
+        $content = $modelClass::whereJsonContains('slug->' . $this->defaultLanguage, 'home')
+            ->where('status', ContentStatus::Published)
+            ->first();
 
         if (!$content) {
             // Try to get the first page if 'home' slug is not found or if the model doesn't use slugs like 'home'
@@ -71,8 +74,8 @@ class ContentController extends Controller
             $modelClass = Page::class; // Fallback to default Page model
         }
 
-        // Fetch the Page content based on the slug
-        $content = $modelClass::where('slug', $content_slug)->firstOrFail();
+        // Fetch the Page content based on the slug using the private helper function
+        $content = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $content_slug, true);
 
         // Determine the template using our page template hierarchy
         $viewName = $this->resolvePageTemplate($content);
@@ -84,10 +87,37 @@ class ContentController extends Controller
     }
 
     /**
+     * Find published content by slug and language, or fail.
+     *
+     * @param string $modelClass The fully qualified class name of the model.
+     * @param string $lang The language code.
+     * @param string $contentSlug The slug of the content.
+     * @return \Illuminate\Database\Eloquent\Model The found content model.
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    private function getPublishedContentBySlugOrFail(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): \Illuminate\Database\Eloquent\Model
+    {
+        $query = $modelClass::whereJsonContains('slug->' . $lang, $contentSlug);
+
+        if ($checkStatus) {
+            $query->where('status', ContentStatus::Published);
+        }
+
+        return $query->firstOrFail();
+    }
+
+    /**
      * Single content (post, custom post type, etc.)
      */
     public function singleContent($lang, $content_type_key, $content_slug)
     {
+        // Check if the content type key matches the static page slug
+        $staticPageSlug = Config::get('cms.static_page_slug');
+
+        if ($content_type_key === $staticPageSlug) {
+            return redirect()->route('cms.static.page', ['lang' => $lang, 'page_slug' => $content_slug]);
+        }
+
         // Determine the model class from configuration
         $modelClass = Config::get("cms.content_models.{$content_type_key}.model");
 
@@ -98,8 +128,7 @@ class ContentController extends Controller
             abort(404, "Model for content type '{$content_type_key}' not found or not configured correctly.");
         }
 
-        // Fetch the content
-        $content = $modelClass::where('slug', $content_slug)->firstOrFail();
+        $content = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $content_slug, true);
 
         // Determine the template using our single content template hierarchy
         $viewName = $this->resolveSingleTemplate($content, $content_type_key, $content_slug);
@@ -165,8 +194,8 @@ class ContentController extends Controller
             abort(404, "Model for taxonomy type '{$taxonomy_key}' not found or not configured correctly.");
         }
 
-        // Fetch the taxonomy term
-        $taxonomyModel = $modelClass::where('slug', $taxonomy_slug)->firstOrFail();
+        // Fetch the taxonomy term based on the slug using the private helper function
+        $taxonomyModel = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $taxonomy_slug, false);
 
         // Fetch posts related to this taxonomy term
         $relationshipName = Config::get("cms.content_models.{$taxonomy_key}.display_content_from", 'posts');
@@ -409,4 +438,5 @@ class ContentController extends Controller
         // If no template is found, return the default
         return "{$this->templateBase}.default";
     }
+
 }
