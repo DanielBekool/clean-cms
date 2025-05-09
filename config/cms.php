@@ -13,7 +13,7 @@ return [
     ],
 
     'content_models' => [
-        '' => [
+        'pages' => [
             'model' => App\Models\Page::class,
             'type' => 'content',
             'has_archive' => false,
@@ -48,6 +48,9 @@ return [
 
         ],
     ],
+
+    'static_page_model' => App\Models\Page::class,
+    'static_page_slug' => 'pages',
 
     'pagination_limit' => env('CMS_PAGINATION_LIMIT', 12),
 ];

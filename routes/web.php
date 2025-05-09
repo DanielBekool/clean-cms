@@ -56,7 +56,18 @@ Route::prefix('{lang}')
         Route::get('/', [ContentController::class, 'home'])->name('cms.home');
 
         // Content single route. Two segments; first must be a content type key with single views.
-        Route::get('/{content_type_key}/{content_slug}', [ContentController::class, 'singleContent'])
+        // Redirect to static page if content_type_key matches static_page_slug.
+        Route::get('/{content_type_key}/{content_slug}', function ($lang, $content_type_key, $content_slug) {
+            $staticPageSlug = Config::get('cms.static_page_slug'); // Ensure this is set in config/cms.php
+    
+            if ($content_type_key === $staticPageSlug) {
+                return redirect()->route('cms.static.page', ['lang' => $lang, 'page_slug' => $content_slug]);
+            }
+
+            // If not the static page slug, proceed to the single content controller
+            $controller = new ContentController();
+            return $controller->singleContent(request(), $lang, $content_type_key, $content_slug);
+        })
             ->where('content_type_key', $contentSingleKeysRegex)
             ->where('content_slug', $slugRegex)
             ->name('cms.single.content');

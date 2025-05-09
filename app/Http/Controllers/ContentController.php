@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Models\Page;
-use App\Models\Post;
-use Illuminate\Support\Facades\App;
 
 class ContentController extends Controller
 {
@@ -18,12 +15,25 @@ class ContentController extends Controller
      */
     protected string $templateBase = 'templates';
 
+    protected string $defaultLanguage;
+
+    protected int $paginationLimit;
+
+    protected string $staticPageClass;
+
+    public function __construct()
+    {
+        $this->defaultLanguage = Config::get('cms.default_language');
+        $this->paginationLimit = Config::get('cms.pagination_limit', 12);
+        $this->staticPageClass = Config::get('cms.static_page_model');
+    }
+
     /**
      * Home page
      */
     public function home($lang)
     {
-        $modelClass = Config::get("cms.content_models.''.model");
+        $modelClass = $this->staticPageClass;
 
         if (!$modelClass || !class_exists($modelClass)) {
             $modelClass = Page::class; // Fallback to default Page model
@@ -55,7 +65,7 @@ class ContentController extends Controller
      */
     public function staticPage($lang, $content_slug)
     {
-        $modelClass = Config::get("cms.content_models.''.model");
+        $modelClass = $this->staticPageClass;
 
         if (!$modelClass || !class_exists($modelClass)) {
             $modelClass = Page::class; // Fallback to default Page model
@@ -119,7 +129,7 @@ class ContentController extends Controller
         }
 
         // Fetch posts of the specified type
-        $posts = $modelClass::paginate(Config::get('cms.pagination_limit', 12));
+        $posts = $modelClass::paginate($this->paginationLimit);
 
         // Create an archive object for the view
         $archive = (object) [
@@ -168,7 +178,7 @@ class ContentController extends Controller
 
         // Check if the determined relationship method exists
         if (method_exists($taxonomyModel, $relationshipName)) {
-            $posts = $taxonomyModel->{$relationshipName}()->paginate(Config::get('cms.pagination_limit', 10));
+            $posts = $taxonomyModel->{$relationshipName}()->paginate($this->paginationLimit);
         } else {
             // Log a warning here
             \Illuminate\Support\Facades\Log::warning("Relationship method '{$relationshipName}' ultimately not found for taxonomy '{$taxonomy_key}'. Serving empty collection.");
@@ -234,7 +244,7 @@ class ContentController extends Controller
     {
         $slug = $content->slug;
 
-        $defaultLanguage = Config::get('cms.default_language');
+        $defaultLanguage = $this->defaultLanguage;
         $defaultSlug = method_exists($content, 'getTranslation') ? $content->getTranslation('slug', $defaultLanguage) : $slug;
 
         $templates = [
@@ -266,7 +276,7 @@ class ContentController extends Controller
     private function resolveSingleTemplate(?Model $content = null, string $content_type_key, string $contentSlug): string
     {
         $postType = Str::kebab(Str::singular($content_type_key));
-        $defaultLanguage = Config::get('cms.default_language');
+        $defaultLanguage = $this->defaultLanguage;
         $defaultSlug = method_exists($content, 'getTranslation') ? $content->getTranslation('slug', $defaultLanguage) : $contentSlug;
 
         $templates = [
@@ -372,7 +382,7 @@ class ContentController extends Controller
         }
 
         // Check for translated slug template
-        $defaultLanguage = Config::get('cms.default_language');
+        $defaultLanguage = $this->defaultLanguage;
         if (method_exists($content, 'getTranslation')) {
             $defaultSlug = $content->getTranslation('slug', $defaultLanguage);
 
