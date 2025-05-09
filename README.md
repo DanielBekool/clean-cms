@@ -129,7 +129,7 @@ You can add this command to your `package.json` scripts for easier execution (e.
 
 The Filament admin panel resources in this project follow a hierarchical structure based on base classes to promote code reusability and consistency.
 
-### BaseResource (`app/Filament/Resources/BaseResource.php`)
+### BaseResource (`app/Filament/Abstracts/BaseResource.php`)
 
 This is the foundational class for most Filament resources in the project. It provides common configurations and methods for forms and tables, including:
 
@@ -143,7 +143,7 @@ This is the foundational class for most Filament resources in the project. It pr
 
 New resources typically extend this class and override specific methods (like `formContentFields`, `formRelationshipsFields`, `tableColumns`, etc.) to define resource-specific fields, columns, and relationships while inheriting the common functionality.
 
-### BaseContentResource (`app/Filament/Resources/BaseContentResource.php`)
+### BaseContentResource (`app/Filament/Abstracts/BaseContentResource.php`)
 
 This abstract class extends `BaseResource` and is specifically designed for content-based resources (like `Post` and `Page`). It provides default implementations for content-related form fields:
 
@@ -153,7 +153,7 @@ This abstract class extends `BaseResource` and is specifically designed for cont
 
 Resources extending `BaseContentResource` inherit these fields and can add their own specific fields and relationships.
 
-### BaseTaxonomyResource (`app/Filament/Resources/BaseTaxonomyResource.php`)
+### BaseTaxonomyResource (`app/Filament/Abstracts/BaseTaxonomyResource.php`)
 
 This abstract class also extends `BaseResource` but is tailored for taxonomy resources (like `Category` and `Tag`). It overrides several methods from `BaseResource` to remove fields and columns that are not typically relevant to taxonomies:
 
@@ -162,7 +162,7 @@ This abstract class also extends `BaseResource` but is tailored for taxonomy res
 
 Resources extending `BaseTaxonomyResource` inherit the base functionality but exclude the content/status/author/featured fields and columns, providing a cleaner base for taxonomy management.
 
-### BaseEditResource (`app/Filament/Resources/BaseEditResource.php`)
+### BaseEditResource (`app/Filament/Abstracts/BaseEditResource.php`)
 
 This abstract class extends Filament's `EditRecord` page class and provides a base for the edit pages of resources. It defines common header actions for edit pages:
 
@@ -173,6 +173,14 @@ This abstract class extends Filament's `EditRecord` page class and provides a ba
 Resource edit pages (e.g., `EditPost`, `EditCategory`) extend this class to inherit these standard actions.
 
 By using these base classes, the project maintains a consistent structure across different Filament resources, reduces code duplication, and simplifies the creation of new resources. Developers creating new resources should extend the most appropriate base class (`BaseContentResource` for content types, `BaseTaxonomyResource` for taxonomies, or `BaseResource` for other types) and override methods as needed to define the unique aspects of the resource.
+
+### BaseCreateResource (`app/Filament/Abstracts/BaseCreateResource.php`)
+
+This abstract class extends Filament's `CreateRecord` page class and provides a base for the create pages of resources. It defines common header actions for create pages:
+
+-   A create action (`getCreateFormAction`).
+
+Resource create pages (e.g., `CreatePost`, `CreateCategory`) extend this class to inherit this standard action.
 
 ## 6. Template Hierarchy
 
