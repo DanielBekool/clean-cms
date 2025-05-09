@@ -1,8 +1,10 @@
-<x-layouts.app>
+<x-layouts.app :title="$title ?? 'Default Page'">
     <x-partials.header />
     <main>
-        <h1>{{ $content->title ?? 'Default Title' }}</h1>
-        <p>{{ $content ?? 'Default content goes here.' }}</p>
+        <h1>{{ $title ?? 'Default Page' }}</h1>
+        
+        {{-- Content goes here --}}
+
     </main>
     <x-partials.footer />
 </x-layouts.app>

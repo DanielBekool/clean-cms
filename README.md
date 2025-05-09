@@ -187,47 +187,42 @@ All templates are stored in the `resources/views/templates` directory.
 ### Template Hierarchies
 
 #### Home Page Hierarchy:
-1. `templates/home.blade.php`
-2. `templates/front-page.blade.php`
-3. `templates/index.blade.php`
-4. `templates/default.blade.php`
 
-#### Static Page Hierarchy:
-1. Custom template specified in content model (`template` field)
-2. `templates/page-{slug}.blade.php` (e.g., `page-about.blade.php` for a page with slug "about")
-3. `templates/page-{id}.blade.php` (e.g., `page-42.blade.php` for a page with ID 42)
-4. `templates/pages/{slug}.blade.php`
-5. `templates/pages/page.blade.php`
-6. `templates/page.blade.php`
-7. `templates/singular.blade.php`
-8. `templates/index.blade.php`
-9. `templates/default.blade.php`
-
-#### Single Content Hierarchy (Posts, Custom Post Types):
-1. Custom template specified in content model (`template` field)
-2. `templates/single-{post_type}-{slug}.blade.php` (e.g., `single-post-hello-world.blade.php`)
-3. `templates/single-{post_type}.blade.php` (e.g., `single-post.blade.php`)
-4. `templates/single.blade.php`
-5. `templates/singular.blade.php`
-6. `templates/index.blade.php`
-7. `templates/default.blade.php`
-
-#### Taxonomy Archive Hierarchy:
-1. `templates/taxonomy-{taxonomy}.blade.php` (e.g., `taxonomy-category.blade.php`)
-2. `templates/archive-{taxonomy}.blade.php` (e.g., `archive-category.blade.php`)
-3. `templates/taxonomy.blade.php`
-4. `templates/archive.blade.php`
-5. `templates/index.blade.php`
+1. `templates/singles/home.blade.php`
+2. `templates/singles/front-page.blade.php`
+3. `templates/home.blade.php`
+4. `templates/front-page.blade.php`
+5. `templates/singles/default.blade.php`
 6. `templates/default.blade.php`
 
-#### Sub-Taxonomy Archive Hierarchy:
-1. `templates/taxonomy-{parent}-{slug}.blade.php` (e.g., `taxonomy-category-news.blade.php`)
-2. `templates/taxonomy-{parent}.blade.php` (e.g., `taxonomy-category.blade.php`)
-3. `templates/taxonomy-{slug}.blade.php` (e.g., `taxonomy-news.blade.php`)
-4. `templates/taxonomy.blade.php`
-5. `templates/archive.blade.php`
-6. `templates/index.blade.php`
-7. `templates/default.blade.php`
+#### Static Page Hierarchy:
+
+1. Custom template specified in content model (`template` field)
+2. `templates/singles/{slug}.blade.php` (using default language slug)
+3. `templates/singles/page.blade.php`
+4. `templates/page.blade.php`
+5. `templates/singles/default.blade.php`
+6. `templates/default.blade.php`
+
+#### Single Content Hierarchy (Posts, Custom Post Types):
+
+1. Custom template specified in content model (`template` field)
+2. `templates/singles/{post_type}-{slug}.blade.php` (using default language slug)
+3. `templates/singles/{post_type}.blade.php`
+4. `templates/{post_type}.blade.php`
+5. `templates/singles/default.blade.php`
+6. `templates/default.blade.php`
+
+#### Taxonomy Archive Hierarchy:
+
+1. Custom template specified in content model (`template` field)
+2. Check config `cms.content_models` archive_view
+3. `templates/archives/{taxonomy}-{slug}.blade.php`
+4. `templates/archives/{taxonomy}.blade.php`
+5. `templates/{taxonomy}-{slug}.blade.php`
+6. `templates/{taxonomy}.blade.php`
+7. `templates/archives/archive.blade.php`
+8. `templates/archive.blade.php`
 
 ### Creating Custom Templates
 
@@ -244,16 +239,16 @@ You can also specify a custom template directly in the content model by setting 
 
 The template hierarchy system is implemented in the `ContentController` class with a set of template resolver methods:
 
-- `resolveHomeTemplate()` - For the home page
-- `resolvePageTemplate()` - For static pages
-- `resolveSingleTemplate()` - For single content items (posts, custom post types)
-- `resolveTaxonomyTemplate()` - For taxonomy archives
-- `resolveSubTaxonomyTemplate()` - For nested taxonomy archives
+-   `resolveHomeTemplate()` - For the home page
+-   `resolvePageTemplate()` - For static pages
+-   `resolveSingleTemplate()` - For single content items (posts, custom post types)
+-   `resolveArchiveTemplate()` - For custom post type archives
+-   `resolveTaxonomyTemplate()` - For taxonomy archives
 
 These methods use two helper functions:
 
-- `getContentCustomTemplates()` - Extracts custom template information from content models
-- `findFirstExistingTemplate()` - Checks for template existence and returns the first one found
+-   `getContentCustomTemplates()` - Extracts custom template information from content models
+-   `findFirstExistingTemplate()` - Checks for template existence and returns the first one found
 
 The system automatically selects the most appropriate template based on the request and content type, providing a flexible way to customize the appearance of different parts of your site.
 
@@ -273,7 +268,7 @@ To create a custom template for a specific page with the slug "about":
             <div class="page-content">
                 {!! $content->content ?? 'About page content goes here.' !!}
             </div>
-            
+
             <!-- Custom sections specific to the About page -->
             <section class="team-section">
                 <h2>Our Team</h2>

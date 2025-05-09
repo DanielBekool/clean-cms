@@ -1,57 +1,28 @@
-<x-layouts.app>
+<x-layouts.app :title="$title ?? 'Archive'">
     <x-partials.header />
     <main>
-        <header class="archive-header">
-            <h1>{{ $title ?? 'Archive' }}</h1>
-            @if(isset($description))
-                <div class="archive-description">
-                    {!! $description !!}
-                </div>
-            @endif
-        </header>
+        <h1>{{ $archive->name ?? 'Archive' }}</h1>
+        @if (!empty($archive->description))
+            <p>{{ $archive->description }}</p>
+        @endif
 
-        <div class="archive-content">
-            @if(isset($posts) && $posts->count() > 0)
-                <div class="posts-grid">
-                    @foreach($posts as $post)
-                        <article class="post-card">
-                            @if(isset($post->featured_image))
-                                <div class="post-thumbnail">
-                                    <img src="{{ $post->featured_image }}" alt="{{ $post->title }}">
-                                </div>
-                            @endif
-                            <div class="post-content">
-                                <h2>
-                                    <a href="{{ route('single.content', ['lang' => $lang, 'content_type' => $post->getTable(), 'content_slug' => $post->slug]) }}">
-                                        {{ $post->title }}
-                                    </a>
-                                </h2>
-                                @if(isset($post->excerpt))
-                                    <div class="post-excerpt">
-                                        {{ $post->excerpt }}
-                                    </div>
-                                @endif
-                                <div class="post-meta">
-                                    @if(isset($post->created_at))
-                                        <time>{{ $post->created_at->format('F j, Y') }}</time>
-                                    @endif
-                                </div>
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
+        {{-- Loop through posts --}}
+        @forelse ($posts as $post)
+            <article>
+                <h2>{{ $post->title ?? 'Untitled' }}</h2>
+                {{-- Display excerpt or content --}}
+                <p>{{ $post->excerpt ?? Str::limit($post->content, 150) }}</p>
+                <a href="{{ url($lang . '/' . ($post->post_type ?? 'post') . '/' . $post->slug) }}">Read More</a>
+            </article>
+        @empty
+            <p>No content found for this archive.</p>
+        @endforelse
 
-                @if(method_exists($posts, 'links'))
-                    <div class="pagination">
-                        {{ $posts->links() }}
-                    </div>
-                @endif
-            @else
-                <div class="no-posts">
-                    <p>No posts found.</p>
-                </div>
-            @endif
-        </div>
+        {{-- Pagination links --}}
+        @if (method_exists($posts, 'links'))
+            {{ $posts->links() }}
+        @endif
+
     </main>
     <x-partials.footer />
 </x-layouts.app>

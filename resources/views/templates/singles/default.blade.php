@@ -1,10 +1,10 @@
-<x-layouts.app :title="$title ?? 'Single Content'">
+<x-layouts.app :title="$title ?? 'Single Default'">
     <x-partials.header />
     <main>
         @if ($content)
-            <article>
+            <article class="single default">
                 <header>
-                    <h1>{{ $content->title ?? 'Untitled' }}</h1>
+                    <h1>{{ $content->title ?? 'Untitled Single Content' }}</h1>
                 </header>
                 <div class="content">
                     {!! $content->content ?? '' !!}

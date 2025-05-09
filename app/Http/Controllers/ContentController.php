@@ -23,10 +23,22 @@ class ContentController extends Controller
      */
     public function home($lang)
     {
-        $content = Page::where('slug', 'home')->first();
+        $modelClass = Config::get("cms.content_models.''.model");
+
+        if (!$modelClass || !class_exists($modelClass)) {
+            $modelClass = Page::class; // Fallback to default Page model
+        }
+
+        $content = $modelClass::where('slug', 'home')->first();
 
         if (!$content) {
-            $content = Page::orderBy('id', 'asc')->first();
+            // Try to get the first page if 'home' slug is not found or if the model doesn't use slugs like 'home'
+            $content = $modelClass::orderBy('id', 'asc')->first();
+        }
+
+        // If still no content, it's a genuine 404 or misconfiguration for home.
+        if (!$content) {
+            abort(404, "Home page content not found or not configured.");
         }
 
         // Determine the template using our home template hierarchy
@@ -43,8 +55,14 @@ class ContentController extends Controller
      */
     public function staticPage($lang, $content_slug)
     {
+        $modelClass = Config::get("cms.content_models.''.model");
+
+        if (!$modelClass || !class_exists($modelClass)) {
+            $modelClass = Page::class; // Fallback to default Page model
+        }
+
         // Fetch the Page content based on the slug
-        $content = Page::where('slug', $content_slug)->firstOrFail();
+        $content = $modelClass::where('slug', $content_slug)->firstOrFail();
 
         // Determine the template using our page template hierarchy
         $viewName = $this->resolvePageTemplate($content);
@@ -58,24 +76,27 @@ class ContentController extends Controller
     /**
      * Single content (post, custom post type, etc.)
      */
-    public function singleContent($lang, $content_type, $content_slug)
+    public function singleContent($lang, $content_type_key, $content_slug)
     {
-        // Determine the model class based on content type
-        $modelName = Str::singular(Str::studly($content_type));
-        $modelClass = "App\\Models\\$modelName";
+        // Determine the model class from configuration
+        $modelClass = Config::get("cms.content_models.{$content_type_key}.model");
 
-        // Fetch the content if the model exists
-        $content = null;
-        if (class_exists($modelClass)) {
-            $content = $modelClass::where('slug', $content_slug)->firstOrFail();
+        if (!$modelClass || !class_exists($modelClass)) {
+            if (!Config::has("cms.content_models.{$content_type_key}")) {
+                abort(404, "Content type '{$content_type_key}' not found in configuration.");
+            }
+            abort(404, "Model for content type '{$content_type_key}' not found or not configured correctly.");
         }
 
+        // Fetch the content
+        $content = $modelClass::where('slug', $content_slug)->firstOrFail();
+
         // Determine the template using our single content template hierarchy
-        $viewName = $this->resolveSingleTemplate($content, $content_type, $content_slug);
+        $viewName = $this->resolveSingleTemplate($content, $content_type_key, $content_slug);
 
         return view($viewName, [
             'lang' => $lang,
-            'content_type' => $content_type,
+            'content_type' => $content_type_key,
             'content_slug' => $content_slug,
             'content' => $content,
             'title' => $content->title ?? Str::title($content_slug),
@@ -85,150 +106,85 @@ class ContentController extends Controller
     /**
      * Archive for custom post types
      */
-    public function archiveContent($lang, $post_type)
+    public function archiveContent($lang, $content_type_archive_key)
     {
-        // Check if the post type exists
-        // This could be done in several ways depending on your application structure:
+        // Determine the model class from configuration
+        $modelClass = Config::get("cms.content_models.{$content_type_archive_key}.model");
 
-        // Option 1: Check if a model class exists for this post type
-        $modelName = Str::singular(Str::studly($post_type));
-        $modelClass = "App\\Models\\$modelName";
-
-        if (!class_exists($modelClass)) {
-            // Option 2: Check if it's a valid post type in a generic Post model
-            // For example, if you have a Post model with a 'type' column
-            $validPostTypes = ['post', 'page']; // Add your valid post types here
-
-            if (!in_array($post_type, $validPostTypes)) {
-                // If the post type doesn't exist, return a 404
-                abort(404, "Post type '$post_type' not found");
+        if (!$modelClass || !class_exists($modelClass)) {
+            if (!Config::has("cms.content_models.{$content_type_archive_key}")) {
+                abort(404, "Post type '{$content_type_archive_key}' not found in configuration.");
             }
+            abort(404, "Model for post type '{$content_type_archive_key}' not found or not configured correctly.");
         }
 
         // Fetch posts of the specified type
-        // In a real application, you would do something like:
-        // $posts = Post::where('post_type', $post_type)->paginate(10);
-        // or if you have a model for each post type:
-        // $posts = $modelClass::paginate(10);
+        $posts = $modelClass::paginate(Config::get('cms.pagination_limit', 12));
 
-        // For demonstration purposes, we'll use placeholder data
+        // Create an archive object for the view
         $archive = (object) [
-            'name' => Str::title($post_type),
-            'post_type' => $post_type,
-            'description' => 'Archive of all ' . Str::title($post_type) . ' content.'
+            'name' => Str::title(str_replace('-', ' ', $content_type_archive_key)),
+            'post_type' => $content_type_archive_key,
+            'description' => 'Archive of all ' . Str::title(str_replace('-', ' ', $content_type_archive_key)) . ' content.'
         ];
 
         // Determine the template using our archive template hierarchy
-        $viewName = $this->resolveArchiveTemplate($post_type);
+        $viewName = $this->resolveArchiveTemplate($content_type_archive_key);
 
         return view($viewName, [
             'lang' => $lang,
-            'post_type' => $post_type,
+            'post_type' => $content_type_archive_key,
             'archive' => $archive,
-            'title' => 'Archive: ' . Str::title($post_type),
-            'posts' => collect(), // Empty collection for demonstration
+            'title' => 'Archive: ' . Str::title(str_replace('-', ' ', $content_type_archive_key)),
+            'posts' => $posts,
         ]);
     }
 
     /**
      * Taxonomy archive
      */
-    public function taxonomyArchive($lang, $taxonomy, $taxonomy_slug)
+    public function taxonomyArchive($lang, $taxonomy_key, $taxonomy_slug)
     {
-        // Check if the taxonomy exists
-        // This could be done in several ways depending on your application structure:
+        // Determine the model class from configuration
+        $modelClass = Config::get("cms.content_models.{$taxonomy_key}.model");
 
-        // Option 1: Check if a model class exists for this taxonomy
-        $modelName = Str::singular(Str::studly($taxonomy));
-        $modelClass = "App\\Models\\$modelName";
-
-        if (!class_exists($modelClass)) {
-            // Option 2: Check if it's a valid taxonomy type
-            $validTaxonomies = ['category', 'tag']; // Add your valid taxonomies here
-
-            if (!in_array($taxonomy, $validTaxonomies)) {
-                // If the taxonomy doesn't exist, return a 404
-                abort(404, "Taxonomy '$taxonomy' not found");
+        if (!$modelClass || !class_exists($modelClass)) {
+            if (!Config::has("cms.content_models.{$taxonomy_key}")) {
+                abort(404, "Taxonomy type '{$taxonomy_key}' not found in configuration.");
             }
+            abort(404, "Model for taxonomy type '{$taxonomy_key}' not found or not configured correctly.");
         }
 
-        // In a real application, you would fetch the taxonomy and related posts
-        // For example:
-        // $taxonomyModel = $modelClass::where('slug', $taxonomy_slug)->firstOrFail();
-        // $posts = $taxonomyModel->posts()->paginate(10);
+        // Fetch the taxonomy term
+        $taxonomyModel = $modelClass::where('slug', $taxonomy_slug)->firstOrFail();
 
-        // For demonstration purposes, we'll use placeholder data
-        $taxonomyModel = (object) [
-            'name' => Str::title($taxonomy_slug),
-            'slug' => $taxonomy_slug,
-            'taxonomy' => $taxonomy,
-            'description' => 'This is the description for the ' . Str::title($taxonomy_slug) . ' ' . $taxonomy . '.'
-        ];
+        // Fetch posts related to this taxonomy term
+        $relationshipName = Config::get("cms.content_models.{$taxonomy_key}.display_content_from", 'posts');
+        if (!method_exists($taxonomyModel, $relationshipName)) {
+            // Log a warning or notice here
+            \Illuminate\Support\Facades\Log::warning("Configured relationship '{$relationshipName}' not found for taxonomy '{$taxonomy_key}'. Falling back to 'posts'.");
+            $relationshipName = 'posts'; // Fallback to 'posts'
+        }
+
+        // Check if the determined relationship method exists
+        if (method_exists($taxonomyModel, $relationshipName)) {
+            $posts = $taxonomyModel->{$relationshipName}()->paginate(Config::get('cms.pagination_limit', 10));
+        } else {
+            // Log a warning here
+            \Illuminate\Support\Facades\Log::warning("Relationship method '{$relationshipName}' ultimately not found for taxonomy '{$taxonomy_key}'. Serving empty collection.");
+            $posts = collect(); // Default to an empty collection
+        }
 
         // Determine the template using our taxonomy archive template hierarchy
-        $viewName = $this->resolveTaxonomyTemplate($taxonomy_slug, $taxonomy);
+        $viewName = $this->resolveTaxonomyTemplate($taxonomy_slug, $taxonomy_key, $taxonomyModel);
 
         return view($viewName, [
             'lang' => $lang,
-            'taxonomy' => $taxonomy,
+            'taxonomy' => $taxonomy_key,
             'taxonomy_slug' => $taxonomy_slug,
             'taxonomy_model' => $taxonomyModel,
-            'title' => Str::title($taxonomy) . ': ' . Str::title($taxonomy_slug),
-            'posts' => collect(), // Empty collection for demonstration
-        ]);
-    }
-
-    /**
-     * Sub-taxonomy archive
-     */
-    public function subTaxonomyArchive($lang, $taxonomy, $taxonomy_parent, $taxonomy_slug)
-    {
-        // Check if the taxonomy exists
-        // This could be done in several ways depending on your application structure:
-
-        // Option 1: Check if a model class exists for this taxonomy
-        $modelName = Str::singular(Str::studly($taxonomy));
-        $modelClass = "App\\Models\\$modelName";
-
-        if (!class_exists($modelClass)) {
-            // Option 2: Check if it's a valid taxonomy type
-            $validTaxonomies = ['category', 'tag']; // Add your valid taxonomies here
-
-            if (!in_array($taxonomy, $validTaxonomies)) {
-                // If the taxonomy doesn't exist, return a 404
-                abort(404, "Taxonomy '$taxonomy' not found");
-            }
-        }
-
-        // In a real application, you would fetch the sub-taxonomy and related posts
-        // For example:
-        // $parentTaxonomy = $modelClass::where('slug', $taxonomy_parent)->firstOrFail();
-        // $childTaxonomy = $parentTaxonomy->children()->where('slug', $taxonomy_slug)->firstOrFail();
-        // $posts = $childTaxonomy->posts()->paginate(10);
-
-        // For now, we'll just use placeholder data
-        $taxonomyModel = (object) [
-            'name' => Str::title($taxonomy_slug),
-            'slug' => $taxonomy_slug,
-            'taxonomy' => $taxonomy,
-            'parent' => (object) [
-                'name' => Str::title($taxonomy_parent),
-                'slug' => $taxonomy_parent
-            ],
-            'description' => 'This is a sub-taxonomy of ' . Str::title($taxonomy_parent) . '.'
-        ];
-
-        // Determine the template using our sub-taxonomy archive template hierarchy
-        $viewName = $this->resolveSubTaxonomyTemplate($taxonomy_parent, $taxonomy_slug, $taxonomy);
-
-        return view($viewName, [
-            'lang' => $lang,
-            'taxonomy' => $taxonomy,
-            'taxonomy_parent' => $taxonomy_parent,
-            'taxonomy_slug' => $taxonomy_slug,
-            'taxonomy_model' => $taxonomyModel,
-            'title' => Str::title($taxonomy) . ': ' . Str::title($taxonomy_parent) . ' / ' . Str::title($taxonomy_slug),
-            'posts' => collect(), // Empty collection for demonstration
+            'title' => Str::title(str_replace('-', ' ', $taxonomy_key)) . ': ' . Str::title(str_replace('-', ' ', $taxonomy_slug)),
+            'posts' => $posts,
         ]);
     }
 
@@ -236,16 +192,21 @@ class ContentController extends Controller
      * Resolve home template
      *
      * Hierarchy:
-     * 1. templates/home.blade.php
-     * 2. templates/front-page.blade.php
-     * 3. templates/index.blade.php
-     * 4. templates/default.blade.php
+     * 1. templates/singles/home.blade.php
+     * 2. templates/singles/front-page.blade.php
+     * 3. templates/home.blade.php
+     * 4. templates/front-page.blade.php
+     * 5. templates/singles/default.blade.php
+     * 6. templates/default.blade.php
      */
     private function resolveHomeTemplate(?Model $content = null): string
     {
         $templates = [
+            "{$this->templateBase}.singles.home",
+            "{$this->templateBase}.singles.front-page",
             "{$this->templateBase}.home",
             "{$this->templateBase}.front-page",
+            "{$this->templateBase}.singles.default",
             "{$this->templateBase}.default"
         ];
 
@@ -263,28 +224,25 @@ class ContentController extends Controller
      *
      * Hierarchy:
      * 1. Custom template specified in content model (`template` field)
-     * 2. templates/pages/{slug}.blade.php
-     * 3. templates/singles/page-{slug}.blade.php
-     * 4. templates/singles/page-{id}.blade.php
-     * 5. templates/pages/default.blade.php
-     * 6. templates/singles/page.blade.php
-     * 7. templates/singles/default.blade.php
+     * 2. templates/singles/{slug}.blade.php
+     * 3. templates/singles/page.blade.php
+     * 4. templates/page.blade.php
+     * 5. templates/singles/default.blade.php
+     * 6. templates/default.blade.php
      */
     private function resolvePageTemplate(Model $content): string
     {
         $slug = $content->slug;
-        $id = $content->id;
 
         $defaultLanguage = Config::get('cms.default_language');
         $defaultSlug = method_exists($content, 'getTranslation') ? $content->getTranslation('slug', $defaultLanguage) : $slug;
 
         $templates = [
-            "{$this->templateBase}.pages.{$defaultSlug}", // Use default language slug
-            "{$this->templateBase}.singles.page-{$defaultSlug}", // Use default language slug
-            "{$this->templateBase}.singles.page-{$id}",
-            "{$this->templateBase}.pages.default",
+            "{$this->templateBase}.singles.{$defaultSlug}",
             "{$this->templateBase}.singles.page",
-            "{$this->templateBase}.singles.default"
+            "{$this->templateBase}.page",
+            "{$this->templateBase}.singles.default",
+            "{$this->templateBase}.default"
         ];
 
         // Check for custom template first
@@ -301,18 +259,22 @@ class ContentController extends Controller
      * 1. Custom template specified in content model (`template` field)
      * 2. templates/singles/{post_type}-{slug}.blade.php
      * 3. templates/singles/{post_type}.blade.php
-     * 4. templates/singles/default.blade.php
+     * 4. templates/{post_type}.blade.php
+     * 5. templates/singles/default.blade.php
+     * 6. templates/default.blade.php
      */
-    private function resolveSingleTemplate(?Model $content = null, string $contentType, string $contentSlug): string
+    private function resolveSingleTemplate(?Model $content = null, string $content_type_key, string $contentSlug): string
     {
-        $postType = Str::kebab(Str::singular($contentType));
+        $postType = Str::kebab(Str::singular($content_type_key));
         $defaultLanguage = Config::get('cms.default_language');
         $defaultSlug = method_exists($content, 'getTranslation') ? $content->getTranslation('slug', $defaultLanguage) : $contentSlug;
 
         $templates = [
-            "{$this->templateBase}.singles.{$postType}-{$defaultSlug}", // Use default language slug
-            "{$this->templateBase}.singles.{$postType}",
-            "{$this->templateBase}.singles.default"
+            "{$this->templateBase}.singles.{$postType}-{$defaultSlug}", // templates/singles/{post_type}-{slug}.blade.php
+            "{$this->templateBase}.singles.{$postType}",              // templates/singles/{post_type}.blade.php
+            "{$this->templateBase}.{$postType}",                      // templates/{post_type}.blade.php
+            "{$this->templateBase}.singles.default",                  // templates/singles/default.blade.php
+            "{$this->templateBase}.default"                           // templates/default.blade.php
         ];
 
         // If we have content, check for custom template first
@@ -328,16 +290,28 @@ class ContentController extends Controller
      * Resolve archive template for custom post types
      *
      * Hierarchy:
-     * 1. templates/archives/archive-{post_type}.blade.php
-     * 2. templates/archives/archive.blade.php
-     * 3. templates/archives/default.blade.php
+     * 1. Check the config cms content_type_archive_key archive_view
+     * 2. templates/archives/archive-{post_type}.blade.php
+     * 3. templates/archive-{post_type}.blade.php
+     * 4. templates/archives/archive.blade.php
+     * 5. templates/archive.blade.php
      */
-    private function resolveArchiveTemplate(string $postType): string
+    private function resolveArchiveTemplate(string $content_type_archive_key): string
     {
+        $templates = [];
+
+        // 1. Check the config cms content_type_archive_key archive_view
+        $configView = Config::get("cms.content_models.{$content_type_archive_key}.archive_view");
+        if ($configView && View::exists($configView)) {
+            return $configView;
+        }
+
+        // Fallback templates
         $templates = [
-            "{$this->templateBase}.archives.archive-{$postType}", // e.g., archives/archive-post.blade.php
-            "{$this->templateBase}.archives.archive",
-            "{$this->templateBase}.archives.default"
+            "{$this->templateBase}.archives.archive-{$content_type_archive_key}", // 2. templates/archives/archive-{post_type}.blade.php
+            "{$this->templateBase}.archive-{$content_type_archive_key}",         // 3. templates/archive-{post_type}.blade.php
+            "{$this->templateBase}.archives.archive",                            // 4. templates/archives/archive.blade.php
+            "{$this->templateBase}.archive",                                     // 5. templates/archive.blade.php
         ];
 
         return $this->findFirstExistingTemplate($templates);
@@ -348,51 +322,39 @@ class ContentController extends Controller
      *
      * Hierarchy:
      * 1. Custom template specified in content model (`template` field)
-     * 2. templates/archives/{taxonomy}-{slug}.blade.php
-     * 3. templates/archives/{taxonomy}.blade.php
-     * 4. templates/archives/default.blade.php
+     * 2. Check config cms content_models archive_view
+     * 3. templates/archives/{taxonomy}-{slug}.blade.php
+     * 4. templates/archives/{taxonomy}.blade.php
+     * 5. templates/{taxonomy}-{slug}.blade.php
+     * 6. templates/{taxonomy}.blade.php
+     * 7. templates/archives/archive.blade.php
+     * 8. templates/archive.blade.php
      */
-    private function resolveTaxonomyTemplate(string $taxonomySlug, string $taxonomyType = 'taxonomy'): string
+    private function resolveTaxonomyTemplate(string $taxonomySlug, string $taxonomy_key = 'taxonomy', ?Model $taxonomyModel = null): string
     {
+        // 1. Custom template specified in content model (`template` field)
+        if ($taxonomyModel && !empty($taxonomyModel->template)) {
+            $customTemplate = "{$this->templateBase}.{$taxonomyModel->template}";
+            if (View::exists($customTemplate)) {
+                return $customTemplate;
+            }
+        }
 
+        // 2. Check config cms content_models archive_view
+        $configView = Config::get("cms.content_models.{$taxonomy_key}.archive_view");
+        if ($configView && View::exists($configView)) {
+            return $configView;
+        }
+
+        // Fallback templates
         $templates = [
-            "{$this->templateBase}.archives.{$taxonomyType}-{$taxonomySlug}", // e.g., archives/category-news.blade.php
-            "{$this->templateBase}.archives.{$taxonomyType}", // e.g., archives/category.blade.php
-            "{$this->templateBase}.archives.default"
+            "{$this->templateBase}.archives.{$taxonomy_key}-{$taxonomySlug}", // 3. templates/archives/{taxonomy}-{slug}.blade.php
+            "{$this->templateBase}.archives.{$taxonomy_key}",                 // 4. templates/archives/{taxonomy}.blade.php
+            "{$this->templateBase}.{$taxonomy_key}-{$taxonomySlug}",          // 5. templates/{taxonomy}-{slug}.blade.php
+            "{$this->templateBase}.{$taxonomy_key}",                          // 6. templates/{taxonomy}.blade.php
+            "{$this->templateBase}.archives.archive",                        // 7. templates/archives/archive.blade.php
+            "{$this->templateBase}.archive",                                 // 8. templates/archive.blade.php
         ];
-
-        // Taxonomy archives don't have a content model with a 'template' field in this implementation,
-        // so we don't check for custom templates here based on the current code structure.
-        // If the taxonomy model were passed in, we could check $taxonomy->template.
-
-        return $this->findFirstExistingTemplate($templates);
-    }
-
-    /**
-     * Resolve sub-taxonomy template
-     *
-     * Hierarchy:
-     * 1. Custom template specified in content model (`template` field)
-     * 2. templates/archives/{taxonomy}-{parent}-{slug}.blade.php
-     * 3. templates/archives/{taxonomy}-{parent}.blade.php
-     * 4. templates/archives/{taxonomy}-{slug}.blade.php
-     * 5. templates/archives/{taxonomy}.blade.php
-     * 6. templates/archives/default.blade.php
-     */
-    private function resolveSubTaxonomyTemplate(string $taxonomyParent, string $taxonomySlug, string $taxonomyType = 'taxonomy'): string
-    {
-
-        $templates = [
-            "{$this->templateBase}.archives.{$taxonomyType}-{$taxonomyParent}-{$taxonomySlug}", // e.g., archives/category-news-featured.blade.php
-            "{$this->templateBase}.archives.{$taxonomyType}-{$taxonomyParent}", // e.g., archives/category-news.blade.php
-            "{$this->templateBase}.archives.{$taxonomyType}-{$taxonomySlug}", // e.g., archives/category-featured.blade.php
-            "{$this->templateBase}.archives.{$taxonomyType}", // e.g., archives/category.blade.php
-            "{$this->templateBase}.archives.default"
-        ];
-
-        // Sub-taxonomy archives don't have a content model with a 'template' field in this implementation,
-        // so we don't check for custom templates here based on the current code structure.
-        // If the sub-taxonomy model were passed in, we could check $subTaxonomy->template.
 
         return $this->findFirstExistingTemplate($templates);
     }
