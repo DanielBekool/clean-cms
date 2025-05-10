@@ -51,6 +51,7 @@ return [
 
     'static_page_model' => App\Models\Page::class,
     'static_page_slug' => 'pages',
+    'front_page_slug'   => 'home',
 
     'pagination_limit' => env('CMS_PAGINATION_LIMIT', 12),
 ];
