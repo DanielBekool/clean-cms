@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Models\Page;
 use App\Enums\ContentStatus;
+use Illuminate\Http\Request;
 
 class ContentController extends Controller
 {
@@ -66,8 +67,16 @@ class ContentController extends Controller
     /**
      * Static page
      */
-    public function staticPage($lang, $content_slug)
+    public function staticPage(Request $request, $lang, $content_slug)
     {
+         // Check the config for cms.front_page_slug
+         $frontPageSlug = Config::get('cms.front_page_slug');
+
+         // If the content_slug equals the config cms.front_page_slug,
+         // it will be redirected to route cms.home, preserving the query string.
+         if ($content_slug === $frontPageSlug) {
+             return redirect()->route('cms.home', $lang, $request->query());
+         }
         $modelClass = $this->staticPageClass;
 
         if (!$modelClass || !class_exists($modelClass)) {
@@ -109,13 +118,16 @@ class ContentController extends Controller
     /**
      * Single content (post, custom post type, etc.)
      */
-    public function singleContent($lang, $content_type_key, $content_slug)
+    public function singleContent(Request $request, $lang, $content_type_key, $content_slug)
     {
         // Check if the content type key matches the static page slug
         $staticPageSlug = Config::get('cms.static_page_slug');
-
+        // ex. /pages/about will be redirected to /about
         if ($content_type_key === $staticPageSlug) {
-            return redirect()->route('cms.static.page', ['lang' => $lang, 'page_slug' => $content_slug]);
+            return redirect()->route('cms.static.page', array_merge(
+                ['lang' => $lang, 'page_slug' => $content_slug],
+                $request->query()
+            ));
         }
 
         // Determine the model class from configuration
