@@ -9,9 +9,11 @@ use Illuminate\Support\Str;
 use App\Models\Page;
 use App\Enums\ContentStatus;
 use Illuminate\Http\Request;
+use Afatmustafa\SeoSuite\Traits\SetsSeoSuite;
 
 class ContentController extends Controller
 {
+    use SetsSeoSuite;
     /**
      * Base template directory
      */
@@ -58,6 +60,9 @@ class ContentController extends Controller
         // Determine the template using our home template hierarchy
         $viewName = $this->resolveHomeTemplate($content);
 
+        // Set SEO metadata
+        $this->setsSeo($content);
+
         return view($viewName, [
             'lang' => $lang,
             'content' => $content,
@@ -69,14 +74,14 @@ class ContentController extends Controller
      */
     public function staticPage(Request $request, $lang, $content_slug)
     {
-         // Check the config for cms.front_page_slug
-         $frontPageSlug = Config::get('cms.front_page_slug');
+        // Check the config for cms.front_page_slug
+        $frontPageSlug = Config::get('cms.front_page_slug');
 
-         // If the content_slug equals the config cms.front_page_slug,
-         // it will be redirected to route cms.home, preserving the query string.
-         if ($content_slug === $frontPageSlug) {
-             return redirect()->route('cms.home', $lang, $request->query());
-         }
+        // If the content_slug equals the config cms.front_page_slug,
+        // it will be redirected to route cms.home, preserving the query string.
+        if ($content_slug === $frontPageSlug) {
+            return redirect()->route('cms.home', $lang, $request->query());
+        }
         $modelClass = $this->staticPageClass;
 
         if (!$modelClass || !class_exists($modelClass)) {
