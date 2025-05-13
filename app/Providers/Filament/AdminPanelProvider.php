@@ -24,7 +24,7 @@ use Outerweb\FilamentTranslatableFields\Filament\Plugins\FilamentTranslatableFie
 use Filament\Navigation\NavigationGroup;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
-use Datlechin\FilamentMenuBuilder\MenuPanel\ModelMenuPanel;
+use Illuminate\Support\Facades\Gate;
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -102,5 +102,11 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Settings')
                     ->icon('heroicon-o-cog-6-tooth'),
             ]);
+    }
+
+    public function boot(): void
+    {
+        Gate::policy(\Awcodes\Curator\Models\Media::class, \App\Policies\MediaPolicy::class);
+        Gate::policy(\Datlechin\FilamentMenuBuilder\Models\Menu::class, \App\Policies\MenuPolicy::class);
     }
 }
