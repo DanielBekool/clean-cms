@@ -10,7 +10,7 @@ use App\Models\Page;
 use App\Enums\ContentStatus;
 use Illuminate\Http\Request;
 use Afatmustafa\SeoSuite\Traits\SetsSeoSuite;
-
+use Artesaos\SEOTools\Facades\SEOTools;
 class ContentController extends Controller
 {
     use SetsSeoSuite;
@@ -94,6 +94,9 @@ class ContentController extends Controller
         // Determine the template using our page template hierarchy
         $viewName = $this->resolvePageTemplate($content);
 
+        // Set SEO metadata
+        $this->setsSeo($content);
+
         return view($viewName, [
             'lang' => $lang,
             'content' => $content,
@@ -150,6 +153,9 @@ class ContentController extends Controller
         // Determine the template using our single content template hierarchy
         $viewName = $this->resolveSingleTemplate($content, $content_type_key, $content_slug);
 
+        // Set SEO metadata
+        $this->setsSeo($content);
+
         return view($viewName, [
             'lang' => $lang,
             'content_type' => $content_type_key,
@@ -186,6 +192,18 @@ class ContentController extends Controller
 
         // Determine the template using our archive template hierarchy
         $viewName = $this->resolveArchiveTemplate($content_type_archive_key);
+
+        // Set SEO metadata from config or default
+        $archiveTitle = Config::get("cms.content_models.{$content_type_archive_key}.archive_SEO_title");
+        if ($archiveTitle) {
+            SEOTools::setTitle($archiveTitle);
+        } else {
+            SEOTools::setTitle('Archive: ' . Str::title(str_replace('-', ' ', $content_type_archive_key)));
+        }
+
+        $archiveDescription = Config::get("cms.content_models.{$content_type_archive_key}.archive_SEO_description", "Archive of all " . $content_type_archive_key);
+        SEOTools::setDescription($archiveDescription);
+
 
         return view($viewName, [
             'lang' => $lang,
@@ -233,6 +251,9 @@ class ContentController extends Controller
 
         // Determine the template using our taxonomy archive template hierarchy
         $viewName = $this->resolveTaxonomyTemplate($taxonomy_slug, $taxonomy_key, $taxonomyModel);
+
+        // Set SEO metadata
+        $this->setsSeo($taxonomyModel);
 
         return view($viewName, [
             'lang' => $lang,

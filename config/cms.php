@@ -27,6 +27,8 @@ return [
             'has_single' => true,
             'archive_view' => 'templates.archives.post',
             'single_view' => 'templates.singles.post',
+            'archive_SEO_title' => 'Archive: Posts',
+            'archive_SEO_description' => 'Archive of all posts',
 
         ],
         'categories' => [
@@ -51,7 +53,7 @@ return [
 
     'static_page_model' => App\Models\Page::class,
     'static_page_slug' => 'pages',
-    'front_page_slug'   => 'home',
+    'front_page_slug' => 'home',
 
     'pagination_limit' => env('CMS_PAGINATION_LIMIT', 12),
 ];

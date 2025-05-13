@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @stack('after_head_open')
-    <title>{{ $title ?? config('app.name', 'Clean CMS') }}</title>
     @vite('resources/css/app.css')
     @stack('before_head_close')
 </head>
