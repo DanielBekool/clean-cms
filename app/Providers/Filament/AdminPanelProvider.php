@@ -61,6 +61,9 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->brandName(config('cms.site_name'))
+            // ->brandLogo(config('cms.site_logo'))
+            ->favicon(config('cms.site_favicon'))
             ->theme(asset('css/filament/admin/theme.css'))
             ->plugins([
                 CuratorPlugin::make(),

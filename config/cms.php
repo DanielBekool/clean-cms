@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'site_name' => env('CMS_SITE_NAME', 'My CMS'),
+    'site_name' => env('APP_NAME', 'Clean CMS'),
     'site_description' => env('CMS_SITE_DESCRIPTION', 'My CMS Description'),
-    'site_url' => env('CMS_SITE_URL', 'http://localhost'),
+    'site_url' => env('APP_URL', 'http://localhost'),
     'site_email' => env('CMS_SITE_EMAIL'),
     'site_phone' => env('CMS_SITE_PHONE'),
     'site_logo' => env('CMS_SITE_LOGO', 'logo.png'),
