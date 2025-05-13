@@ -1,6 +1,21 @@
 <?php
 
 return [
+    'site_name' => env('CMS_SITE_NAME', 'My CMS'),
+    'site_description' => env('CMS_SITE_DESCRIPTION', 'My CMS Description'),
+    'site_url' => env('CMS_SITE_URL', 'http://localhost'),
+    'site_email' => env('CMS_SITE_EMAIL'),
+    'site_phone' => env('CMS_SITE_PHONE'),
+    'site_logo' => env('CMS_SITE_LOGO', 'logo.png'),
+    'site_favicon' => env('CMS_SITE_FAVICON', 'favicon.ico'),
+    'site_social_media' => [
+        'facebook' => env('CMS_FACEBOOK'),
+        'twitter' => env('CMS_TWITTER'),
+        'instagram' => env('CMS_INSTAGRAM'),
+        'linkedin' => env('CMS_LINKEDIN'),
+        'youtube' => env('CMS_YOUTUBE'),
+    ],
+    'site_social_media_enabled' => env('CMS_SOCIAL_MEDIA_ENABLED', true),
 
     'multilanguage_enabled' => env('MULTILANGUAGE_ENABLED', true),
 

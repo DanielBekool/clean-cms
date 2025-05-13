@@ -23,6 +23,8 @@ use Illuminate\Validation\Rules\Password;
 use Outerweb\FilamentTranslatableFields\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use Filament\Navigation\NavigationGroup;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
+use Datlechin\FilamentMenuBuilder\MenuPanel\ModelMenuPanel;
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -78,6 +80,11 @@ class AdminPanelProvider extends PanelProvider
                         'zh-CN' => '中文',
                     ]),
                 FilamentShieldPlugin::make(),
+                FilamentMenuBuilderPlugin::make()
+                    ->addLocations([
+                        'header' => 'Header',
+                        'footer' => 'Footer',
+                    ]),
             ])
             ->unsavedChangesAlerts()
             ->sidebarCollapsibleOnDesktop()

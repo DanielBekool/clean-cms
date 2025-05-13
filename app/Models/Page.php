@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
 use App\Enums\ContentStatus;
-
 class Page extends Model
 {
     use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite;
