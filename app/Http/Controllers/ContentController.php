@@ -112,7 +112,7 @@ class ContentController extends Controller
      * @return \Illuminate\Database\Eloquent\Model The found content model.
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    private function getPublishedContentBySlugOrFail(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): \Illuminate\Database\Eloquent\Model
+    private function getPublishedContentBySlugOrFail(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): Model
     {
         $query = $modelClass::whereJsonContains('slug->' . $lang, $contentSlug);
 
