@@ -18,47 +18,32 @@ class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-ellipsis';
+    protected static ?int $navigationSort = 40;
+
+    protected static array $commentableResources = [
+        \App\Models\Post::class => \App\Filament\Resources\PostResource::class,
+        \App\Models\Page::class => \App\Filament\Resources\PageResource::class,
+        \App\Models\Product::class => \App\Filament\Resources\ProductResource::class,
+    ];
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 ...static::formSchema(),
-            ]);
+            ])
+            ->columns(2);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('content')
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('content')
-                    ->limit(50)
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\SelectColumn::make('status')->options(CommentStatus::class)
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('parent.id')
-                    ->label('Reply to')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->sortable(),
+                ...static::tableColumns(),
             ])
             ->filters([
                 //
-            ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -90,7 +75,7 @@ class CommentResource extends Resource
         ];
     }
 
-    protected static function formSchema(): array
+    public static function formSchema(): array
     {
         return [
             Textarea::make('content')
@@ -119,7 +104,51 @@ class CommentResource extends Resource
         ];
     }
 
-    protected static function tableEditBulkAction(): array
+    public static function tableColumns(): array
+    {
+        return [
+            Tables\Columns\TextColumn::make('id')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('content')
+                ->limit(50)
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('name')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('email')
+                ->sortable()
+                ->searchable(),
+            ...static::tableColumnsCommentable(),
+            Tables\Columns\SelectColumn::make('status')->options(CommentStatus::class)
+                ->sortable(),
+            Tables\Columns\TextColumn::make('parent.id')
+                ->label('Reply to')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('created_at')->sortable(),
+        ];
+    }
+
+    public static function tableColumnsCommentable(): array
+    {
+        return [
+            Tables\Columns\TextColumn::make('commentable_type')
+                ->label('Type')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('commentable.id')
+                ->sortable()
+                ->searchable()
+                ->url(fn($record): string =>
+                    (static::$commentableResources[$record->commentable_type])::getUrl(
+                        'edit',
+                        ['record' => $record->commentable]
+                    )),
+        ];
+    }
+    public static function tableEditBulkAction(): array
     {
         return [
             Tables\Actions\BulkAction::make('edit')
