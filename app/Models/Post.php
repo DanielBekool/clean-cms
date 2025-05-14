@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
 use App\Enums\ContentStatus;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use App\Models\Comment;
 
 class Post extends Model
 {
@@ -107,5 +109,10 @@ class Post extends Model
         // Use the base class name for the ::class constant
         // Add foreign key argument if specified in YAML
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

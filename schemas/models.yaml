@@ -49,14 +49,18 @@ models:
     relationships:
       author:
         type: belongsTo
-        model: User        # Assumes 'author_id' foreign key by convention
+        model: User # Assumes 'author_id' foreign key by convention
         # Add onDelete: cascade (or restrict, set null) if needed
       categories:
         type: belongsToMany
-        model: Category    # Assumes 'category_post' pivot table
+        model: Category # Assumes 'category_post' pivot table
       tags:
         type: belongsToMany
-        model: Tag         # Assumes 'post_tag' pivot table
+        model: Tag # Assumes 'post_tag' pivot table
+      comments:
+        type: morphMany
+        model: Comment
+        name: commentable
 
     traits:
       - Spatie\Translatable\HasTranslations
@@ -112,13 +116,13 @@ models:
     relationships:
       author:
         type: belongsTo
-        model: User        # Assumes 'author_id' foreign key by convention
+        model: User # Assumes 'author_id' foreign key by convention
         # Add onDelete: cascade (or restrict, set null) if needed
-      parent:             # Relationship to parent category
+      parent: # Relationship to parent category
         type: belongsTo
-        model: Page    # Relates to self
+        model: Page # Relates to self
         foreign_key: parent_id # Explicitly state foreign key if needed
-        nullable: true     # Matches parent_id field nullability
+        nullable: true # Matches parent_id field nullability
 
     traits:
       - Spatie\Translatable\HasTranslations
@@ -142,12 +146,12 @@ models:
       featured_image:
         type: string
         nullable: true
-      parent_id:          # For self-referencing hierarchy
-        type: bigint       # Assuming standard ID type
+      parent_id: # For self-referencing hierarchy
+        type: bigint # Assuming standard ID type
         nullable: true
-        unsigned: true     # Foreign keys are typically unsigned
-        index: true        # Good to index foreign keys
-      menu_order:       # Renamed from 'order' to avoid SQL keyword conflict
+        unsigned: true # Foreign keys are typically unsigned
+        index: true # Good to index foreign keys
+      menu_order: # Renamed from 'order' to avoid SQL keyword conflict
         type: int
         nullable: false
         default: 0
@@ -158,15 +162,15 @@ models:
     relationships:
       posts:
         type: belongsToMany
-        model: Post        # Assumes 'category_post' pivot table
-      parent:             # Relationship to parent category
+        model: Post # Assumes 'category_post' pivot table
+      parent: # Relationship to parent category
         type: belongsTo
-        model: Category    # Relates to self
+        model: Category # Relates to self
         foreign_key: parent_id # Explicitly state foreign key if needed
-        nullable: true     # Matches parent_id field nullability
-      children:           # Relationship to child categories
+        nullable: true # Matches parent_id field nullability
+      children: # Relationship to child categories
         type: hasMany
-        model: Category    # Relates to self
+        model: Category # Relates to self
         foreign_key: parent_id # Explicitly state foreign key if needed
 
     traits:
@@ -184,27 +188,59 @@ models:
         nullable: false
         unique: false
         translatable: true
-      content:            # Optional content/description for a tag
+      content: # Optional content/description for a tag
         type: json
         nullable: true
         translatable: true
-      featured_image:     # Less common for tags, but included
+      featured_image: # Less common for tags, but included
         type: string
         nullable: true
-      menu_order:       # Renamed from 'order'
+      menu_order: # Renamed from 'order'
         type: int
         nullable: false
         default: 0
-      template:           # Less common for tags, but included
+      template: # Less common for tags, but included
         type: string
         nullable: true
 
     relationships:
       posts:
         type: belongsToMany
-        model: Post        # Assumes 'post_tag' pivot table
+        model: Post # Assumes 'post_tag' pivot table
 
     traits:
       - Spatie\Translatable\HasTranslations
       - Illuminate\Database\Eloquent\SoftDeletes
 
+  Comment:
+    fields:
+      content:
+        type: text
+        nullable: false
+      name:
+        type: text
+        nullable: false
+      email:
+        type: text
+        nullable: false
+      status:
+        type: enum
+        nullable: false
+        enum: [pending, approved, rejected]
+        default: pending
+      commentable_id:
+        type: bigint
+        nullable: false
+        unsigned: true
+        index: true
+      commentable_type:
+        type: string
+        nullable: false
+        index: true
+
+    relationships:
+      commentable:
+        type: morphTo
+
+    traits:
+      - Illuminate\Database\Eloquent\SoftDeletes
