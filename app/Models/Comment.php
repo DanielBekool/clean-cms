@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\CommentStatus;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -55,4 +56,15 @@ class Comment extends Model
         // Add foreign key argument if specified in YAML
         return $this->belongsTo(Comment::class, 'parent_id');
     }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
+    }
+
+    public function childrenRecursive(): HasMany
+    {
+        return $this->children()->with('childrenRecursive');
+    }
+
 }
