@@ -35,7 +35,7 @@ return [
             'fields' => [
                 'og_title' => true,
                 'og_description' => true,
-                'og_type' => false,
+                'og_type' => true,
                 'og_properties' => false,
             ],
         ],

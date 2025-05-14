@@ -43,8 +43,8 @@ trait InteractsWithSeoSuite
             'x_title' => $this->getSimpleSeoField('title'),
             'x_site' => config('app.url'),
             default => (property_exists($this, $fallbackColumn))
-                ? strip_tags($this->$fallbackColumn)
-                : ''
+            ? strip_tags($this->$fallbackColumn)
+            : ''
         };
     }
 
@@ -71,8 +71,8 @@ trait InteractsWithSeoSuite
     public function getOpenGraphField($field): array
     {
         return match ($field) {
-            'og_type_details' => $this->seoSuite->og_type_details,
-            'og_properties' => $this->seoSuite->og_properties,
+            'og_type_details' => $this->seoSuite->og_type_details ?? [],
+            'og_properties' => $this->seoSuite->og_properties ?? [],
         };
     }
 
