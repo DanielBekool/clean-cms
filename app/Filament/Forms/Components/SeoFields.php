@@ -4,7 +4,7 @@ namespace App\Filament\Forms\Components;
 
 use Afatmustafa\SeoSuite\Enums\MetaTypes;
 use Afatmustafa\SeoSuite\Enums\XCardTypes;
-use App\Filament\Forms\Schemas\OpenGraphSchema;
+use Afatmustafa\SeoSuite\Schemas\OpenGraphSchema;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;

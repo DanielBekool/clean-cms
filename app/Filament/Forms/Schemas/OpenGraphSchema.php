@@ -9,6 +9,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Afatmustafa\SeoSuite\Schemas\OpenGraphSchema as BaseOpenGraphSchema;
 use Afatmustafa\SeoSuite\Enums\OpenGraphTypes;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Get;
 class OpenGraphSchema extends BaseOpenGraphSchema
 {
 
@@ -72,7 +74,18 @@ class OpenGraphSchema extends BaseOpenGraphSchema
     {
         return Grid::make()
             ->schema([
-
+                Fieldset::make()
+                    ->label('seo-suite::seo-suite.opengraph.og_types.article.article_type_details_label')
+                    ->translateLabel()
+                    ->schema([self::articleFields()])->visible(fn(Get $get): bool => (is_object($get('og_type')) ? $get('og_type')->value : $get('og_type')) === OpenGraphTypes::ARTICLE->value),
+                Fieldset::make()
+                    ->label('seo-suite::seo-suite.opengraph.og_types.book.book_type_details_label')
+                    ->translateLabel()
+                    ->schema([self::bookFields()])->visible(fn(Get $get): bool => (is_object($get('og_type')) ? $get('og_type')->value : $get('og_type')) === OpenGraphTypes::BOOK->value),
+                Fieldset::make()
+                    ->label('seo-suite::seo-suite.opengraph.og_types.profile.profile_type_details_label')
+                    ->translateLabel()
+                    ->schema([self::profileFields()])->visible(fn(Get $get): bool => (is_object($get('og_type')) ? $get('og_type')->value : $get('og_type')) === OpenGraphTypes::PROFILE->value),
             ]);
     }
 
