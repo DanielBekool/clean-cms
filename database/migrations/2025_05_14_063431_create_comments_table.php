@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,6 +18,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->bigInteger('commentable_id')->index()->unsigned();
             $table->string('commentable_type', 255)->index();
+            $table->bigInteger('parent_id')->nullable()->index()->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });

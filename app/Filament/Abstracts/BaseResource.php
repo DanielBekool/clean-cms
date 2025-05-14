@@ -26,7 +26,6 @@ use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Forms\Components\SeoFields;
 use Illuminate\Support\Facades\File;
 use App\Enums\ContentStatus;
-use Carbon\Carbon;
 
 abstract class BaseResource extends Resource
 {
@@ -176,7 +175,7 @@ abstract class BaseResource extends Resource
     {
         return [
             Select::make('parent_id')
-                ->relationship('parent', 'title'),
+                ->relationship('parent', 'title', ignoreRecord: true),
         ];
     }
 
