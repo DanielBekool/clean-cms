@@ -72,4 +72,8 @@ return [
     'front_page_slug' => 'home',
 
     'pagination_limit' => env('CMS_PAGINATION_LIMIT', 12),
+    'commentable_resources' => [
+        App\Models\Post::class => App\Filament\Resources\PostResource::class,
+        App\Models\Page::class => App\Filament\Resources\PageResource::class,
+    ]
 ];

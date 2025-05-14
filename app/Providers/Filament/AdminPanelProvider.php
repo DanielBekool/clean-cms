@@ -76,12 +76,7 @@ class AdminPanelProvider extends PanelProvider
                         rules: [Password::default()->mixedCase()->uncompromised(3)], // you may pass an array of validation rules as well. (default = ['min:8'])
                         requiresCurrentPassword: true, // when false, the user can update their password without entering their current password. (default = true)
                     ),
-                FilamentTranslatableFieldsPlugin::make()
-                    ->supportedLocales([
-                        'en' => 'English',
-                        'id' => 'Indonesia',
-                        'zh-CN' => '中文',
-                    ]),
+                FilamentTranslatableFieldsPlugin::make(),
                 FilamentShieldPlugin::make(),
                 FilamentMenuBuilderPlugin::make()
                     ->addLocations([

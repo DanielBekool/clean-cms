@@ -11,17 +11,19 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
 use App\Enums\CommentStatus;
-use App\Filament\Resources\CommentResource;
+use App\Filament\Traits\CommentTrait;
 
 class CommentsRelationManager extends RelationManager
 {
+    use CommentTrait;
+
     protected static string $relationship = 'comments';
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                ...CommentResource::formSchema(),
+                ...self::formSchema(),
             ])
             ->columns(2);
     }
@@ -46,7 +48,7 @@ class CommentsRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    ...CommentResource::tableEditBulkAction(),
+                    ...self::tableEditBulkAction(),
                 ]),
             ])
             ->emptyStateHeading('No comments for this record')
