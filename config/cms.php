@@ -25,6 +25,7 @@ return [
         'en' => 'English',
         'id' => 'Indonesian',
         'zh-cn' => 'Chinese',
+        'ko' => 'Korean',
     ],
 
     'content_models' => [
