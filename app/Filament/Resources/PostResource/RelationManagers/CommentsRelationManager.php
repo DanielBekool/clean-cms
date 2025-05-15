@@ -28,6 +28,11 @@ class CommentsRelationManager extends RelationManager
             ->columns(2);
     }
 
+    public static function formFieldsCommentable(): array
+    {
+        return [];
+    }
+
     public function table(Table $table): Table
     {
         return $table

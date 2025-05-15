@@ -27,6 +27,26 @@ trait CommentTrait
     public static function formSchema(): array
     {
         return [
+            Textarea::make('content')->required()->maxLength(255)->columnSpan('full'),
+            TextInput::make('name')->required()->maxLength(255),
+            TextInput::make('email')
+                ->required()
+                ->maxLength(255)
+                ->email(),
+            Select::make('status')->enum(CommentStatus::class)->options(CommentStatus::class)->default(CommentStatus::Pending)->required(),
+            Select::make('parent_id')->relationship(
+                name: 'parent',
+                titleAttribute: 'id',
+                ignoreRecord: true,
+                modifyQueryUsing: fn(Builder $query) => $query->where('status', CommentStatus::Approved)
+            )->label('Reply to'),
+            ...static::formFieldsCommentable(),
+        ];
+    }
+
+    public static function formFieldsCommentable(): array
+    {
+        return [
             TextInput::make('commentable_type')
                 ->label('Resource Type')
                 ->required()
@@ -35,16 +55,6 @@ trait CommentTrait
                 ->label('Resource ID')
                 ->required()
                 ->readOnly(),
-            Textarea::make('content')->required()->maxLength(255)->columnSpan('full'),
-            TextInput::make('name')->required()->maxLength(255),
-            TextInput::make('email')->required()->maxLength(255),
-            Select::make('status')->enum(CommentStatus::class)->options(CommentStatus::class)->default(CommentStatus::Pending)->required(),
-            Select::make('parent_id')->relationship(
-                name: 'parent',
-                titleAttribute: 'id',
-                ignoreRecord: true,
-                modifyQueryUsing: fn(Builder $query) => $query->where('status', CommentStatus::Approved)
-            )->label('Reply to'),
         ];
     }
 
