@@ -19,56 +19,32 @@ trait CommentTrait
 {
     public static function getCommentableResources(): array
     {
-        
+
         return config('cms.commentable_resources', []);
-        
+
     }
 
     public static function formSchema(): array
     {
         return [
-            Select::make('commentable_type')
+            TextInput::make('commentable_type')
                 ->label('Resource Type')
-                ->options(fn () => array_keys(config('cms.commentable_resources')))
                 ->required()
-                ->reactive()
-                ->afterStateUpdated(function (Set $set, $state) {
-                    // $set('commentable_id', null);
-                }),
-            Select::make('commentable_id')
-                ->label('Resource')
-                ->reactive()                                 
-                ->preload()                             
-                ->options(fn (Get $get) => 
-                    ($type = $get('commentable_type'))
-                        ? \App\Models\Post::class::query()->pluck('id')->toArray()
-                        : []
-                )
-                // ->options(fn () => \App\Models\Post::class::query()->pluck('id')->toArray())
-                ->required(),
-            Textarea::make('content')
+                ->readOnly(),
+            TextInput::make('commentable_id')
+                ->label('Resource ID')
                 ->required()
-                ->maxLength(255)
-                ->columnSpan('full'),
-            TextInput::make('name')
-                ->required()
-                ->maxLength(255),
-            TextInput::make('email')
-                ->required()
-                ->maxLength(255),
-            Select::make('status')
-                ->enum(CommentStatus::class)
-                ->options(CommentStatus::class)
-                ->default(CommentStatus::Pending)
-                ->required(),
-            Select::make('parent_id')
-                ->relationship(
-                    name: 'parent',
-                    titleAttribute: 'id',
-                    ignoreRecord: true,
-                    modifyQueryUsing: fn(Builder $query) => $query->where('status', CommentStatus::Approved)
-                )
-                ->label('Reply to'),
+                ->readOnly(),
+            Textarea::make('content')->required()->maxLength(255)->columnSpan('full'),
+            TextInput::make('name')->required()->maxLength(255),
+            TextInput::make('email')->required()->maxLength(255),
+            Select::make('status')->enum(CommentStatus::class)->options(CommentStatus::class)->default(CommentStatus::Pending)->required(),
+            Select::make('parent_id')->relationship(
+                name: 'parent',
+                titleAttribute: 'id',
+                ignoreRecord: true,
+                modifyQueryUsing: fn(Builder $query) => $query->where('status', CommentStatus::Approved)
+            )->label('Reply to'),
         ];
     }
 
