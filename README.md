@@ -113,7 +113,54 @@ models:
 
 After modifying the `schemas/models.yaml` file, you should run the `make:model:from-yaml` and `make:migration:from-yaml` commands to regenerate your models and migrations based on the updated schema. Remember to run `php artisan migrate` after generating new migration files.
 
-## 4. Building Tailwind CSS
+## 4. Syncing Curator Media
+
+The `SyncCuratorMedia` Artisan command (`app/Console/Commands/SyncCuratorMedia.php`) is used to synchronize files on a specified filesystem disk with the `media` database table.
+
+It provides the following functionality:
+
+-   **Import any new files:** Scans the specified directory for files that do not have a corresponding record in the `media` table and creates new records for them.
+-   **Update metadata:** When the `--update` option is passed, it updates metadata (width, height, size, type, ext, exif) for existing records in the `media` table whose files exist on disk.
+-   **Prune database rows:** When the `--prune` option is passed, it deletes records from the `media` table whose corresponding files are missing on disk.
+
+**Command Signature:**
+
+```bash
+php artisan media:sync {--disk=public} {--dir=media} {--update} {--prune}
+```
+
+-   `--disk`: Optional. The filesystem disk to scan (defaults to `public`).
+-   `--dir`: Optional. The directory within that disk to scan (defaults to `media`).
+-   `--update`: Optional. Update metadata for existing records.
+-   `--prune`: Optional. Prune database rows whose files no longer exist.
+
+**How to use**
+
+Import new + update metadata + prune missing
+
+```bash
+php artisan media:sync --update --prune
+```
+
+Just import new + update metadata
+
+```bash
+php artisan media:sync --update
+```
+
+Just import new + prune missing
+
+```bash
+php artisan media:sync --prune
+```
+
+Default (only imports new files)
+
+```bash
+php artisan media:sync
+```
+
+## 5. Building Tailwind CSS
 
 The project uses Tailwind CSS for styling the Filament admin panel. To compile the CSS after making changes to the Tailwind configuration or source CSS files, use the following command:
 
@@ -125,7 +172,7 @@ This command reads the input CSS file (`./resources/css/filament/admin/theme.css
 
 You can add this command to your `package.json` scripts for easier execution (e.g., `npm run build-tailwind`).
 
-## 5. Filament Resource Structure
+## 6. Filament Resource Structure
 
 The Filament admin panel resources in this project follow a hierarchical structure based on base classes to promote code reusability and consistency.
 
@@ -182,7 +229,7 @@ This abstract class extends Filament's `CreateRecord` page class and provides a 
 
 Resource create pages (e.g., `CreatePost`, `CreateCategory`) extend this class to inherit this standard action.
 
-## 6. Template Hierarchy
+## 7. Template Hierarchy
 
 This project implements a WordPress-like template hierarchy system for Laravel 12, providing a flexible and powerful way to customize the appearance of different content types and pages.
 
