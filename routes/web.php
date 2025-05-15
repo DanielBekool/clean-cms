@@ -9,6 +9,12 @@ Route::get('/', function () {
     return redirect()->to($defaultLang);
 });
 
+// Redirect routes without language prefix to default language
+Route::get('/{path}', function ($path) {
+    $defaultLang = Config::get('cms.default_language', 'en');
+    return redirect()->to("{$defaultLang}/{$path}");
+})->where('path', '^(?!' . implode('|', array_keys(Config::get('cms.language_available', ['en' => 'English']))) . '/).*');
+
 Route::prefix('{lang}')
     ->whereIn('lang', array_keys(Config::get('cms.language_available', ['en' => 'English'])))
     ->middleware(['setLocale'])
