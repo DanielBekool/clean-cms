@@ -10,9 +10,14 @@ Route::get('/', function () {
 });
 
 // Redirect routes without language prefix to default language
-Route::get('/{path}', function ($path) {
+Route::get('/{path}', function (Illuminate\Http\Request $request, $path) {
     $defaultLang = Config::get('cms.default_language', 'en');
-    return redirect()->to("{$defaultLang}/{$path}");
+    $queryString = $request->getQueryString();
+    $redirectUrl = "{$defaultLang}/{$path}";
+    if ($queryString) {
+        $redirectUrl .= "?{$queryString}";
+    }
+    return redirect()->to($redirectUrl);
 })->where('path', '^(?!' . implode('|', array_keys(Config::get('cms.language_available', ['en' => 'English']))) . '/).*');
 
 Route::prefix('{lang}')
