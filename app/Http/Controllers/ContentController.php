@@ -11,6 +11,7 @@ use App\Enums\ContentStatus;
 use Illuminate\Http\Request;
 use Afatmustafa\SeoSuite\Traits\SetsSeoSuite;
 use Artesaos\SEOTools\Facades\SEOTools;
+use Illuminate\Database\Eloquent\Builder;
 class ContentController extends Controller
 {
     use SetsSeoSuite;
@@ -25,6 +26,9 @@ class ContentController extends Controller
 
     protected string $staticPageClass;
 
+    /**
+     * Constructor to initialize default language, pagination limit, and static page model class.
+     */
     public function __construct()
     {
         $this->defaultLanguage = Config::get('cms.default_language');
@@ -33,7 +37,10 @@ class ContentController extends Controller
     }
 
     /**
-     * Home page
+     * Displays the home page content based on the configured static page model or a fallback.
+     *
+     * @param string $lang The current language.
+     * @return \Illuminate\View\View|\Illuminate\Http\Response
      */
     public function home($lang)
     {
@@ -72,24 +79,27 @@ class ContentController extends Controller
     /**
      * Static page
      */
+    /**
+     * Displays a static page based on its slug and language.
+     * Redirects to home if the slug matches the configured front page slug.
+     *
+     * @param \Illuminate\Http\Request $request The incoming request.
+     * @param string $lang The current language.
+     * @param string $content_slug The slug of the static page.
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
     public function staticPage(Request $request, $lang, $content_slug)
     {
-        // Check the config for cms.front_page_slug
-        $frontPageSlug = Config::get('cms.front_page_slug');
-
-        // If the content_slug equals the config cms.front_page_slug,
-        // it will be redirected to route cms.home, preserving the query string.
-        if ($content_slug === $frontPageSlug) {
-            return redirect()->route('cms.home', $lang, $request->query());
-        }
-        $modelClass = $this->staticPageClass;
-
-        if (!$modelClass || !class_exists($modelClass)) {
-            $modelClass = Page::class; // Fallback to default Page model
+        if ($this->isFrontPage($content_slug)) {
+            return $this->redirectToHome($lang, $request);
         }
 
-        // Fetch the Page content based on the slug using the private helper function
-        $content = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $content_slug, true);
+        $content = $this->findStaticOrFallbackContent($lang, $content_slug, $request);
+
+        // If no content found, throw a 404 error
+        if (!$content) {
+            abort(404, "Content not found for slug '{$content_slug}' in language '{$lang}'.");
+        }
 
         // Determine the template using our page template hierarchy
         $viewName = $this->resolvePageTemplate($content);
@@ -104,15 +114,86 @@ class ContentController extends Controller
     }
 
     /**
-     * Find published content by slug and language, or fail.
+     * Checks if the given slug matches the configured front page slug.
+     *
+     * @param string $slug The slug to check.
+     * @return bool True if the slug is the front page slug, false otherwise.
+     */
+    private function isFrontPage(string $slug): bool
+    {
+        return $slug === Config::get('cms.front_page_slug');
+    }
+
+    /**
+     * Redirects to the home page route, preserving query parameters.
+     *
+     * @param string $lang The current language.
+     * @param \Illuminate\Http\Request $request The incoming request.
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    private function redirectToHome(string $lang, Request $request)
+    {
+        return redirect()->route('cms.home', array_merge(['lang' => $lang], $request->query()));
+    }
+
+    /**
+     * Finds static page content by slug and language, or attempts to find fallback content.
+     *
+     * @param string $lang The current language.
+     * @param string $slug The slug of the content.
+     * @param \Illuminate\Http\Request $request The incoming request.
+     * @return \Illuminate\Database\Eloquent\Model|null The found content model or null.
+     */
+    private function findStaticOrFallbackContent(string $lang, string $slug, Request $request): ?Model
+    {
+        $modelClass = class_exists($this->staticPageClass) ? $this->staticPageClass : Page::class;
+
+        $content = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
+
+        if (!$content) {
+            $content = $this->tryFallbackContentModel($lang, $slug, $request);
+        }
+
+        return $content;
+    }
+
+    /**
+     * Attempts to find content using a fallback content model (e.g., 'posts') and redirects if found.
+     *
+     * @param string $lang The current language.
+     * @param string $slug The slug of the content.
+     * @param \Illuminate\Http\Request $request The incoming request.
+     * @return \Illuminate\Database\Eloquent\Model|null The found content model or null.
+     */
+    private function tryFallbackContentModel(string $lang, string $slug, Request $request): ?Model
+    {
+        $modelClass = Config::get("cms.content_models.posts.model");
+
+        $content = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
+
+        if ($content) {
+            // Redirect to post route if found
+            redirect()->route('cms.single.content', array_merge([
+                'lang' => $lang,
+                'content_type_key' => 'posts',
+                'content_slug' => $slug,
+            ], $request->query()))->send(); // Send response immediately
+            exit;
+        }
+
+        return null;
+    }
+
+    /**
+     * Builds a query to find published content by slug and language.
      *
      * @param string $modelClass The fully qualified class name of the model.
      * @param string $lang The language code.
      * @param string $contentSlug The slug of the content.
-     * @return \Illuminate\Database\Eloquent\Model The found content model.
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @param bool $checkStatus Whether to filter by published status.
+     * @return \Illuminate\Database\Eloquent\Builder The query builder instance.
      */
-    private function getPublishedContentBySlugOrFail(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): Model
+    private function getPublishedContentQuery(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): Builder
     {
         $query = $modelClass::whereJsonContains('slug->' . $lang, $contentSlug);
 
@@ -120,11 +201,49 @@ class ContentController extends Controller
             $query->where('status', ContentStatus::Published);
         }
 
+        return $query;
+    }
+
+    /**
+     * Finds published content by slug and language.
+     *
+     * @param string $modelClass The fully qualified class name of the model.
+     * @param string $lang The language code.
+     * @param string $contentSlug The slug of the content.
+     * @param bool $checkStatus Whether to filter by published status.
+     * @return \Illuminate\Database\Eloquent\Model|null The found content model or null.
+     */
+    private function getPublishedContentBySlug(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): ?Model
+    {
+        $query = $this->getPublishedContentQuery($modelClass, $lang, $contentSlug, $checkStatus);
+        return $query->first();
+    }
+    /**
+     * Finds published content by slug and language, or throws a ModelNotFoundException.
+     *
+     * @param string $modelClass The fully qualified class name of the model.
+     * @param string $lang The language code.
+     * @param string $contentSlug The slug of the content.
+     * @param bool $checkStatus Whether to filter by published status.
+     * @return \Illuminate\Database\Eloquent\Model The found content model.
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    private function getPublishedContentBySlugOrFail(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): Model
+    {
+        $query = $this->getPublishedContentQuery($modelClass, $lang, $contentSlug, $checkStatus);
+
         return $query->firstOrFail();
     }
 
     /**
-     * Single content (post, custom post type, etc.)
+     * Displays a single content item (e.g., post, custom post type) based on its type, slug, and language.
+     * Redirects static page slugs to the staticPage route.
+     *
+     * @param \Illuminate\Http\Request $request The incoming request.
+     * @param string $lang The current language.
+     * @param string $content_type_key The key for the content type (e.g., 'posts').
+     * @param string $content_slug The slug of the content item.
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function singleContent(Request $request, $lang, $content_type_key, $content_slug)
     {
@@ -166,7 +285,12 @@ class ContentController extends Controller
     }
 
     /**
-     * Archive for custom post types
+     * Displays an archive page for a custom post type.
+     * Fetches and paginates content of the specified type.
+     *
+     * @param string $lang The current language.
+     * @param string $content_type_archive_key The key for the content type archive (e.g., 'posts').
+     * @return \Illuminate\View\View|\Illuminate\Http\Response
      */
     public function archiveContent($lang, $content_type_archive_key)
     {
@@ -215,7 +339,13 @@ class ContentController extends Controller
     }
 
     /**
-     * Taxonomy archive
+     * Displays an archive page for a specific taxonomy term.
+     * Fetches the taxonomy term and related content (e.g., posts).
+     *
+     * @param string $lang The current language.
+     * @param string $taxonomy_key The key for the taxonomy type (e.g., 'categories').
+     * @param string $taxonomy_slug The slug of the taxonomy term.
+     * @return \Illuminate\View\View|\Illuminate\Http\Response
      */
     public function taxonomyArchive($lang, $taxonomy_key, $taxonomy_slug)
     {
@@ -266,15 +396,10 @@ class ContentController extends Controller
     }
 
     /**
-     * Resolve home template
+     * Resolves the view template for the home page based on a defined hierarchy.
      *
-     * Hierarchy:
-     * 1. templates/singles/home.blade.php
-     * 2. templates/singles/front-page.blade.php
-     * 3. templates/home.blade.php
-     * 4. templates/front-page.blade.php
-     * 5. templates/singles/default.blade.php
-     * 6. templates/default.blade.php
+     * @param \Illuminate\Database\Eloquent\Model|null $content The content model for the home page.
+     * @return string The name of the view template.
      */
     private function resolveHomeTemplate(?Model $content = null): string
     {
@@ -297,15 +422,10 @@ class ContentController extends Controller
     }
 
     /**
-     * Resolve page template
+     * Resolves the view template for a static page based on a defined hierarchy.
      *
-     * Hierarchy:
-     * 1. Custom template specified in content model (`template` field)
-     * 2. templates/singles/{slug}.blade.php
-     * 3. templates/singles/page.blade.php
-     * 4. templates/page.blade.php
-     * 5. templates/singles/default.blade.php
-     * 6. templates/default.blade.php
+     * @param \Illuminate\Database\Eloquent\Model $content The content model for the page.
+     * @return string The name of the view template.
      */
     private function resolvePageTemplate(Model $content): string
     {
@@ -330,15 +450,12 @@ class ContentController extends Controller
     }
 
     /**
-     * Resolve single content template
+     * Resolves the view template for a single content item based on a defined hierarchy.
      *
-     * Hierarchy:
-     * 1. Custom template specified in content model (`template` field)
-     * 2. templates/singles/{post_type}-{slug}.blade.php
-     * 3. templates/singles/{post_type}.blade.php
-     * 4. templates/{post_type}.blade.php
-     * 5. templates/singles/default.blade.php
-     * 6. templates/default.blade.php
+     * @param \Illuminate\Database\Eloquent\Model|null $content The content model.
+     * @param string $content_type_key The key for the content type.
+     * @param string $contentSlug The slug of the content item.
+     * @return string The name of the view template.
      */
     private function resolveSingleTemplate(?Model $content = null, string $content_type_key, string $contentSlug): string
     {
@@ -364,14 +481,10 @@ class ContentController extends Controller
     }
 
     /**
-     * Resolve archive template for custom post types
+     * Resolves the view template for a content archive based on a defined hierarchy.
      *
-     * Hierarchy:
-     * 1. Check the config cms content_type_archive_key archive_view
-     * 2. templates/archives/archive-{post_type}.blade.php
-     * 3. templates/archive-{post_type}.blade.php
-     * 4. templates/archives/archive.blade.php
-     * 5. templates/archive.blade.php
+     * @param string $content_type_archive_key The key for the content type archive.
+     * @return string The name of the view template.
      */
     private function resolveArchiveTemplate(string $content_type_archive_key): string
     {
@@ -395,17 +508,12 @@ class ContentController extends Controller
     }
 
     /**
-     * Resolve taxonomy template
+     * Resolves the view template for a taxonomy archive based on a defined hierarchy.
      *
-     * Hierarchy:
-     * 1. Custom template specified in content model (`template` field)
-     * 2. Check config cms content_models archive_view
-     * 3. templates/archives/{taxonomy}-{slug}.blade.php
-     * 4. templates/archives/{taxonomy}.blade.php
-     * 5. templates/{taxonomy}-{slug}.blade.php
-     * 6. templates/{taxonomy}.blade.php
-     * 7. templates/archives/archive.blade.php
-     * 8. templates/archive.blade.php
+     * @param string $taxonomySlug The slug of the taxonomy term.
+     * @param string $taxonomy_key The key for the taxonomy type.
+     * @param \Illuminate\Database\Eloquent\Model|null $taxonomyModel The taxonomy term model.
+     * @return string The name of the view template.
      */
     private function resolveTaxonomyTemplate(string $taxonomySlug, string $taxonomy_key = 'taxonomy', ?Model $taxonomyModel = null): string
     {
@@ -439,6 +547,13 @@ class ContentController extends Controller
     /**
      * Get custom templates from content model
      */
+    /**
+     * Gets potential custom template names from a content model.
+     * Checks for a 'template' field and a translated slug.
+     *
+     * @param \Illuminate\Database\Eloquent\Model $content The content model.
+     * @return array An array of potential custom template names.
+     */
     private function getContentCustomTemplates(Model $content): array
     {
         $templates = [];
@@ -464,6 +579,13 @@ class ContentController extends Controller
 
     /**
      * Find the first template that exists from an array of possibilities
+     */
+    /**
+     * Finds the first existing view template from a given array of template names.
+     * Returns a default template if none of the provided templates exist.
+     *
+     * @param array $templates An array of potential template names.
+     * @return string The name of the first existing template or the default template.
      */
     private function findFirstExistingTemplate(array $templates): string
     {
