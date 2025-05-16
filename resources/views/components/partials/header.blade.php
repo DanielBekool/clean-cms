@@ -2,7 +2,32 @@
     use Datlechin\FilamentMenuBuilder\Models\Menu;
     $menu = Menu::location('header');
 @endphp
+@pushOnce('before_head_close')
+ <!--AOS-->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+    <!-- Tippy.js -->
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@5"></script>
+
+    <!-- Alpine JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Swiper CSS -->
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+@endpushOnce
     <!--Start Header Menu-->
         <div x-data="{ open: false, openSubMenu: null }" > 
             <header x-data="{ open: false }" class=" absolute top-0 left-1/2 -translate-x-1/2 lg:w-[1200px] z-99999">
@@ -17,103 +42,31 @@
                     <nav class="hidden sm:ml-6 sm:flex">
                         <ul class="flex gap-5 items-center">
 
-                            <!-- Item -->
-                            <li>
-                                <a href="#" class="inline-flex items-center px-1 pt-1 font-medium text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                    Home
-                                </a>
-                            </li>
-
-                            <!-- Item w sub -->
-                            <li class="relative group">
-                                <a href="#" class="inline-flex items-center px-1 pt-1 font-medium text-[var(--color-heading)] hover:text-[var(--color-blue)] focus:outline-none">
-                                    About
-                                    <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-
-                                <!-- Submenu -->
-                                <ul class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md  opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                                    <li>
-                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+                            @foreach ($menu->menuItems as $item)
+                                @if ($item->children)
+                                    <li class="relative group">
+                                        <a href="{{ $item->url }}" class="inline-flex items-center px-1 pt-1 font-medium text-[var(--color-heading)] hover:text-[var(--color-blue)] focus:outline-none">
+                                            {{ $item->title }}
+                                            <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                                            </svg>
+                                        </a>
+                                        <ul class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                                            @foreach ($item->children as $child)
+                                                <li>
+                                                    <a href="{{ $child->url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">{{ $child->title }}</a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </li>
+                                @else
                                     <li>
-                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Management</a>
+                                        <a href="{{ $item->url }}" class="inline-flex items-center px-1 pt-1 font-medium text-[var(--color-heading)] hover:text-[var(--color-blue)]">
+                                            {{ $item->title }}
+                                        </a>
                                     </li>
-                                    <li>
-                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Corporate Secretary</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <!-- Item -->
-                            <li>
-                                <a href="#" class="inline-flex items-center px-1 pt-1 font-medium text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                    Business
-                                </a>
-                            </li>
-                        
-                            <!-- Item -->
-                            <li>
-                            <a href="#" class="inline-flex items-center px-1 pt-1 font-medium text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                Products
-                            </a>
-                            </li>
-                        
-                           <!-- Item w sub -->
-                            <li class="relative group">
-                                <a href="#" class="inline-flex items-center px-1 pt-1 font-medium text-[var(--color-heading)] hover:text-[var(--color-blue)] focus:outline-none">
-                                    Investor Relation
-                                    <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                                
-                                <!-- Submenu -->
-                                <ul class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                                    <li>
-                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Annual Report</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">GMS</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <!-- Item w sub -->
-                            <li class="relative group">
-                                <a href="#" class="inline-flex items-center px-1 pt-1 text-gray-700 font-medium hover:text-blue-600 focus:outline-none">
-                                    Media
-                                    <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                                
-                                <!-- Submenu -->
-                                <ul class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                                    <li>
-                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">News Update</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Gallery</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <!-- Item -->
-                            <li>
-                            <a href="#" class="inline-flex items-center px-1 pt-1 font-medium text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                Career
-                            </a>
-                            </li>
-
-                            <!-- Item -->
-                            <li>
-                                <a href="#" class="inline-flex items-center px-1 pt-1 font-medium text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                    Contact
-                                </a>
-                                </li>
+                                @endif
+                            @endforeach
 
                         </ul>
                     </nav>
@@ -161,114 +114,41 @@
 
                             <!--Logo-->
                             <div class=" flex items-center ">
-                                <a href="#"><img class="w-25" src="./img/logo.png" alt="logo"></a>
+                                <a href="#"><img class="w-25" src="{{ asset('media/logo.png') }}" alt="logo"></a>
                             </div>
 
                             <ul class="mt-10 space-y-4">
 
-                                <!-- Item -->
-                                <li><a href="#" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">Home</a></li>
-
-                                <!-- Item w sub -->
-                                <li x-data="{ openSubMenu: null }"
-                                     @click="if (!$event.target.closest('a')) { openSubMenu === 'about' ? openSubMenu = null : openSubMenu = 'about' }" 
-                                     class="cursor-pointer select-none" 
-                                >
-                                    <div class="flex flex-row  justify-between items-start w-full">
-                                        <a href="#" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                            About
-                                        </a>
-
-                                        <div class="ml-2 text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                            <svg class="w-4 h-4 transform" 
-                                                :class="{ 'rotate-180': openSubMenu === 'about' }" 
-                                                fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" 
-                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" 
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </div>
-
-                                    <!-- Submenu -->
-                                    <ul x-show="openSubMenu === 'about'" class="ml-4 mt-2 space-y-2 text-sm text-[var(--color-text)]" x-cloak>
-                                        <li><a href="#" class="block hover:text-[var(--color-blue)]">Profile</a></li>
-                                        <li><a href="#" class="block hover:text-[var(--color-blue)]">Management</a></li>
-                                        <li><a href="#" class="block hover:text-[var(--color-blue)]">Corporate Secretary</a></li>
-                                    </ul>
-
-                                </li>
-
-                                <!-- Item -->
-                                <li><a href="#" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">Contact</a></li>
-
-                                <!-- Item -->
-                                <li><a href="#" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">Business</a></li>
-
-                                <!-- Item -->
-                                <li><a href="#" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">Products</a></li>
-
-                                <!-- Item w sub -->
-                                <li x-data="{ openSubMenu: null }"
-                                     @click="if (!$event.target.closest('a')) { openSubMenu === 'investor' ? openSubMenu = null : openSubMenu = 'investor' }" 
-                                     class="cursor-pointer select-none" 
-                                >
-                                    <div class="flex flex-row justify-between items-start w-full">
-                                        <a href="#" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                            Investor Relation
-                                        </a>
-
-                                        <div class="ml-2 text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                            <svg class="w-4 h-4 transform" 
-                                                :class="{ 'rotate-180': openSubMenu === 'investor' }" 
-                                                fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" 
-                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" 
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                
-                                    <!-- Submenu -->
-                                    <ul x-show="openSubMenu === 'investor'" class="ml-4 mt-2 space-y-2 text-sm text-[var(--color-text)]" x-cloak>
-                                        <li><a href="#" class="block hover:text-[var(--color-blue)]">Annual Report</a></li>
-                                        <li><a href="#" class="block hover:text-[var(--color-blue)]">GMS</a></li>
-                                    </ul>
-                                </li>
-
-                                <!-- Item w sub -->
-                                <li x-data="{ openSubMenu: null }"
-                                     @click="if (!$event.target.closest('a')) { openSubMenu === 'media' ? openSubMenu = null : openSubMenu = 'media' }" 
-                                     class="cursor-pointer select-none" 
-                                >
-                                    <div class="flex flex-row justify-between items-start w-full">
-                                        <a href="#" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                            Media
-                                        </a>
-
-                                        <div class="ml-2 text-[var(--color-heading)] hover:text-[var(--color-blue)]">
-                                            <svg class="w-4 h-4 transform" 
-                                                :class="{ 'rotate-180': openSubMenu === 'media' }" 
-                                                fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" 
-                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" 
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                            
-                                <!-- Submenu -->
-                                <ul x-show="openSubMenu === 'media'" class="ml-4 mt-2 space-y-2 text-sm text-[var(--color-text)]" x-cloak>
-                                    <li><a href="#" class="block hover:text-[var(--color-blue)]">News Update</a></li>
-                                    <li><a href="#" class="block hover:text-[var(--color-blue)]">Gallery</a></li>
-                                </ul>
-                            </li>
-
-                            <!-- Item -->
-                            <li><a href="#" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">Career</a></li>
-
-                            <!-- Item -->
-                            <li><a href="#" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">Contact</a></li>
+                                @foreach ($menu->menuItems as $item)
+                                    @if ($item->children)
+                                        <li x-data="{ openSubMenu: null }"
+                                            @click="if (!$event.target.closest('a')) { openSubMenu === '{{ $item->slug }}' ? openSubMenu = null : openSubMenu = '{{ $item->slug }}' }"
+                                            class="cursor-pointer select-none"
+                                        >
+                                            <div class="flex flex-row justify-between items-start w-full">
+                                                <a href="{{ $item->url }}" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">
+                                                    {{ $item->title }}
+                                                </a>
+                                                <div class="ml-2 text-[var(--color-heading)] hover:text-[var(--color-blue)]">
+                                                    <svg class="w-4 h-4 transform"
+                                                        :class="{ 'rotate-180': openSubMenu === '{{ $item->slug }}' }"
+                                                        fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd"
+                                                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <ul x-show="openSubMenu === '{{ $item->slug }}'" class="ml-4 mt-2 space-y-2 text-sm text-[var(--color-text)]" x-cloak>
+                                                @foreach ($item->children as $child)
+                                                    <li><a href="{{ $child->url }}" class="block hover:text-[var(--color-blue)]">{{ $child->title }}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                    @else
+                                        <li><a href="{{ $item->url }}" class="block text-[var(--color-heading)] hover:text-[var(--color-blue)]">{{ $item->title }}</a></li>
+                                    @endif
+                                @endforeach
                                 
                                 
                             </ul>
