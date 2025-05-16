@@ -160,7 +160,19 @@ Default (only imports new files)
 php artisan media:sync
 ```
 
-## 5. Building Tailwind CSS
+## 5. Generating Sitemap
+
+The `GenerateSitemap` Artisan command (`app/Console/Commands/GenerateSitemap.php`) is used to generate the sitemap.xml file for the website. It iterates through configured content models, retrieves published records, and adds their localized URLs to the sitemap.
+
+The generated sitemap file is saved to `public/sitemap.xml`.
+
+**Command Signature:**
+
+```bash
+php artisan sitemap:generate
+```
+
+## 6. Building Tailwind CSS
 
 The project uses Tailwind CSS for styling the Filament admin panel. To compile the CSS after making changes to the Tailwind configuration or source CSS files, use the following command:
 
