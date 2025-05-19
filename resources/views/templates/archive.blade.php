@@ -1,4 +1,4 @@
-<x-layouts.app :title="$title ?? 'Archive'">
+<x-layouts.app :title="$title ?? 'Archive'" :body-classes="$bodyClasses">
     <x-partials.header />
     <main>
         <h1>{{ $archive->name ?? 'Archive' }}</h1>

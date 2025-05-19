@@ -70,9 +70,12 @@ class ContentController extends Controller
         // Set SEO metadata
         $this->setsSeo($content);
 
+        $bodyClasses = $this->generateBodyClasses($lang, $content);
+
         return view($viewName, [
             'lang' => $lang,
             'content' => $content,
+            'bodyClasses' => $bodyClasses, // Convert to string for class attribute
         ]);
     }
 
@@ -107,9 +110,12 @@ class ContentController extends Controller
         // Set SEO metadata
         $this->setsSeo($content);
 
+        $bodyClasses = $this->generateBodyClasses($lang, $content);
+
         return view($viewName, [
             'lang' => $lang,
             'content' => $content,
+            'bodyClasses' => $bodyClasses, // Convert to string for class attribute
         ]);
     }
 
@@ -275,12 +281,15 @@ class ContentController extends Controller
         // Set SEO metadata
         $this->setsSeo($content);
 
+        $bodyClasses = $this->generateBodyClasses($lang, $content, $content_type_key, $content_slug);
+
         return view($viewName, [
             'lang' => $lang,
             'content_type' => $content_type_key,
             'content_slug' => $content_slug,
             'content' => $content,
             'title' => $content->title ?? Str::title($content_slug),
+            'bodyClasses' => $bodyClasses, // Convert to string for class attribute
         ]);
     }
 
@@ -328,6 +337,7 @@ class ContentController extends Controller
         $archiveDescription = Config::get("cms.content_models.{$content_type_archive_key}.archive_SEO_description", "Archive of all " . $content_type_archive_key);
         SEOTools::setDescription($archiveDescription);
 
+        $bodyClasses = $this->generateBodyClasses($lang, $archive, $content_type_archive_key);
 
         return view($viewName, [
             'lang' => $lang,
@@ -335,6 +345,7 @@ class ContentController extends Controller
             'archive' => $archive,
             'title' => 'Archive: ' . Str::title(str_replace('-', ' ', $content_type_archive_key)),
             'posts' => $posts,
+            'bodyClasses' => $bodyClasses, // Convert to string for class attribute
         ]);
     }
 
@@ -385,6 +396,8 @@ class ContentController extends Controller
         // Set SEO metadata
         $this->setsSeo($taxonomyModel);
 
+        $bodyClasses = $this->generateBodyClasses($lang, $taxonomyModel, $taxonomy_key, $taxonomy_slug);
+
         return view($viewName, [
             'lang' => $lang,
             'taxonomy' => $taxonomy_key,
@@ -392,6 +405,7 @@ class ContentController extends Controller
             'taxonomy_model' => $taxonomyModel,
             'title' => Str::title(str_replace('-', ' ', $taxonomy_key)) . ': ' . Str::title(str_replace('-', ' ', $taxonomy_slug)),
             'posts' => $posts,
+            'bodyClasses' => $bodyClasses, // Convert to string for class attribute
         ]);
     }
 
@@ -599,4 +613,45 @@ class ContentController extends Controller
         return "{$this->templateBase}.default";
     }
 
+    /**
+     * Generates body classes based on language, content, and template.
+     *
+     * @param string $lang The current language.
+     * @param \Illuminate\Database\Eloquent\Model|object|null $content The content model or archive object.
+     * @param string|null $contentTypeKey The key for the content type (optional).
+     * @param string|null $contentSlug The slug of the content item (optional).
+     * @return string The generated body classes string.
+     */
+    private function generateBodyClasses(string $lang, $content = null, ?string $contentTypeKey = null, ?string $contentSlug = null): string
+    {
+        $bodyClasses = [
+            'lang-' . $lang,
+        ];
+
+        if ($content instanceof Model) {
+             $bodyClasses[] = 'template-' . Str::slug(class_basename($content ?? 'default'));
+            if (!empty($content->slug)) {
+                $bodyClasses[] = 'page-' . ($content->slug[$lang] ?? $content->slug); // handle translation
+            }
+
+            if (!empty($content->template)) {
+                $bodyClasses[] = 'template-' . Str::slug($content->template);
+            }
+        } elseif (is_object($content) && isset($content->post_type)) {
+             $bodyClasses[] = 'template-archive-' . $content->post_type;
+        }
+
+        if ($contentTypeKey) {
+            $bodyClasses[] = 'content-type-' . $contentTypeKey;
+        }
+
+        if ($contentSlug) {
+            $bodyClasses[] = 'slug-' . $contentSlug;
+        }
+
+
+        // Add more rules as you like...
+
+        return implode(' ', $bodyClasses);
+    }
 }
