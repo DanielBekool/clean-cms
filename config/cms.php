@@ -19,7 +19,7 @@ return [
 
     'multilanguage_enabled' => env('MULTILANGUAGE_ENABLED', true),
 
-    'default_language' => env('DEFAULT_LANGUAGE', 'en'),
+    'default_language' => env('APP_LOCALE', 'en'),
 
     'language_available' => [
         'en' => 'English',
