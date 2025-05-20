@@ -4,9 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Migrations\MigrationCreator;
-use Illuminate\Filesystem\Filesystem;
 use SolutionForest\FilamentTranslateField\Facades\FilamentTranslateField;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use App\Models\Comment;
+use App\Observers\CommentObserver;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -34,5 +35,7 @@ class AppServiceProvider extends ServiceProvider
                     ->locales($localeKeys);
             });
         }
+
+        Comment::observe(CommentObserver::class);
     }
 }

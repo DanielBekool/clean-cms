@@ -1,13 +1,13 @@
 <x-mail::message>
-    # Admin User Logged In
+# Admin User Logged In
 
-    A user has logged into the admin panel.
+A user has logged into the admin panel.
 
-    **User Details:**
-    - **Name:** {{ $userName }}
-    - **Email:** {{ $userEmail }}
-    - **Login Time:** {{ $loginTime }}
+**User Details:**
+- **Name:** {{ $userName }}
+- **Email:** {{ $userEmail }}
+- **Login Time:** {{ $loginTime }} GMT+7
 
-    Thanks,<br>
-    {{ config('app.name') }}
+Thanks,<br>
+{{ config('app.name') }}
 </x-mail::message>
