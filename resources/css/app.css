@@ -1,4 +1,783 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@tailwind variants;
+
+@import "tailwindcss/preflight";
+@import "tailwindcss";
+@source "../views";
+
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@theme static {
+  --color---text: var(--color-text);
+}
+
+
+
+/**
+    The lines above are intact.
+    The lines below were added by maryUI installer.
+*/
+
+/** daisyUI */
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark;
+}
+
+/* maryUI */
+@source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
+
+/* Theme toggle */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/**
+* Paginator - Traditional style
+* Because Laravel defaults does not match well the design of daisyUI.
+*/
+
+
+/* global color */
+body.front-end {
+    background-color: white;
+}
+
+:root {
+    --color-blue: #321B71;
+    --color-lightblue: #1F77D3;
+    --color-heading: #1B1B1B;
+    --color-text: #797979;
+    --color-transit: #f5f5f5;
+    --color-darktransit: #E5E5E5;
+    --color-transparent: rgba(255, 255, 255, 0.15);
+    --color-border: #d6d6d6;
+    --color-overlayblack: #151918B8;
+    --color-overlaylightblack: #1519187D;
+    --color-bordertransparent: #FFFFFF3B;
+    --white-transparent: #FFFFFF38;
+    --color-black: #151918;
+    --color-purple: #321B71;
+    --color-gray: #797979;
+}
+
+
+.gradient-black-hero {
+  background: #151918;
+  background: linear-gradient(180deg, rgba(21, 25, 24, 1) 0%, rgba(0, 0, 0, 0) 60%);
+}
+
+
+.gradient-blue {
+  
+  background: linear-gradient(268deg, #1F77D3 1.1%, #321B71 99.1%) !important;
+}
+
+.gradient-white-about {
+background: #ffffff;
+background: linear-gradient(180deg, rgba(255, 255, 255, 1) 40%, rgba(0, 0, 0, 0) 75%);
+}
+
+.gradient-white-visi-misi {
+background: #ffffff;
+background: linear-gradient(180deg, rgba(255, 255, 255, 1) 11%, rgba(0, 0, 0, 0) 65%);
+}
+
+.gradient-white-visi-misi-bottom {
+background: #ffffff;
+background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(0, 0, 0, 0) 35%);
+}
+
+.gradient-overlay-keunggulan {
+  background: linear-gradient(
+    180deg,
+    rgba(16, 17, 19, 0.5) 0%,
+    rgba(16, 17, 19, 0.75) 50%,
+    #101113 100%
+  );
+}
+
+.gradient-black-half {
+  background: #000000;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 73%);
+}
+
+@media(max-width: 921px) {
+  .gradient-white-about {
+  background: #ffffff;
+background: linear-gradient(180deg, rgba(255, 255, 255, 1) 52%, rgba(0, 0, 0, 0) 75%);
+}
+
+.gradient-white-visi-misi {
+background: #ffffff;
+background: linear-gradient(180deg, rgba(255, 255, 255, 1) 17%, rgba(255, 255, 255, 0) 100%);
+}
+
+}
+
+@media(max-width: 544px) {
+  .gradient-white-about {
+  background: #ffffff;
+background: linear-gradient(180deg, rgba(255, 255, 255, 1) 78%, rgba(0, 0, 0, 0) 93%);
+}
+}
+
+
+/* font */
+p {
+  font-family: "DM Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--color-text);
+
+}
+
+p.sub-p {
+  font-family: Manrope;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  color: var(--color-heading);
+}
+
+h1 {
+  font-family: Manrope;
+  font-size: 4em;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 76.8px */
+  color: var(--color-heading);
+}
+
+h2 {
+  font-family: Manrope;
+  font-size: 3em;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  color: var(--color-heading);
+
+}
+
+h2.footer {
+  font-family: Manrope;
+  font-size: 4em;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  color: white;
+}
+
+h3 {
+  font-family: Manrope;
+  font-size: 2em;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--color-heading);
+}
+
+h4 {
+  font-family: Manrope;
+  font-size: 1.5em;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--color-heading);
+
+}
+
+h5 {
+  font-family: Manrope;
+  font-size: 1.25em;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  color: var(--color-heading);
+}
+
+h6 {
+  font-family: Manrope;
+  font-size: .9em;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.42px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-heading);
+}
+
+.manrope {
+  font-family: Manrope;
+}
+
+
+@media(max-width:921px) {
+  p {
+      font-size: 15px;
+  }
+
+  p.sub-p {
+  font-size: 16px;
+
+}
+
+    h1 {
+    font-family: Manrope;
+    font-size: 3.2em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 76.8px */
+    color: var(--color-heading);
+  }
+
+  h2 {
+    font-family: Manrope;
+    font-size: 2.2em;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: var(--color-heading);
+
+  }
+
+  h2.footer {
+    font-family: Manrope;
+    font-size: 2.2em;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: white;
+  }
+
+  h3 {
+    font-family: Manrope;
+    font-size: 1.5em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    color: var(--color-heading);
+  }
+
+  h4 {
+    font-family: Manrope;
+    font-size: 1.5em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    color: var(--color-heading);
+
+  }
+
+  h5 {
+    font-family: Manrope;
+    font-size: 1.25em;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: var(--color-heading);
+  }
+
+  h6 {
+    font-family: Manrope;
+    font-size: .9em;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.42px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--color-heading);
+  }
+}
+
+@media(max-width:544px) {
+    p {
+        font-size: 14px;
+    }
+
+  p.sub-p {
+  font-size: 15px;
+
+}
+
+    h1 {
+    font-family: Manrope;
+    font-size: 2.2em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 76.8px */
+    color: var(--color-heading);
+  }
+
+  h2 {
+    font-family: Manrope;
+    font-size: 2em;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: var(--color-heading);
+
+  }
+
+  h2.footer {
+    font-family: Manrope;
+    font-size: 2em;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: white;
+  }
+
+  h3 {
+    font-family: Manrope;
+    font-size: 1.5em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    color: var(--color-heading);
+  }
+
+  h4 {
+    font-family: Manrope;
+    font-size: 1.5em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    color: var(--color-heading);
+
+  }
+
+  h5 {
+    font-family: Manrope;
+    font-size: 1.25em;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: var(--color-heading);
+  }
+
+  h6 {
+    font-family: Manrope;
+    font-size: .9em;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.42px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--color-heading);
+  }
+}
+
+/* h6 setting */
+.bullet-1{
+  display: inline-block;
+  background: linear-gradient(268deg, #1F77D3 1.1%, #321B71 99.1%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+ 
+
+  
+}
+
+.bullet-1::before {
+  content: "";
+  background: linear-gradient(268deg, #1F77D3 1.1%, #321B71 99.1%);
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-radius: 100%;
+  margin-right: 10px;
+}
+
+.bullet-2::before {
+  content: "";
+  background: white;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-radius: 100%;
+  margin-right: 10px;
+}
+
+
+.short-h6::before {
+	content: "";
+	display: block;
+	position: absolute;
+	height: 1px;
+	width: 40px;
+	background: var(--color-blue);
+	left: 0px;
+	top: 8px;
+}
+
+.short-h6 {
+	padding-left: 50px;
+    position: relative;
+}
+
+
+
+.long-h6::after {
+	content: "";
+	display: block;
+	height: 1px;
+	background: var(--color-blue);
+	margin-top: 6px !important;
+  flex-grow: 1; 
+	white-space: nowrap; 
+	
+}
+
+.long-h6 {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+
+}
+
+
+
+@media(max-width: 640px) {
+	
+	.short-h6::before {
+	width: 0px;
+
+}
+
+.short-h6 {
+	padding-left: 0px;
+}
+	
+
+	
+}
+
+
+/* Splash Screen */
+
+#splash-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1s ease;
+  }
+  
+  #logo-image {
+    width: 200px;
+    height: auto;
+    transition: opacity 0.5s ease;
+  }
+  
+  #main-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+
+
+  /* Custom Text Shadow */
+  .custom-shadow {
+    text-shadow: 0px 24px 32px rgba(50, 28, 113, 0.24);
+  }
+  
+  
+/* Custom Button 1 */
+  .btn1 {
+    background: linear-gradient(268deg, var(--color-lightblue) 1.1%, var(--color-blue) 99.1%);
+    cursor: pointer;
+    color: white;
+    text-transform: uppercase;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 10px 10px 10px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    border-radius: 60px;
+    transition: background 0.5s ease;
+
+  }
+
+  .btn1:hover {
+    background: linear-gradient(268deg, var(--color-blue) 1.1%, var(--color-lightblue) 99.1%);
+  }
+
+
+
+  /* Custom Button 2 */
+  .btn2 {
+    background: white; 
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.8px;
+    padding: 10px 10px 10px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    border-radius: 60px;
+    transition: background 0.5s ease;
+    border: none; 
+  }
+
+  .btn2 img {
+    width: 1.2em;
+  }
+
+  .btn2:hover img {
+    filter: brightness(0) invert(1);
+  }
+
+  /* Custom Button 3 */
+  .btn3 {
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.8px;
+    padding: 16px 0px 16px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    transition: background 0.5s ease;
+    border-top: 1px solid var(--color-border); 
+  }
+
+    /* Custom Button 4 */
+  .btn4 {
+    cursor: pointer;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: 0.8px;
+    padding: 16px 18px 16px 18px;
+    border-radius: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    transition: background 0.5s ease;
+    background: var(--white-transparent);
+    color: white;
+  }
+
+  .btn4 svg {
+    width: 16px;
+  }
+
+  .btn4:hover {
+    background: white;
+  }
+
+  .btn5 {
+  cursor: pointer;
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 0.8px;
+  padding: 8px 16px 8px 16px;
+  border-radius: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  transition: background 0.5s ease;
+  border: 1px solid white;
+  color: white;
+  font-size: .8em;
+}
+
+.btn5:hover {
+  background: linear-gradient(268deg, #1F77D3 1.1%, #321B71 99.1%);
+  border: 1px solid #000000;
+}
+
+  
+  /*  teks di dalam tombol */
+  .gradient-text {
+    background: linear-gradient(268deg, #1F77D3 1.1%, #321B71 99.1%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .gradient-blue-background {
+    background: linear-gradient(268deg, #1F77D3 1.1%, #321B71 99.1%);
+  }
+  
+
+  .btn2:hover {
+    background: linear-gradient(268deg, var(--color-blue) 1.1%, var(--color-lightblue) 99.1%);
+  }
+
+  .btn2:hover .gradient-text {
+    background: white;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .gradient-icon svg path.arrow-path {
+    transition: fill 0.3s ease;
+  }
+  
+  /* Hover effect */
+  .btn2:hover .gradient-text {
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: white;
+    color: white;
+  }
+  
+  .btn2:hover .gradient-icon svg path.arrow-path {
+    fill: white;
+  }
+
+
+  
+/* modal  video overlay */
+.modal-overlay  {
+    background: var(--color-overlayblack);
+}
+  
+
+/* background switcher */
+.swicth-item.active {
+  background: #2A74FF8C;
+}
+
+.swicth-item p {
+  height: 0px;
+  opacity: 0;
+  transition: .7s ease; 
+}
+
+.swicth-item.active p {
+  height: 160px;
+  opacity: 1;
+  transition: .7s ease; 
+}
+
+
+/* swiper fasilitas */
+.swiper-button-next:after, .swiper-button-prev:after {
+  display: none !important;
+}
+
+#fasilitas-home .swiper {
+  margin-right: -200px !important;
+}
+
+
+#fasilitas-home .swiper-button-prev {
+  left: -16px !important;
+  top: 160px;
+}
+
+
+#fasilitas-home .swiper-button-next {
+  right: -16px !important;
+  top: 160px !important;
+}
+
+@media(max-width:544px) {
+  #fasilitas-home .swiper {
+  margin-right: unset !important;
+}
+}
+
+/* swiper tenant */
+#tenant-home .swiper {
+  margin-right: -400px !important;
+}
+
+#tenant-home .swiper-button-prev {
+  left: -16px !important;
+ 
+}
+
+#tenant-home .swiper-button-next {
+  right: -12px !important;
+ 
+}
+
+/* 2  baris teks */
+.ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* rounded radius */
+.mini-radius {
+  border-radius: 8px;
+}
+
+/* map hotspot */
+@media(max-width:544px) {
+.map-container {
+  position: relative;
+  overflow-x: auto;  
+  -webkit-overflow-scrolling: touch; 
+  white-space: nowrap; 
+  max-width: 100vw; 
+}
+
+.map-container img {
+  display: inline-block; 
+  max-width: none; 
+  width: 800px; 
+}
+
+.map-container > * {
+  display: inline-block; 
+}
+
+}

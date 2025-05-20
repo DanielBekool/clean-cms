@@ -19,11 +19,12 @@ return [
 
     'multilanguage_enabled' => env('MULTILANGUAGE_ENABLED', true),
 
-    'default_language' => env('DEFAULT_LANGUAGE', 'en'),
+    'default_language' => env('DEFAULT_LANGUAGE', 'id'),
 
     'language_available' => [
+           'id' => 'Indonesian',
         'en' => 'English',
-        'id' => 'Indonesian',
+     
         'zh-cn' => 'Chinese',
         'ko' => 'Korean',
     ],
