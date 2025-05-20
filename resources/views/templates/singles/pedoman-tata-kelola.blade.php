@@ -1,6 +1,24 @@
-<x-default title="Pedoman & Tata Kelola - Kawasan Industri Wijayakusuma">
+@push('before_head_close')
+    <!--AOS-->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+ 
+
+ @endPush
+
+@push('before_body_close')
+<script>AOS.init();</script>
+ @endPush
+
+<x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
+    <x-partials.header />
+    <main>
 <x-header-kiw/>
-<x-hero-page image="images/pedoman-hero.jpg" h1="Pedoman & Tata Kelola"/>
+<x-partials.hero-page image="media/pedoman-hero.jpg" h1="Pedoman & Tata Kelola"/>
 
 <!--Pedoman Tata Kelola-->
 <section id="pedoman-tata-kelola" class="flex flex-col my-18 px-4">
@@ -40,5 +58,6 @@
 
 </section>
 
-<x-footer/>
-</x-default>
+ </main>
+<x-partials.footer />
+</x-layouts.app>

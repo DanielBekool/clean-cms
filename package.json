@@ -21,6 +21,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
-        "cropperjs": "^1.6.2"
+        "cropperjs": "^1.6.2",
+        "tippy.js": "^6.3.7"
     }
 }

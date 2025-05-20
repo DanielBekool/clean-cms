@@ -21,9 +21,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Tippy.js -->
-    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css">
     <script src="https://unpkg.com/popper.js@1"></script>
     <script src="https://unpkg.com/tippy.js@5"></script>
+    
+    @vite(['resources/js/app.js'])
+
 
  @endPush
 
@@ -40,7 +43,7 @@
     <main>
        
 <x-header-kiw/>
-<x-hero-page image="media/hero-profil-perusahaan.jpg" h1="Tentang Perusahaan"/>
+<x-partials.hero-page image="media/hero-profil-perusahaan.jpg" h1="Tentang Perusahaan"/>
 
 <!--Start About-->
 <section id="about" class="bg-contain bg-no-repeat bg-bottom sm:bg-cover" style="background-image:url({{ asset('media/about-image.jpg') }})">
@@ -251,18 +254,18 @@
         <img src="{{ asset('media/map-koneksi.png') }}">
         
         <!-- Hotspot Items -->
-        <x-loop.hotspot-item-koneksi-global top="20%" left="30%" h5="Jepang" tooltip="Gudang Surabaya"/>
-        <x-loop.hotspot-item-koneksi-global top="80%" left="70%" tooltip="Gudang Bogor"/>
-        <x-loop.hotspot-item-koneksi-global top="10%" left="72%" tooltip="Gudang Jakarta"/>
-        <x-loop.hotspot-item-koneksi-global top="11%" left="75%" tooltip="Gudang Surabaya"/>
-        <x-loop.hotspot-item-koneksi-global top="11%" left="78%" tooltip="Gudang Tes"/>
+        <x-loop.hotspot-item-koneksi-global top="20%" left="30%" h5="Jepang" tooltip="8 Perusahaan"/>
+        <x-loop.hotspot-item-koneksi-global top="80%" left="70%" h5="Indonesia" tooltip="5 Perusahaan"/>
+        <x-loop.hotspot-item-koneksi-global top="10%" left="72%" h5="Thailand" tooltip="2 Perusahaan"/>
+        <x-loop.hotspot-item-koneksi-global top="11%" left="75%" h5="Singapore" tooltip="4 Perusahaan"/>
+        <x-loop.hotspot-item-koneksi-global top="11%" left="78%" h5="Brazil" tooltip="10 Perusahaan"/>
 
     </div>
 
 </section>
 <!--End Koneksi Global-->
 
-    </main>
-
+    
+</main>
 <x-partials.footer />
 </x-layouts.app>

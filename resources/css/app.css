@@ -781,3 +781,10 @@ h6 {
 }
 
 }
+
+/*tippy*/
+
+.tippy-content {
+    background: linear-gradient(268deg, #1F77D3 1.1%, #321B71 99.1%) !important;
+    border-radius: 6px;
+}

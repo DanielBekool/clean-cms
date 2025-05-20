@@ -1,9 +1,30 @@
-<x-default title="Visi Misi & Tata Nilai - Kawasan Industri Wijayakusuma">
+
+@push('before_head_close')
+    <!--AOS-->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+ @endPush
+
+@push('before_body_close')
+<script>AOS.init();</script>
+ @endPush
+
+<x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
+    <x-partials.header />
+    <main>
+       
 <x-header-kiw/>
-<x-hero-page image="images/visi-misi-hero.jpg" h1="Visi Misi & Tata Nilai"/>
+
+<x-header-kiw/>
+<x-partials.hero-page image="media/visi-misi-hero.jpg" h1="Visi Misi & Tata Nilai"/>
 
 <!--Start About Visi Misi-->
-<section id="about-visi-misi" class="bg-cover bg-no-repeat bg-left sm:bg-cover" style="background-image:url({{ asset('images/visi-misi-image.jpg') }})">
+<section id="about-visi-misi" class="bg-cover bg-no-repeat bg-left sm:bg-cover" style="background-image:url({{ asset('media/visi-misi-image.jpg') }})">
     <div class="flex flex-col grow  gradient-white-visi-misi">
         <div class="gradient-white-visi-misi-bottom pb-42 sm:pb-70 lg:pb-130 pt-18 px-4 sm:px-6 lg:px-0 lg:pt-30">
             <div class="lg:w-[1200px] lg:mx-auto flex flex-col gap-5 sm:flex-row sm:justify-between">
@@ -146,6 +167,6 @@
 
 
 
-
-<x-footer/>
-</x-default>
+ </main>
+<x-partials.footer />
+</x-layouts.app>

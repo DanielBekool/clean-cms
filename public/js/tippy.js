@@ -1,5 +1,7 @@
 tippy('[data-tippy-content]', {
-    theme: 'light',
-    animation: 'scale',
-    delay: [100, 100],
-  });
+  allowHTML: true,
+  theme: 'custom-red',
+  interactive: true,
+  placement: 'top',
+});
+
