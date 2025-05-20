@@ -1,24 +1,24 @@
 @component('mail::message')
-# New Comment Posted on "{{ $commentableTitle }}"
+# {{ __('emails.new_comment_subject', ['commentable_title' => $commentableTitle]) }}
 
-A new comment has been posted on the {{ $commentableType }} titled **"{{ $commentableTitle }}"**.
+{{ __('emails.new_comment_body_line1', ['commentable_type' => $commentableType, 'commentable_title' => $commentableTitle]) }}
 
-**Comment Details:**
-- **Author:** {{ $commentAuthorName }} ({{ $commentAuthorEmail }})
-- **Posted At:** {{ $postedAt }} GMT+7
-- **Content:**
+**{{ __('emails.new_comment_details') }}**
+- **{{ __('emails.new_comment_author') }}** {{ $commentAuthorName }} ({{ $commentAuthorEmail }})
+- **{{ __('emails.new_comment_posted_at') }}** {{ $postedAt }} GMT+7
+- **{{ __('emails.new_comment_content') }}**
 @component('mail::panel')
 {{ $commentContent }}
 @endcomponent
 
 @if($commentUrl !== '#')
 @component('mail::button', ['url' => $commentUrl])
-View Comment in Admin
+{{ __('emails.new_comment_view_button') }}
 @endcomponent
 @else
-You can view this comment in the admin panel.
+{{ __('emails.new_comment_view_text') }}
 @endif
 
-Thanks,<br>
+{{ __('emails.thanks') }}<br>
 {{ config('app.name') }}
 @endcomponent
