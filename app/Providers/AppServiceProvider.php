@@ -39,11 +39,10 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $localeKeys = array_keys($languages);
-            
+
             FilamentTranslateField::defaultLocales($localeKeys);
             LanguageSwitch::configureUsing(function (LanguageSwitch $switch) use ($localeKeys) {
-                $switch
-                    ->locales($localeKeys);
+                $switch->locales($localeKeys);
             });
         }
 
