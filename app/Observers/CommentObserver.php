@@ -9,7 +9,7 @@ use App\Mail\CommentReplyNotification;
 use App\Enums\CommentStatus;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
-use Spatie\Permission\Models\Role;
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class CommentObserver
 {
@@ -30,6 +30,9 @@ class CommentObserver
             Log::error('Error in CommentObserver created method for comment ID: ' . $comment->id . '. Error: ' . $e->getMessage());
 
         }
+
+        // Clear the cache for the commentable URL
+        $this->clearCacheForCommentable($comment);
     }
 
     /**
@@ -40,7 +43,37 @@ class CommentObserver
         // Check if the status was changed to 'approved' and it's a reply
         if ($comment->isDirty('status') && $comment->status === CommentStatus::Approved && $comment->parent_id) {
             $this->sendReplyNotification($comment);
+
+            // Clear the cache for the commentable URL
+            $this->clearCacheForCommentable($comment);
         }
+    }
+
+
+    /**
+     * Handle the Comment "deleted" event.
+     */
+    public function deleted(Comment $comment): void
+    {
+        // Clear the cache for the commentable URL
+        $this->clearCacheForCommentable($comment);
+    }
+
+    /**
+     * Handle the Comment "restored" event.
+     */
+    public function restored(Comment $comment): void
+    {
+        // Clear the cache for the commentable URL
+        $this->clearCacheForCommentable($comment);
+    }
+
+    /**
+     * Handle the Comment "force deleted" event.
+     */
+    public function forceDeleted(Comment $comment): void
+    {
+        //
     }
 
     /**
@@ -88,28 +121,46 @@ class CommentObserver
             Log::error('Failed to send comment reply notification for reply ID: ' . $comment->id . '. Error: ' . $e->getMessage());
         }
     }
-
-    /**
-     * Handle the Comment "deleted" event.
-     */
-    public function deleted(Comment $comment): void
+    protected function getCommentableUrl(Comment $comment): ?string
     {
-        //
+        $commentable = $comment->commentable;
+
+        if (!$commentable) {
+            return null;
+        }
+
+        $contentModels = config('cms.content_models', []);
+        $commentableClass = get_class($commentable);
+        $contentTypeKey = null;
+
+        foreach ($contentModels as $key => $details) {
+            if (isset($details['model']) && $details['model'] === $commentableClass) {
+                $contentTypeKey = $key;
+                break;
+            }
+        }
+
+        if ($contentTypeKey && isset($commentable->slug)) {
+            try {
+                return route('cms.single.content', [
+                    'lang' => app()->getLocale(),
+                    'content_type_key' => $contentTypeKey,
+                    'content_slug' => $commentable->slug,
+                ]);
+            } catch (\Exception $e) {
+                \Log::warning('Failed to generate commentable URL via route: ' . $e->getMessage());
+            }
+        }
+
+        return null;
     }
 
-    /**
-     * Handle the Comment "restored" event.
-     */
-    public function restored(Comment $comment): void
+    protected function clearCacheForCommentable(Comment $comment)
     {
-        //
+        $url = $this->getCommentableUrl($comment);
+        if ($url) {
+            ResponseCache::forget($url);
+        }
     }
 
-    /**
-     * Handle the Comment "force deleted" event.
-     */
-    public function forceDeleted(Comment $comment): void
-    {
-        //
-    }
 }

@@ -25,6 +25,7 @@ use Filament\Navigation\NavigationGroup;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
 use Illuminate\Support\Facades\Gate;
+use Spatie\ResponseCache\Middlewares\DoNotCacheResponse;
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -57,6 +58,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                DoNotCacheResponse::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
