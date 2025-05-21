@@ -819,3 +819,15 @@ h6 {
 #pedoman-tata-kelola > div:nth-child(even) {
   background: var(--color-transit);
 }
+
+/* Mengapa KIW Keunggulan */
+#mengapa-kiw > div:nth-child(even) {
+  background: var(--color-transit);
+}
+
+@media (min-width: 545px) {
+#mengapa-kiw div:nth-child(even) > div {
+  flex-direction: row-reverse !important;
+  display: flex;
+}
+}

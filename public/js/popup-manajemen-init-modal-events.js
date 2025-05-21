@@ -15,7 +15,7 @@
         
         // Alternatif: Menambahkan event listener pada semua kartu manajemen
         // Ini adalah cara alternatif jika onclick di HTML tidak berfungsi
-        document.querySelectorAll('.manajemen-card').forEach(function(card) {
+        document.querySelectorAll('.item-for-popup').forEach(function(card) {
             card.addEventListener('click', function() {
                 openModal(this);
             });

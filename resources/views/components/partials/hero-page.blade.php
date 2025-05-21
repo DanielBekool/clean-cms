@@ -4,7 +4,7 @@
     <!-- overlay -->
     <div class="relative bg-cover" style="background-image:url('{{ asset($image) }}')">
         <div class="gradient-black-hero">
-            <div class="flex flex-col justify-end px-4 sm:px-6 pb-9 bg-[var(--color-overlaylightblack)] h-70 sm:h-100">
+            <div class="flex flex-col justify-end px-4 sm:px-6 pb-9 bg-[var(--color-overlaylightblack)] h-57 sm:h-100">
                 <!-- content -->
                 <div class="flex flex-col lg:w-[1200px] lg:mx-auto">
                     <h1 data-aos="fade-up" class="text-left text-white">
