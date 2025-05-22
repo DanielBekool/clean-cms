@@ -139,13 +139,50 @@
             <div class="relative">
                 <div class="swiper swiper-3">
                     <div class="swiper-wrapper !flex">
-                        <x-loop.perjalanan h2="1988" p="PT KIW (Persero) sebelumnya bernama PT Kawasan Industri Cilacap (KIC), berdiri di Cilacap, Jawa Tengah." />
-                        <x-loop.perjalanan h2="1998" p="Pindah ke kawasan industri baru di Semarang, Jawa Tengah dengan nama baru, yaitu: PT Kawasan Industri Wijayakusuma (Persero)." />
-                        <x-loop.perjalanan h2="2018" p="PT Putra Wijayakusuma Sakti (PWS) lahir sebagai anak perusahaan PT Kawasan Industri Wijayakusuma (Persero)." />
-                        <x-loop.perjalanan h2="2020" p="PT Kawasan Industri Terpadu Batang (KITB) adalah perusahaan joint venture antara PT KIW (Persero), PT PP (Persero), PTPN IX, dan Perusda Batang. Perusahaan ini membangun dan mengelola Kawasan Industri Terpadu Batang sebagai salah satu Proyek Strategis Nasional (PSN)." />
-                        <x-loop.perjalanan h2="2021" p="PT KIW (Persero) mendapatkan Penyertaan Modal Negara (PMN) guna pembangunan dan pengembangan KIT Batang." />
-                        <x-loop.perjalanan h2="2022" p="PT KIW resmi menjadi anggota Holding Danareksa." />
-                        <x-loop.perjalanan h2="2022" p="Peresmian Holding Danareksa oleh Menteri BUMN." />
+                        <x-loop.perjalanan 
+                            tahun="1988" 
+                            desc="
+                            PT KIW (Persero) sebelumnya bernama PT Kawasan Industri Cilacap (KIC), berdiri di Cilacap, Jawa Tengah.
+                            " 
+                        />
+
+                        <x-loop.perjalanan 
+                            tahun="1998" 
+                            desc="
+                            Pindah ke kawasan industri baru di Semarang, Jawa Tengah dengan nama baru, yaitu: PT Kawasan Industri Wijayakusuma (Persero).
+                            " 
+                        />
+
+                        <x-loop.perjalanan 
+                            tahun="2018" 
+                            desc="
+                            PT Putra Wijayakusuma Sakti (PWS) lahir sebagai anak perusahaan PT Kawasan Industri Wijayakusuma (Persero).
+                            " 
+                        />
+                        <x-loop.perjalanan 
+                            tahun="2020" 
+                            desc="
+                            PT Kawasan Industri Terpadu Batang (KITB) adalah perusahaan joint venture antara PT KIW (Persero), PT PP (Persero), PTPN IX, dan Perusda Batang. Perusahaan ini membangun dan mengelola Kawasan Industri Terpadu Batang sebagai salah satu Proyek Strategis Nasional (PSN).
+                            " 
+                        />
+                        <x-loop.perjalanan 
+                            tahun="2021" 
+                            desc="
+                            PT KIW (Persero) mendapatkan Penyertaan Modal Negara (PMN) guna pembangunan dan pengembangan KIT Batang.
+                            " 
+                        />
+                        <x-loop.perjalanan 
+                            tahun="2022" 
+                            desc="
+                            PT KIW resmi menjadi anggota Holding Danareksa.
+                            " 
+                        />
+                            <x-loop.perjalanan 
+                            tahun="2022" 
+                            desc="
+                            Peresmian Holding Danareksa oleh Menteri BUMN.
+                            " 
+                        />
                     </div>
 
                 </div>
@@ -254,11 +291,40 @@
         <img src="{{ asset('media/map-koneksi.png') }}">
         
         <!-- Hotspot Items -->
-        <x-loop.hotspot-item-koneksi-global top="20%" left="30%" h5="Jepang" tooltip="8 Perusahaan"/>
-        <x-loop.hotspot-item-koneksi-global top="80%" left="70%" h5="Indonesia" tooltip="5 Perusahaan"/>
-        <x-loop.hotspot-item-koneksi-global top="10%" left="72%" h5="Thailand" tooltip="2 Perusahaan"/>
-        <x-loop.hotspot-item-koneksi-global top="11%" left="75%" h5="Singapore" tooltip="4 Perusahaan"/>
-        <x-loop.hotspot-item-koneksi-global top="11%" left="78%" h5="Brazil" tooltip="10 Perusahaan"/>
+        <x-loop.hotspot-item-koneksi-global 
+            top="20%" 
+            left="30%" 
+            country="Jepang" 
+            tooltip="8 Perusahaan"
+        />
+
+        <x-loop.hotspot-item-koneksi-global 
+            top="80%" 
+            left="70%" 
+            country="Indonesia" 
+            tooltip="5 Perusahaan"
+        />
+
+        <x-loop.hotspot-item-koneksi-global 
+            top="10%" 
+            left="72%" 
+            country="Thailand" 
+            tooltip="2 Perusahaan"
+        />
+
+        <x-loop.hotspot-item-koneksi-global 
+            top="11%" 
+            left="75%" 
+            country="Singapore" 
+            tooltip="4 Perusahaan"
+        />
+
+        <x-loop.hotspot-item-koneksi-global 
+            top="11%" 
+            left="78%" 
+            country="Brazil" 
+            tooltip="10 Perusahaan"
+        />
 
     </div>
 

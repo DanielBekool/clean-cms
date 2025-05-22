@@ -46,50 +46,50 @@
     <!--Content-->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <x-loop.bpsp
-            p="tersedia"
-            h4="BPSB 1"
+            tag="tersedia"
+            label="BPSB 1"
             image="media/bpsp.jpg"
             url="#"
         />
 
         <x-loop.bpsp
-            p="segera hadir"
-            h4="BPSP 2"
+            tag="segera hadir"
+            label="BPSP 2"
             image="media/bpsp.jpg"
             url="#"
         />
 
         <x-loop.bpsp
-            p="tersewa sampai 2025"
-            h4="BPSP 3"
+            tag="tersewa sampai 2025"
+            label="BPSP 3"
             image="media/bpsp.jpg"
             url="#"
         />
 
         <x-loop.bpsp
-            p="segera hadir"
-            h4="BPSP 4"
+            tag="segera hadir"
+            label="BPSP 4"
             image="media/bpsp.jpg"
             url="#"
         />
 
         <x-loop.bpsp
-            p="segera hadir"
-            h4="BPSP 5"
+            tag="segera hadir"
+            label="BPSP 5"
             image="media/bpsp.jpg"
             url="#"
         />
 
         <x-loop.bpsp
-            p="segera hadir"
-            h4="BPSP 6"
+            tag="segera hadir"
+            label="BPSP 6"
             image="media/bpsp.jpg"
             url="#"
         />
 
         <x-loop.bpsp
-            p="segera hadir"
-            h4="BPSP 7"
+            tag="segera hadir"
+            label="BPSP 7"
             image="media/bpsp.jpg"
             url="#"
         />

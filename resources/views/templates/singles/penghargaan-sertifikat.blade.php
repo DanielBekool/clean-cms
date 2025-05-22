@@ -104,35 +104,35 @@
         <x-loop.penghargaan 
         image="media/bumn-branding.png"
         class="penghargaan" 
-        p="
+        label="
         BUMN Branding & Marketing Award 2023
         "/>
 
         <x-loop.penghargaan 
         image="media/2021-Excellence-Financial.png"
         class="penghargaan" 
-        p="
+        label="
         2021 Excellence Financial Performance SOE in 10 Consecutive Years (2013-2022) Infobank
         "/>
 
         <x-loop.penghargaan 
         image="media/certificate -9001.png"
         class="sertifikasi" 
-        p="
+        label="
         2021 for The Financial Performance with Predicate Excellent During 2011-2020 Infobank
         "/>
 
         <x-loop.penghargaan 
         image="media/2021-Excellence-Financial.png"
         class="penghargaan" 
-        p="
+        label="
         2021 Excellence Financial Performance SOE in 10 Consecutive Years (2013-2022) Infobank
         "/>
 
         <x-loop.penghargaan 
         image="media/certificate -9001.png"
         class="sertifikasi" 
-        p="
+        label="
         2021 for The Financial Performance with Predicate Excellent During 2011-2020 Infobank
         "/>
     

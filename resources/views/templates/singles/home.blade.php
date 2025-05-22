@@ -766,17 +766,17 @@
                     <div class="swiper swiper-1">
                         <div class="swiper-wrapper !flex">
                             <x-loop.fasilitas-home
-                                h4="Masjid"
+                                label="Masjid"
                                 image="media/morning-view-malacca-straits-mosque-masjid-selat-melaka-it-is-mosque-located-man-made-malacca-island-near-malacca-town-malaysia (1).jpg"
                             />
 
                             <x-loop.fasilitas-home
-                                h4="Pengelola Air Bersih"
+                                label="Pengelola Air Bersih"
                                 image="media/morning-view-malacca-straits-mosque-masjid-selat-melaka-it-is-mosque-located-man-made-malacca-island-near-malacca-town-malaysia (1).jpg"
                             />
 
                             <x-loop.fasilitas-home
-                                h4="Pemadam Kebakaran"
+                                label="Pemadam Kebakaran"
                                 image="media/morning-view-malacca-straits-mosque-masjid-selat-melaka-it-is-mosque-located-man-made-malacca-island-near-malacca-town-malaysia (1).jpg"
                             />
                            
@@ -921,33 +921,33 @@
                 <div class="grid sm:grid-cols-3 grid-cols-1 gap-7">
 
                     <x-loop.laporan-tahunan
-                        h5="Laporan Tahunan PT KIW (persero) Tahun 2014"
-                        image="media/lipsum.pdf"
+                        label="Laporan Tahunan PT KIW (persero) Tahun 2014"
+                        doc="media/lipsum.pdf"
                     />
 
                     <x-loop.laporan-tahunan
-                        h5="Laporan Auditor Independen Tahun 2013"
-                        image="media/lipsum.pdf"
+                        label="Laporan Auditor Independen Tahun 2013"
+                        doc="media/lipsum.pdf"
                     />
 
                     <x-loop.laporan-tahunan
-                        h5="Laporan Tahunan PT KIW (persero) Tahun 2015"
-                        image="media/lipsum.pdf"
+                        label="Laporan Tahunan PT KIW (persero) Tahun 2015"
+                        doc="media/lipsum.pdf"
                     />
 
                     <x-loop.laporan-tahunan
-                        h5="Laporan Tahunan PT KIW (persero) Tahun 2016"
-                        image="media/lipsum.pdf"
+                        label="Laporan Tahunan PT KIW (persero) Tahun 2016"
+                        doc="media/lipsum.pdf"
                     />
 
                     <x-loop.laporan-tahunan
-                        h5="Laporan Auditor Independen Tahun 2014"
-                        image="media/lipsum.pdf"
+                        label="Laporan Auditor Independen Tahun 2014"
+                        doc="media/lipsum.pdf"
                     />
                     
                     <x-loop.laporan-tahunan
-                        h5="Laporan Tahunan PT KIW (persero) Tahun 2017"
-                        image="media/lipsum.pdf"
+                        label="Laporan Tahunan PT KIW (persero) Tahun 2017"
+                        doc="media/lipsum.pdf"
                     />
 
                 </div>

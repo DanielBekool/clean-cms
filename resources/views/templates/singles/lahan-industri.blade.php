@@ -29,8 +29,8 @@
         <x-loop.hotspot-item-lahan-industri 
             top="20%" 
             left="50%" 
-            h4="Kaveling D" 
-            h6="4.50 Ha" 
+            label="Kaveling D" 
+            luas="4.50 Ha" 
             image="media/kaveling-d.jpg"
         >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -39,8 +39,8 @@
          <x-loop.hotspot-item-lahan-industri 
             top="40%" 
             left="20%" 
-            h4="Kaveling A" 
-            h6="3.50 Ha" 
+            label="Kaveling A" 
+            luas="3.50 Ha" 
             image="media/kaveling-d.jpg"
         >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -50,8 +50,8 @@
          <x-loop.hotspot-item-lahan-industri 
             top="55%" 
             left="22%" 
-            h4="Kaveling C" 
-            h6="1.50 Ha" 
+            label="Kaveling C" 
+            luas="1.50 Ha" 
             image="media/kaveling-d.jpg"
         >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

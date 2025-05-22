@@ -7,7 +7,7 @@
             </p>
             <!--button-->
             <a class="w-fit btn1 mt-8" data-aos="fade-down" href="{{ $href ?? '#' }}">
-                {{ $title ?? 'Download' }}
+                {{ $button ?? 'Download' }}
                 <span>
                     <x-icon.download-icon-current />
                 </span>

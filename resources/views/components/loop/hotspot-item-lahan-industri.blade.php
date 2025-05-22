@@ -3,8 +3,8 @@
     <div class="w-3 h-3 gradient-blue rounded-full cursor-pointer z-10"></div>
      
     <div class="hidden">
-            <h6 class="position">Luas Tanah: {{ $h6 ?? 'Posisi' }}</h6>
-            <h4 class="name"> {{ $h4 ?? 'Nama' }} </h4>
+            <h6 class="position">Luas Tanah: {{ $luas }}</h6>
+            <h4 class="name"> {{ $label }} </h4>
             <img class="photo" src="{{ asset($image) }}">
         </div>
        
