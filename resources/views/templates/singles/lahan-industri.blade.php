@@ -25,12 +25,34 @@
         <img src="{{ asset('media/lahan-industri.jpg') }}">
         
         <!-- Hotspot Items -->
+
         <x-loop.hotspot-item-lahan-industri 
             top="20%" 
             left="50%" 
-            h4="Andrie Tardiwan Utama, S.E., M.D.S." 
-            h6="Independent Commissioner" 
-            image="media/andrie-tardiwan.jpg"
+            h4="Kaveling D" 
+            h6="4.50 Ha" 
+            image="media/kaveling-d.jpg"
+        >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </x-loop.hotspot-item-lahan-industri>
+
+         <x-loop.hotspot-item-lahan-industri 
+            top="40%" 
+            left="20%" 
+            h4="Kaveling A" 
+            h6="3.50 Ha" 
+            image="media/kaveling-d.jpg"
+        >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </x-loop.hotspot-item-lahan-industri>
+
+        
+         <x-loop.hotspot-item-lahan-industri 
+            top="55%" 
+            left="22%" 
+            h4="Kaveling C" 
+            h6="1.50 Ha" 
+            image="media/kaveling-d.jpg"
         >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </x-loop.hotspot-item-lahan-industri>
@@ -53,7 +75,7 @@
                 </svg>
             </button>
         </div>
-        
+          
         <!-- Modal Content -->
         <div class="modal-content pb-6 px-6">
             <div class="flex flex-col md:flex-row gap-6">
@@ -61,8 +83,8 @@
                     <img class="w-full rounded-md" src="" alt="Foto Manajemen">
                 </div>
                 <div class="modal-info w-full md:w-2/3 flex flex-col gap-3">
-                    <h6 class="modal-position text-[var(--color-blue)] "></h6>
-                    <h3 class="modal-title sm:mb-5 mb-1"></h3>
+                    <h3 class="modal-title "></h3>
+                    <h6 class="modal-position text-[var(--color-blue)] sm:mb-3"></h6>
                     <div class="modal-description text-[var(--color-text)] pr-2 overflow-y-auto sm:max-h-[300px] max-h-[150px]"></div>
                 </div>
             </div>

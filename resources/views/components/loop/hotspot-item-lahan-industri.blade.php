@@ -2,12 +2,12 @@
     <span class="absolute inset-0 rounded-full bg-blue-400 opacity-50 animate-ping pointer-events-none"></span>
     <div class="w-3 h-3 gradient-blue rounded-full cursor-pointer z-10"></div>
      
-    <div class="flex flex-col gap-5">
-            <h6 class="position text-[var(--color-blue)] group-hover:text-white">{{ $h6 ?? 'Posisi' }}</h6>
-            <h4 class="name group-hover:text-white"> {{ $h4 ?? 'Nama' }} </h4>
+    <div class="hidden">
+            <h6 class="position">Luas Tanah: {{ $h6 ?? 'Posisi' }}</h6>
+            <h4 class="name"> {{ $h4 ?? 'Nama' }} </h4>
+            <img class="photo" src="{{ asset($image) }}">
         </div>
-
-        <img class="photo rounded-t-md" src="{{ asset($image) }}">
+       
 
     <!-- Hidden Description -->
     <div class="description hidden">
