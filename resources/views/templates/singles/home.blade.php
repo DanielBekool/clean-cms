@@ -779,6 +779,11 @@
                                 label="Pemadam Kebakaran"
                                 image="media/masjid.jpg"
                             />
+
+                            <x-loop.fasilitas-home
+                                label="Masjid"
+                                image="media/masjid.jpg"
+                            />
                            
                         </div>
 
