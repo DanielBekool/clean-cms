@@ -14,6 +14,7 @@ return [
         'instagram' => env('CMS_INSTAGRAM'),
         'linkedin' => env('CMS_LINKEDIN'),
         'youtube' => env('CMS_YOUTUBE'),
+        'whatsapp'  => env('CMS_WHATSAPP'),
     ],
     'site_social_media_enabled' => env('CMS_SOCIAL_MEDIA_ENABLED', true),
 
