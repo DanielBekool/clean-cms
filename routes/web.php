@@ -5,20 +5,20 @@ use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\ContentController;
 
 
-Route::get('/preview-login-notification', function () {
-    $user = \App\Models\User::first();
-    return new \App\Mail\AdminLoggedInNotification($user);
-});
+// Route::get('/preview-login-notification', function () {
+//     $user = \App\Models\User::first();
+//     return new \App\Mail\AdminLoggedInNotification($user);
+// });
 
-Route::get('/preview-comment-notification', function () {
-    $comment = \App\Models\Comment::first();
-    return new \App\Mail\NewCommentNotification($comment);
-});
+// Route::get('/preview-comment-notification', function () {
+//     $comment = \App\Models\Comment::first();
+//     return new \App\Mail\NewCommentNotification($comment);
+// });
 
-Route::get('/preview-comment-reply-notification', function () {
-    $comment = \App\Models\Comment::first();
-    return new \App\Mail\CommentReplyNotification($comment ,$comment->parent);
-});
+// Route::get('/preview-comment-reply-notification', function () {
+//     $comment = \App\Models\Comment::first();
+//     return new \App\Mail\CommentReplyNotification($comment ,$comment->parent);
+// });
 Route::get('/', function () {
     $defaultLang = Config::get('cms.default_language', 'en');
     return redirect()->to($defaultLang);
