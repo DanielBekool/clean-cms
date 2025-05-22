@@ -48,20 +48,20 @@
                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
 
-            <!--button-->
-            <a class="w-fit btn1 mt-5"data-aos="fade-down" href="/tentang">hubungi sekarang
-                <span>
-                    <img src="{{ asset('media/whatsapp-white.png') }}">
-                </span>
-            </a>
+            <div class="flex flex-row gap-2">
+                <!--button-->
+                <a class="w-fit btn1 mt-5"data-aos="fade-down" href="/tentang">hubungi sekarang
+                    <span>
+                        <img src="{{ asset('media/whatsapp-white.png') }}">
+                    </span>
+                </a>
 
-            <!--button-->
-            <a class="w-fit btn1 mt-5"data-aos="fade-down" href="/tentang">hubungi sekarang
-                <span>
-                    <img src="{{ asset('media/whatsapp-white.png') }}">
-                </span>
-            </a>
-            
+                <!--Button-->
+                <a class="w-fit btn7 mt-5" data-aos="fade-down" href="/layanan">
+                    <span class="gradient-text">sign in</span>
+                </a>
+            </div>
+
         </div>
        
     </div>
@@ -69,23 +69,21 @@
     <!--Content-->
     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 lg:gap-4">
         <x-loop.gallery-grid
-            image="media/bpsp-1.jpg"
+            image="media/meeting1.jpg"
         />
         <x-loop.gallery-grid
-            image="media/bpsp-2.jpg"
+            image="media/meeting2.jpg"
         />
         <x-loop.gallery-grid
-            image="media/bpsp-3.jpg"
+            image="media/meeting3.jpg"
         />
-        <x-loop.gallery-grid
-            image="media/bpsp-4.jpg"
+         <x-loop.gallery-grid
+            image="media/meeting2.jpg"
         />
-        <x-loop.gallery-grid
-            image="media/bpsp-1.jpg"
+           <x-loop.gallery-grid
+            image="media/meeting1.jpg"
         />
-        <x-loop.gallery-grid
-            image="media/bpsp-2.jpg"
-        />
+     
     </div>
 
 

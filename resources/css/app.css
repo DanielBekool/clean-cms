@@ -563,6 +563,19 @@ h6 {
     filter: brightness(0) invert(1);
   }
 
+    /* Hover effect */
+  .btn2:hover .gradient-text {
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: white;
+    color: white;
+  }
+  
+  .btn2:hover .gradient-icon svg path.arrow-path {
+    fill: white;
+  }
+
+
   /* Custom Button 3 */
   .btn3 {
     cursor: pointer;
@@ -582,7 +595,7 @@ h6 {
     border-top: 1px solid var(--color-border); 
   }
 
-    /* Custom Button 4 */
+  /* Custom Button 4 */
   .btn4 {
     cursor: pointer;
     font-family: "Manrope";
@@ -610,6 +623,7 @@ h6 {
     background: white;
   }
 
+  /* Custom Button 5 */
   .btn5 {
   cursor: pointer;
   font-family: "Manrope";
@@ -635,7 +649,7 @@ h6 {
   border: 1px solid #000000;
 }
 
-
+ /* Custom Button 6 */
 .btn6 {
   cursor: pointer;
   font-family: "Manrope";
@@ -662,7 +676,40 @@ h6 {
   color: white;
 }
 
+
+  /* Custom Button 7 */
+  .btn7 {
+    background: var(--color-transit); 
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.8px;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    border-radius: 60px;
+    transition: background 0.5s ease;
+    border: none; 
+  }
+
+  .btn7:hover {
+    background: var(--color-lightblue); 
+  }
+
+  .btn7:hover .gradient-text {
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: white;
+    color: white;
+  }
   
+
+ 
   /*  teks di dalam tombol */
   .gradient-text {
     background: linear-gradient(268deg, #1F77D3 1.1%, #321B71 99.1%);
@@ -693,17 +740,6 @@ h6 {
     transition: fill 0.3s ease;
   }
   
-  /* Hover effect */
-  .btn2:hover .gradient-text {
-    background: none;
-    -webkit-background-clip: initial;
-    -webkit-text-fill-color: white;
-    color: white;
-  }
-  
-  .btn2:hover .gradient-icon svg path.arrow-path {
-    fill: white;
-  }
 
 
   
@@ -830,4 +866,16 @@ h6 {
   flex-direction: row-reverse !important;
   display: flex;
 }
+}
+
+/* Gallery Hover */
+.gallery-item:hover::before {
+  content:"";
+  background: #1F77D3;
+  background: linear-gradient(0deg, rgba(31, 119, 211, 0.49) 0%, rgba(50, 27, 113, 0.48) 100%);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  border-radius: 6px;
+  transition: .5s ease;
 }
