@@ -1,4 +1,4 @@
-<div class="item-for-popup absolute transform -translate-y-1/2" style="top: {{ $top }}; left: {{ $left }}" onclick="openModal(this)">
+<div class="item-for-popup absolute transform -translate-y-1/2" style="top: {{ $top ?? '0' }}%; left: {{ $left ?? '0' }}%" onclick="openModal(this)">
     <span class="absolute inset-0 rounded-full bg-blue-400 opacity-50 animate-ping pointer-events-none"></span>
     <div class="w-3 h-3 gradient-blue rounded-full cursor-pointer z-10"></div>
      

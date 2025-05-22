@@ -767,17 +767,17 @@
                         <div class="swiper-wrapper !flex">
                             <x-loop.fasilitas-home
                                 label="Masjid"
-                                image="media/morning-view-malacca-straits-mosque-masjid-selat-melaka-it-is-mosque-located-man-made-malacca-island-near-malacca-town-malaysia (1).jpg"
+                                image="media/masjid.jpg"
                             />
 
                             <x-loop.fasilitas-home
                                 label="Pengelola Air Bersih"
-                                image="media/morning-view-malacca-straits-mosque-masjid-selat-melaka-it-is-mosque-located-man-made-malacca-island-near-malacca-town-malaysia (1).jpg"
+                                image="media/masjid.jpg"
                             />
 
                             <x-loop.fasilitas-home
                                 label="Pemadam Kebakaran"
-                                image="media/morning-view-malacca-straits-mosque-masjid-selat-melaka-it-is-mosque-located-man-made-malacca-island-near-malacca-town-malaysia (1).jpg"
+                                image="media/masjid.jpg"
                             />
                            
                         </div>

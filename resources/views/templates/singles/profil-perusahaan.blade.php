@@ -292,38 +292,38 @@
         
         <!-- Hotspot Items -->
         <x-loop.hotspot-item-koneksi-global 
-            top="20%" 
-            left="30%" 
+            top="20" 
+            left="30" 
             country="Jepang" 
-            tooltip="8 Perusahaan"
+            company="8"
         />
 
         <x-loop.hotspot-item-koneksi-global 
-            top="80%" 
-            left="70%" 
+            top="80" 
+            left="70" 
             country="Indonesia" 
-            tooltip="5 Perusahaan"
+            company="5"
         />
 
         <x-loop.hotspot-item-koneksi-global 
-            top="10%" 
-            left="72%" 
+            top="10" 
+            left="72" 
             country="Thailand" 
-            tooltip="2 Perusahaan"
+            company="2"
         />
 
         <x-loop.hotspot-item-koneksi-global 
-            top="11%" 
-            left="75%" 
+            top="11" 
+            left="75" 
             country="Singapore" 
-            tooltip="4 Perusahaan"
+            company="4"
         />
 
         <x-loop.hotspot-item-koneksi-global 
-            top="11%" 
-            left="78%" 
+            top="11" 
+            left="78" 
             country="Brazil" 
-            tooltip="10 Perusahaan"
+            company="10"
         />
 
     </div>

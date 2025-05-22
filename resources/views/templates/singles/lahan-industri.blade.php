@@ -8,8 +8,8 @@
 
 @push('before_body_close')
     <script>AOS.init();</script>
-    <script src="{{ asset('js/popup-manajemen-init-modal-events.js') }}"></script>
-    <script src="{{ asset('js/popup-manajemen-modal-controller.js') }}"></script>
+    <script src="{{ asset('js/popup-init-modal-events.js') }}"></script>
+    <script src="{{ asset('js/popup-modal-controller.js') }}"></script>
  @endPush
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -27,8 +27,8 @@
         <!-- Hotspot Items -->
 
         <x-loop.hotspot-item-lahan-industri 
-            top="20%" 
-            left="50%" 
+            top="20" 
+            left="50" 
             label="Kaveling D" 
             luas="4.50 Ha" 
             image="media/kaveling-d.jpg"
@@ -37,8 +37,8 @@
         </x-loop.hotspot-item-lahan-industri>
 
          <x-loop.hotspot-item-lahan-industri 
-            top="40%" 
-            left="20%" 
+            top="40" 
+            left="20" 
             label="Kaveling A" 
             luas="3.50 Ha" 
             image="media/kaveling-d.jpg"
@@ -48,8 +48,8 @@
 
         
          <x-loop.hotspot-item-lahan-industri 
-            top="55%" 
-            left="22%" 
+            top="55" 
+            left="22" 
             label="Kaveling C" 
             luas="1.50 Ha" 
             image="media/kaveling-d.jpg"

@@ -18,8 +18,8 @@
 
 @push('before_body_close')
 <script>AOS.init();</script>
-<script src="{{ asset('js/popup-manajemen-init-modal-events.js') }}"></script>
-<script src="{{ asset('js/popup-manajemen-modal-controller.js') }}"></script>
+<script src="{{ asset('js/popup-init-modal-events.js') }}"></script>
+<script src="{{ asset('js/popup-modal-controller.js') }}"></script>
  @endPush
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -35,7 +35,7 @@
 
 
 <!--Start Manajemen-->
-<section id="manajemen" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-9 my-18 lg:my-30 px-4 lg:px-0 lg:w-[1200px] lg:mx-auto">
+<section id="manajemen" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-9 my-18 lg:my-30 px-4 sm:px-6 lg:px-0 lg:w-[1200px] lg:mx-auto">
 
     <!--item-->
     <x-loop.popup-item-manajemen 
