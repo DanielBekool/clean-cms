@@ -143,72 +143,35 @@
                 
 
                         <!-- counter -->
-                        <div class="flex flex-row flex-wrap justify-between lg:w-[1200px] lg:mx-auto sm:gap-0 gap-y-5 mt-5 lg:px-0 sm:px-6 px-4">
+                        <div class="counter-hero-home flex flex-row flex-wrap justify-between lg:w-[1200px] lg:mx-auto sm:gap-0 gap-y-5 mt-5 lg:px-0 sm:px-6 px-4">
 
                             <div class="lg:w-1/5 sm:w-1/5 w-full self-center">
                                 <h5 class="text-white">Luas Area Tersedia</h5>
                             </div>
 
+                            <x-loop.counter-hero-home
+                                counter="36"
+                                unit="Ha"
+                                label="Lahan Industri"    
+                            />
 
-                            <!-- item counter -->
-                            <div class="lg:w-1/5 sm:w-1/5 w-1/2 lg:p-5 sm:p-5 lg:mb-0 sm:mb-0 flex flex-col justify-center sm:items-center items-start lg:border-l lg:border-r sm:border-l sm:border-r border-[var(--color-bordertransparent)]">
-                                <div class="flex flex-row justify-center items-center gap-1">
-                                    <div class="flex flex-col gap-2 w-fit">
-                                        <div class="flex flex-row gap-2">
-                                            <h3 class="counter !font-medium lg:!text-4xl sm:!text-2xl !text-[1.2em] text-white"  data-target="36">0</h3>
-                                            <h3 class="plus !font-medium lg:!text-[1em] sm:!text-2xl !text-[1.2em] self-end text-white">Ha</h3>
-                                        </div>
-                                        <div>
-                                            <p class="text-white">Lahan Industri</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-loop.counter-hero-home
+                                counter="1000"
+                                unit="Unit"
+                                label="BPSP"    
+                            />
 
-                            <!-- item counter -->
-                            <div class="lg:w-1/5 sm:w-1/5 w-1/2 lg:p-5 sm:p-5 flex flex-col justify-center sm:items-center items-start lg:border-r sm:border-r border-[var(--color-bordertransparent)]">
-                                <div class="flex flex-row justify-center items-start gap-1 mb-2">
-                                    <div class="flex flex-col gap-2 w-fit">
-                                        <div class="flex flex-row gap-2">
-                                            <h3 class="counter !font-medium lg:!text-4xl sm:!text-2xl !text-[1.2em] text-white"  data-target="1000">0</h3>
-                                            <h3 class="plus !font-medium lg:!text-[1em] sm:!text-2xl !text-[1.2em] self-end !text-white">Unit</h3>
-                                        </div>
-                                        <div>
-                                            <p class="text-white">BPSP</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-loop.counter-hero-home
+                                counter="200"
+                                unit="Unit"
+                                label="Foodcourt"    
+                            />
 
-                            <!-- item counter -->
-                            <div class="lg:w-1/5 sm:w-1/5 w-1/2 lg:p-5 sm:p-5 flex flex-col justify-center sm:items-center items-start lg:border-r sm:border-r border-[var(--color-bordertransparent)]">
-                                <div class="flex flex-row justify-center items-start gap-1 mb-2">
-                                    <div class="flex flex-col gap-2 w-fit">
-                                        <div class="flex flex-row gap-2">
-                                            <h3 class="counter !font-medium lg:!text-4xl sm:!text-2xl !text-[1.2em] text-white"  data-target="200">0</h3>
-                                            <h3 class="plus !font-medium lg:!text-[1em] sm:!text-2xl !text-[1.2em] self-end text-white">Unit</h3>
-                                        </div>
-                                        <div>
-                                            <p class="text-white">Food Court</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- item counter -->
-                            <div class="lg:w-1/5 sm:w-1/5 w-1/2 lg:p-5 sm:p-5 pr-0 flex flex-col justify-center sm:items-center items-start">
-                                <div class="flex flex-row justify-center items-start gap-1 mb-2">
-                                    <div class="flex flex-col gap-2 w-fit">
-                                        <div class="flex flex-row gap-2">
-                                            <h3 class="counter !font-medium lg:!text-4xl sm:!text-2xl !text-[1.2em] text-white"  data-target="50">0</h3>
-                                            <h3 class="plus !font-medium lg:!text-[1em] sm:!text-2xl !text-[1.2em] self-end text-white">Unit</h3>
-                                        </div>
-                                        <div>
-                                            <p class="text-white">Commercial Area</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-loop.counter-hero-home
+                                counter="50"
+                                unit="Unit"
+                                label="Commercial Area"    
+                            />
 
                         </div>
                     </div>
@@ -265,51 +228,27 @@
 
                     <!--content right-->
                     <div class="grid grid-cols-2 gap-8">
-                        <!--counter-->
-                        <div class="sm:p-8 p-4 flex flex-col justify-between items-start bg-white rounded-2xl">
-                            <div class="flex flex-row justify-start gap-1 mb-2">
-                                <h3 class="counter gradient-text !font-medium lg:!text-4xl sm:!text-2xl" data-target="36">0</h3>
-                                <h3 class="plus gradient-text !font-medium lg:!text-4xl sm:!text-2xl">+</h3>
-                            </div>
-                            <div>
-                                <p class="!text-[var(--color-heading)]">Tahun Pengalaman</p>
-                            </div>
-                        </div>
 
-                        <!--counter-->
-                        <div class="sm:p-8 p-4 flex flex-col justify-between bg-white rounded-2xl">
-                            <div class="flex flex-row justify-start gap-1 mb-2">
-                                <h3 class="counter gradient-text !font-medium lg:!text-4xl sm:!text-2xl" data-target="100">0</h3>
-                                <h3 class="plus gradient-text !font-medium lg:!text-4xl sm:!text-2xl">+</h3>
-                            </div>
-                            <div>
-                                <p class="!text-[var(--color-heading)]">Tenant Bekerjasama</p>
-                            </div>
-                        </div>
+                        <x-loop.counter-about-home
+                            counter="36"
+                            label="Tahun Pengalaman"    
+                        />
 
-                        <!--counter-->
-                        <div class="sm:p-8 p-4 flex flex-col justify-between bg-white rounded-2xl">
-                            <div class="flex flex-row justify-start gap-1 mb-2">
-                                <h3 class="counter gradient-text !font-medium lg:!text-4xl sm:!text-2xl" data-target="5">0</h3>
-                                <h3 class="plus gradient-text !font-medium lg:!text-4xl sm:!text-2xl">+</h3>
-                            </div>
-                            <div>
-                                <p class="!text-[var(--color-heading)]">Penghargaan</p>
-                            </div>
-                        </div>
+                        <x-loop.counter-about-home
+                            counter="100"
+                            label="Tenant Bekerjasama"    
+                        />
 
+                        <x-loop.counter-about-home
+                            counter="5"
+                            label="Penghargaan"    
+                        />
+
+                        <x-loop.counter-about-home
+                            counter="4"
+                            label="Sertifikasi"    
+                        />
                         
-                        <!--counter-->
-                        <div class="sm:p-8 p-4 flex flex-col justify-between bg-white rounded-2xl">
-                            <div class="flex flex-row justify-start gap-1 mb-2">
-                                <h3 class="counter gradient-text !font-medium lg:!text-4xl sm:!text-2xl" data-target="4">0</h3>
-                                <h3 class="plus gradient-text !font-medium lg:!text-4xl sm:!text-2xl">+</h3>
-                            </div>
-                            <div>
-                                <p class="!text-[var(--color-heading)]">Sertifikasi</p>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>

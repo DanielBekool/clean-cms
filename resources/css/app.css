@@ -708,6 +708,30 @@ h6 {
     color: white;
   }
   
+  /* Custom Button 1 */
+  .btn8 {
+    background: linear-gradient(268deg, var(--color-lightblue) 1.1%, var(--color-blue) 99.1%);
+    cursor: pointer;
+    color: white;
+    text-transform: lowercase;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.8px;
+    padding: 10px 10px 10px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    border-radius: 60px;
+    transition: background 0.5s ease;
+
+  }
+
+  .btn8:hover {
+    background: linear-gradient(268deg, var(--color-blue) 1.1%, var(--color-lightblue) 99.1%);
+  }
 
  
   /*  teks di dalam tombol */
@@ -900,3 +924,24 @@ h6 {
   left: 0;
   bottom: 0;
 }
+
+
+/* counter hero home */
+.counter-hero-home .counter-item:last-child {
+  border: none;
+  padding-right: 0;
+}
+
+
+/* karier accordion*/
+#karier .accordion-item:not(:first-child) .accordion-header {
+  padding-top: 50px;
+}
+
+@meda(max-width: 921px) {
+#karier .accordion-item:not(:first-child) .accordion-header {
+  padding-top: 30px;
+}
+}
+
+

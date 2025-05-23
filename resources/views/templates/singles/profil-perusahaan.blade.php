@@ -77,49 +77,25 @@
     <!--Counter-->
     <div class="sm:absolute sm:max-w-full sm:-top-12 lg:left-1/2 lg:-translate-x-1/2 grid grid-cols-2 sm:grid-cols-4 gap-5 lg:w-[1200px] lg:mx-auto">
 
-        <!--Item-->
-        <div class="bg-white rounded-md p-4">
-            <div class="flex flex-row justify-start gap-1 mb-2">
-                <h3 class="counter gradient-text !font-medium lg:!text-4xl sm:!text-2xl" data-target="36">0</h3>
-                <h3 class="plus gradient-text !font-medium lg:!text-4xl sm:!text-2xl">+</h3>
-            </div>
-            <div>
-                <p class="!text-[var(--color-heading)]">Tahun Pengalaman</p>
-            </div>
-        </div>
+        <x-loop.counter-profil
+            counter="36"
+            label="Tahun Pengalaman"    
+        />
 
-        <!--Item-->
-        <div class="bg-white rounded-md p-4">
-            <div class="flex flex-row justify-start gap-1 mb-2">
-                <h3 class="counter gradient-text !font-medium lg:!text-4xl sm:!text-2xl" data-target="100">0</h3>
-                <h3 class="plus gradient-text !font-medium lg:!text-4xl sm:!text-2xl">+</h3>
-            </div>
-            <div>
-                <p class="!text-[var(--color-heading)]">Tenant Bekerjasama</p>
-            </div>
-        </div>
+        <x-loop.counter-profil
+            counter="100"
+            label="Tenant Bekerjasama"    
+        />
 
-        <!--Item-->
-        <div class="bg-white rounded-md p-4">
-            <div class="flex flex-row justify-start gap-1 mb-2">
-                <h3 class="counter gradient-text !font-medium lg:!text-4xl sm:!text-2xl" data-target="5">0</h3>
-                <h3 class="plus gradient-text !font-medium lg:!text-4xl sm:!text-2xl">+</h3>
-            </div>
-            <div>
-                <p class="!text-[var(--color-heading)]">Penghargaan</p>
-            </div>
-        </div>
+        <x-loop.counter-profil
+            counter="5"
+            label="Penghargaan"    
+        />
 
-        <!--Item-->
-        <div class="bg-white rounded-md p-4">
-            <div class="flex flex-row justify-start gap-1 mb-2">
-                <h3 class="counter gradient-text !font-medium lg:!text-4xl sm:!text-2xl" data-target="4">0</h3>
-                <h3 class="plus gradient-text !font-medium lg:!text-4xl sm:!text-2xl">+</h3>
-            </div>
-            <div>
-                <p class="!text-[var(--color-heading)]">Sertifikasi</p>
-            </div>
-        </div>
+        <x-loop.counter-profil
+            counter="4"
+            label="Sertifikasi"    
+        />
 
     </div>
     
