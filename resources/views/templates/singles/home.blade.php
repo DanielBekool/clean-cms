@@ -852,7 +852,7 @@
 
         <!-- Start Hubungan Investor Home -->
         <section id="hubungan-investor-home" class="lg:py-30 py-18 bg-cover bg-[var(--color-transit)]">
-            <div class="flex flex-col overflow-hidden relative lg:gap-8 sm:gap-10 gap-10  lg:px-0 lg:lg:max-w-[1200px] lg:mx-auto sm:px-6 px-4">
+            <div class="flex flex-col overflow-hidden relative lg:gap-9 sm:gap-7 gap-7  lg:px-0 lg:lg:max-w-[1200px] lg:mx-auto sm:px-6 px-4">
                     
                 <!--Heading-->
                 <div class="flex flex-col justify-start gap-5">
@@ -862,7 +862,7 @@
               
 
                 <!--Content-->
-                <div class="grid sm:grid-cols-3 grid-cols-1 gap-7">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-7">
 
                     <x-loop.laporan-tahunan
                         label="Laporan Tahunan PT KIW (persero) Tahun 2014"

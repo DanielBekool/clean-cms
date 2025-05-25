@@ -20,7 +20,6 @@
        
 <x-header-kiw/>
 
-<x-header-kiw/>
 <x-partials.hero-page image="media/visi-misi-hero.jpg" h1="Visi Misi & Tata Nilai"/>
 
 <!--Start About Visi Misi-->

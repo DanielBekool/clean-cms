@@ -19,8 +19,6 @@
 <main>
        
 <x-header-kiw/>
-
-<x-header-kiw/>
 <x-partials.hero-page image="media/karier-hero.jpg" h1="Lowongan Kerja"/>
 
 

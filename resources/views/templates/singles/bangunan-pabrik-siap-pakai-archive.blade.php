@@ -19,8 +19,6 @@
     <main>
        
 <x-header-kiw/>
-
-<x-header-kiw/>
 <x-partials.hero-page image="media/bangunan-pabrik-hero.jpg" h1="Bangunan Pabrik Siap Pakai"/>
 
 
@@ -34,9 +32,9 @@
             BPSP Modern & Fungsional
         </h2>
         <div class="flex flex-col gap-5">
-            <span class="text-[var(--color-heading)]">
+            <p class="sub-p">
                 KIW menyediakan Bangunan Pabrik Siap Pakai (BPSP) dengan total seluas 48.388m2 untuk berbagai penggunaan, seperti pabrik dan gudang.
-            </span>
+            </p>
             <p>
                 KIW juga siap mendirikan BPSP baru untuk memenuhi kebutuhan para investor dalam menjalankan bisnis. Available BPSP 12 saat ini tersedia disewa dengan spesifikasi berikut.
             </p>

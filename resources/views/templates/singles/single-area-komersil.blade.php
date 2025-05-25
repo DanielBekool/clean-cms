@@ -30,7 +30,6 @@
        
 <x-header-kiw/>
 
-<x-header-kiw/>
 <x-partials.hero-page image="media/bangunan-pabrik-hero.jpg" h1="Area Komersil"/>
 
 <!--Start Gallery-->

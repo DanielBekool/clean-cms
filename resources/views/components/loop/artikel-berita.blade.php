@@ -23,8 +23,8 @@
     </div>
     <!--back-->
     <div class="absolute group-hover:top-[0%] top-[100%] transition-all duration-[500ms] flex flex-col justify-between bg-white gap-15 px-6 pt-6 h-full w-full">
-            <div class="flex flex-col gap-2">
-                <div class="flex flex-row gap-5">
+            <div class="flex flex-col gap-5">
+                <div class="flex flex-row gap-4">
                 <div class="flex flex-row items-center gap-2">
                     <x-icon.tag-icon-color/>
 
@@ -47,6 +47,7 @@
                     <span class="gradient-text">Selengkapnya</span>
                     <span class="gradient-icon">
                     <x-icon.arrow-right-gradient/>
+                    </span>
                 </a>
             </div>
         </div>

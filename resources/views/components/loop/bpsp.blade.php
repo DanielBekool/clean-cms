@@ -1,7 +1,7 @@
 <!--Item-->
 <div class="group relative flex flex-col h-auto justify-between bg-[var(--color-transit)] overflow-hidden rounded-md px-6 pt-13 pb-0">
     
-    <div class="gradient-blue top-0 left-0 w-fit absolute px-3 py-2 rounded-tl-md rounded-br-md">
+    <div class="gradient-blue top-0 left-0 w-fit absolute px-3 py-2 rounded-tl-md rounded-br-md {{ $tag === 'tersedia' ? 'blinking' : '' }}">
         <p class="text-white uppercase text-[.8em]">{{ $tag ?? 'segera hadir' }}</p>
     </div>
 
