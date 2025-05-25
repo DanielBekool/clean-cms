@@ -533,11 +533,11 @@
                 />
                 <x-loop.artikel-berita
                     label="
-                    Langkah Nyata Kawasan Industri Wijayakusuma Wujudkan Kawasan Industri Modern dan Ramah Lingkungan
+                    Dirut KIW Berbagi Pengalaman Penerapan GCG di Program “Library Cafe” BPKP Jateng
                     "
                     tag="Informasi"
                     date="06/01/2025"
-                    image="media/langkah-nyata-kawasan-industri-wijayakusuma.jpeg"
+                    image="media/library-caffe.jpg"
                     url="#"
                 />
                 <x-loop.artikel-berita
