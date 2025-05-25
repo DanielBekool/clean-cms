@@ -33,7 +33,7 @@
         <h2 class="text-center sm:text-left">Temukan Berita Terbaru</h2>
 
         <!--Field-->
-        <div class="flex flex-col sm:flex-row gap-2 sm:w-1/2 lg:w-1/3">
+        <div class="flex flex-col sm:flex-row-reverse gap-2 sm:w-1/2 lg:w-1/3">
 
             <!--Search-->
             <div class="relative max-w-md w-full">
