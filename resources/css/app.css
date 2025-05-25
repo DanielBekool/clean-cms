@@ -380,7 +380,7 @@ h6 {
 
   h5 {
     font-family: Manrope;
-    font-size: 1.25em;
+    font-size: 1.1em;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -545,12 +545,18 @@ h6 {
     gap: 20px;
     border-radius: 60px;
     transition: background 0.5s ease;
-
   }
 
   .btn1:hover {
     background: linear-gradient(268deg, var(--color-blue) 1.1%, var(--color-lightblue) 99.1%);
   }
+
+  .btn1.back {
+  padding: 10px 20px 10px 10px;
+  flex-direction: row-reverse;
+
+}
+  
 
 
 
@@ -990,4 +996,11 @@ h6 {
 }
 
 
+/* milestone single tender */
+.milestone > div:last-child .border-milestone {
+  background: none;
+}
 
+.milestone > div:last-child {
+  padding-bottom: 0px
+}
