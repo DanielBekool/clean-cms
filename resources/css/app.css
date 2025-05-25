@@ -977,5 +977,17 @@ h6 {
   animation: blink 1s ease-in-out infinite;
 }
 
+/* Tender Different color page */
+#tender-archive .tender-loop {
+  background: var(--color-transit);
+}
+
+/* pagination */
+.current-page {
+    background: linear-gradient(268deg, #1F77D3 1.1%, #321B71 99.1%) !important;
+    color: white;
+    border: none;
+}
+
 
 

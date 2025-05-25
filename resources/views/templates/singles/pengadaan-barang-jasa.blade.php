@@ -151,7 +151,7 @@
 
         <!--Content-->
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-7 lg:gap-5">
-            <x-loop.pengadaan
+            <x-loop.tender
                 label="Tender Sistem ERP 1"
                 date="06/01/2025"
                 desc="
@@ -161,7 +161,7 @@
                 tag="terbaru"
             />
 
-            <x-loop.pengadaan
+            <x-loop.tender
                 label="Tender Sistem ERP 2"
                 date="06/01/2025"
                 desc="
@@ -171,7 +171,7 @@
                 tag="terbaru"
             />
 
-            <x-loop.pengadaan
+            <x-loop.tender
                 label="Tender Sistem ERP 3"
                 date="06/01/2025"
                 desc="
@@ -181,7 +181,7 @@
                 tag="terbaru"
             />
 
-            <x-loop.pengadaan
+            <x-loop.tender
                 label="Tender Sistem ERP 4"
                 date="06/01/2025"
                 desc="
