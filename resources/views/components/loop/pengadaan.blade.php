@@ -1,12 +1,12 @@
-<div class="relative flex flex-col justify-between bg-white gap-15 pb-6 pt-12 pb-6 rounded-md">
+<div class="relative flex flex-col justify-between bg-white gap-15 pb-0 pt-12 px-6 rounded-md">
     
     <div class="gradient-blue top-0 left-0 w-fit absolute px-3 py-2 rounded-tl-md rounded-br-md {{ $tag === 'terbaru' ? 'blinking' : '' }}">
         <p class="text-white uppercase text-[.8em]">{{ $tag ?? 'terbaru' }}</p>
     </div>
     <div class="flex flex-col gap-4">
-        <h5 class="ellipsis">
+        <h4 class="ellipsis">
             {{ $label ?? '' }}
-        </h5>
+        </h4>
         <p class="ellipsis">
             {{ $desc ?? '' }}
         </p>

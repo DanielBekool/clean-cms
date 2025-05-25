@@ -129,12 +129,12 @@
 
 <!--Start Pengadaan-->
 <section id="pengadaan" class="lg:py-30 py-18 bg-cover bg-[var(--color-transit)]">
-    <div class="flex flex-col overflow-hidden relative lg:gap-9 sm:gap-7 gap-7  lg:px-0 lg:lg:max-w-[1200px] lg:mx-auto sm:px-6 px-4">
+    <div class="flex flex-col overflow-hidden relative lg:gap-11 sm:gap-7 gap-7  lg:px-0 lg:lg:max-w-[1200px] lg:mx-auto sm:px-6 px-4">
             
         <!--Heading-->
         <div class="flex flex-row justify-between">
             <div class="flex flex-col justify-start gap-5">
-                <h6 class="bullet-1 sm:text-center text-left">Pengadaan terbaru</h6>
+                <h6 class="bullet-1 sm:text-left text-left">Pengadaan terbaru</h6>
                 <h2 class="sm:text-center text-left">Pengadaan yang Sedang Berlangsung</h2>
             </div>
             <!--button Desktop Tablet-->
@@ -150,9 +150,39 @@
         
 
         <!--Content-->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-7">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-7 lg:gap-5">
             <x-loop.pengadaan
                 label="Tender Sistem ERP 1"
+                date="06/01/2025"
+                desc="
+                Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+                "
+                url="#"
+                tag="terbaru"
+            />
+
+            <x-loop.pengadaan
+                label="Tender Sistem ERP 2"
+                date="06/01/2025"
+                desc="
+                Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+                "
+                url="#"
+                tag="terbaru"
+            />
+
+            <x-loop.pengadaan
+                label="Tender Sistem ERP 3"
+                date="06/01/2025"
+                desc="
+                Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+                "
+                url="#"
+                tag="terbaru"
+            />
+
+            <x-loop.pengadaan
+                label="Tender Sistem ERP 4"
                 date="06/01/2025"
                 desc="
                 Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
