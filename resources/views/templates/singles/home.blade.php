@@ -23,13 +23,14 @@
  @endPush
 @push('before_body_close')
 <script>AOS.init();</script>
+<script src="{{ asset('js/popup-init-modal-events.js') }}"></script>
+<script src="{{ asset('js/popup-modal-controller.js') }}"></script>
 <script src="{{ asset('js/swiper.js') }}"></script>
 <script src="{{ asset('js/fasilitas-swiper-number.js') }}"></script>
 <script src="{{ asset('js/swiper-auto-height.js') }}"></script>
 <script src="{{ asset('js/counter.js') }}"></script>
 <script src="{{ asset('js/video-modal.js') }}"></script>
 <script src="{{ asset('js/video-inline.js') }}"></script>
-
 
  @endPush
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -66,31 +67,6 @@
 
     -->
 
-    <!-- Video Modal Overlay -->
-    <div id="videoModal"
-        class="modal-overlay fixed inset-0 flex items-center justify-center z-50 hidden"
-        onclick="closeVideoModalOnOverlay(event)">
-        
-        <!-- Modal Content -->
-        <div class="relative w-full max-w-2xl aspect-video" onclick="event.stopPropagation()">
-            <iframe
-            id="youtubeIframe"
-            class="w-full h-full rounded"
-            src=""
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-            ></iframe>
-
-            <!-- Close Button -->
-            <button
-            class="absolute -top-10 -right-10 text-white text-2xl font-bold cursor-pointer"
-            onclick="closeVideoModal()"
-            >
-            ×
-            </button>
-        </div>
-    </div>
 
     <!-- Main Content -->
     <div id="main-content-" class="hidden-">
@@ -277,147 +253,29 @@
                 <!--Content-->
                 <div class="flex lg:flex-row flex-col gap-7">
 
-                    <!--Item-->
-                    <div class="group transition-all duration-[500ms]  relative flex flex-col bg-[var(--color-transparent)] rounded-2xl overflow-hidden lg:w-1/3">
-                        
-                        <!--front-->
-                        <div class="flex flex-col justify-between grow gap-15 px-6 pt-6">
-                            <div class="flex flex-col gap-3">
-                                <h6 class="text-white">01.</h6>
-                                <h3 class="text-white">Lahan Industri Siap Bangun</h3>
-                            </div>
-                            <div>
-                                <img class="rounded-2xl rounded-b-none lg:h-[250px] sm:h-[300px] h-[250px] w-full object-cover" src="{{ asset('media/aerial-view-warehouse-industrial-plant-logistics-center-from-view-from.jpg') }}">
-                            </div>
-                            
-                        </div>
+                    <x-loop.layanan-home
+                        number="01."
+                        label="Lahan Industri Siap Bangun"
+                        desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                        url="#"
+                        image="media/aerial-view-warehouse-industrial-plant-logistics-center-from-view-from.jpg"
+                    />
 
-                        <!--back-->
-                        <div class="absolute group-hover:top-[0%] top-[100%] transition-all duration-[500ms] flex flex-col justify-between bg-white rounded-2xl gap-15 px-6 pt-6 h-full">
-                            <h6>01.</h6>
-                            <div class="flex flex-col gap-5">
-                                <h3>Lahan Industri Siap Bangun</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <div class="mt-3">
-                                    <a class="w-full btn3" href="#">
-                                        <span class="gradient-text">Lihat Layanan</span>
-                                        <span class="gradient-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
-                                                <g clip-path="url(#clip0_145_484)">
-                                                    <path class="icon.arrow-path" d="M21.2356 11.0682C21.8172 10.4774 21.8172 9.5179 21.2356 8.92709L13.7914 1.36468C13.2098 0.77387 12.2653 0.77387 11.6837 1.36468C11.1022 1.9555 11.1022 2.91498 11.6837 3.50579L16.5923 8.48752L2.31795 8.48752C1.49443 8.48752 0.829101 9.16341 0.829101 10C0.829101 10.8366 1.49443 11.5125 2.31795 11.5125L16.5876 11.5125L11.6884 16.4942C11.1068 17.085 11.1068 18.0445 11.6884 18.6353C12.27 19.2261 13.2145 19.2261 13.796 18.6353L21.2403 11.0729L21.2356 11.0682Z" fill="url(#paint0_linear_145_484)"/>
-                                                </g>
-                                                <defs>
-                                                    <linearGradient id="paint0_linear_145_484" x1="6.4406" y1="0.921573" x2="7.12695" y2="19.4465" gradientUnits="userSpaceOnUse">
-                                                        <stop stop-color="#1F77D3"/>
-                                                        <stop offset="1" stop-color="#321B71"/>
-                                                    </linearGradient>
-                                                    <clipPath id="clip0_145_484">
-                                                        <rect width="20" height="22.5" fill="white" transform="translate(0 20) rotate(-90)"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
+                     <x-loop.layanan-home
+                        number="02."
+                        label="Bangunan Pabrik Siap Pakai (BPSP)"
+                        desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                        url="#"
+                        image="media/exterior-view-modern-industrial-building.jpg"
+                    />
 
-                        </div>
-                    </div>
-
-                    <!--Item-->
-                    <div class="group transition-all duration-[500ms]  relative flex flex-col bg-[var(--color-transparent)] rounded-2xl overflow-hidden lg:w-1/3">
-                        
-                        <!--front-->
-                        <div class="flex flex-col justify-between grow gap-15 px-6 pt-6">
-                            <div class="flex flex-col gap-3">
-                                <h6 class="text-white">02.</h6>
-                                <h3 class="text-white">Bangunan Pabrik Siap Pakai (BPSP)</h3>
-                            </div>
-                            <div>
-                                <img class="rounded-2xl rounded-b-none lg:h-[250px] sm:h-[300px] h-[250px] w-full object-cover" src="{{ asset('media/exterior-view-modern-industrial-building.jpg') }}">
-                            </div>
-                            
-                        </div>
-
-                        <!--back-->
-                        <div class="absolute group-hover:top-[0%] top-[100%] transition-all duration-[500ms] flex flex-col justify-between bg-white rounded-2xl gap-15 px-6 pt-6 h-full">
-                            <h6>02.</h6>
-                            <div class="flex flex-col gap-5">
-                                <h3>Bangunan Pabrik Siap Pakai (BPSP)</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <div class="mt-3">
-                                    <a class="w-full btn3" href="#">
-                                        <span class="gradient-text">Lihat Layanan</span>
-                                        <span class="gradient-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
-                                                <g clip-path="url(#clip0_145_484)">
-                                                    <path class="icon.arrow-path" d="M21.2356 11.0682C21.8172 10.4774 21.8172 9.5179 21.2356 8.92709L13.7914 1.36468C13.2098 0.77387 12.2653 0.77387 11.6837 1.36468C11.1022 1.9555 11.1022 2.91498 11.6837 3.50579L16.5923 8.48752L2.31795 8.48752C1.49443 8.48752 0.829101 9.16341 0.829101 10C0.829101 10.8366 1.49443 11.5125 2.31795 11.5125L16.5876 11.5125L11.6884 16.4942C11.1068 17.085 11.1068 18.0445 11.6884 18.6353C12.27 19.2261 13.2145 19.2261 13.796 18.6353L21.2403 11.0729L21.2356 11.0682Z" fill="url(#paint0_linear_145_484)"/>
-                                                </g>
-                                                <defs>
-                                                    <linearGradient id="paint0_linear_145_484" x1="6.4406" y1="0.921573" x2="7.12695" y2="19.4465" gradientUnits="userSpaceOnUse">
-                                                        <stop stop-color="#1F77D3"/>
-                                                        <stop offset="1" stop-color="#321B71"/>
-                                                    </linearGradient>
-                                                    <clipPath id="clip0_145_484">
-                                                        <rect width="20" height="22.5" fill="white" transform="translate(0 20) rotate(-90)"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                     <!--Item-->
-                     <div class="group transition-all duration-[500ms] relative flex flex-col bg-[var(--color-transparent)] rounded-2xl overflow-hidden lg:w-1/3">
-                        
-                        <!--front-->
-                        <div class="flex flex-col justify-between grow gap-15 px-6 pt-6">
-                            <div class="flex flex-col gap-3">
-                                <h6 class="text-white">03.</h6>
-                                <h3 class="text-white">Kerjasama Komersial Kawasan Industri</h3>
-                            </div>
-                            <div>
-                                <img class="rounded-2xl rounded-b-none lg:h-[250px] sm:h-[300px] h-[250px] w-full object-cover" src="{{ asset('media/exterior-view-modern-industrial-building.jpg') }}">
-                            </div>
-                            
-                        </div>
-
-                        <!--back-->
-                        <div class="absolute group-hover:top-[0%] top-[100%] transition-all duration-[500ms] flex flex-col justify-between bg-white rounded-2xl gap-15 px-6 pt-6 h-full">
-                            <h6>03.</h6>
-                            <div class="flex flex-col gap-5">
-                                <h3>Kerjasama Komersial Kawasan Industri</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <div class="mt-3">
-                                    <a class="w-full btn3" href="#">
-                                        <span class="gradient-text">Lihat Layanan</span>
-                                        <span class="gradient-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
-                                                <g clip-path="url(#clip0_145_484)">
-                                                    <path class="icon.arrow-path" d="M21.2356 11.0682C21.8172 10.4774 21.8172 9.5179 21.2356 8.92709L13.7914 1.36468C13.2098 0.77387 12.2653 0.77387 11.6837 1.36468C11.1022 1.9555 11.1022 2.91498 11.6837 3.50579L16.5923 8.48752L2.31795 8.48752C1.49443 8.48752 0.829101 9.16341 0.829101 10C0.829101 10.8366 1.49443 11.5125 2.31795 11.5125L16.5876 11.5125L11.6884 16.4942C11.1068 17.085 11.1068 18.0445 11.6884 18.6353C12.27 19.2261 13.2145 19.2261 13.796 18.6353L21.2403 11.0729L21.2356 11.0682Z" fill="url(#paint0_linear_145_484)"/>
-                                                </g>
-                                                <defs>
-                                                    <linearGradient id="paint0_linear_145_484" x1="6.4406" y1="0.921573" x2="7.12695" y2="19.4465" gradientUnits="userSpaceOnUse">
-                                                        <stop stop-color="#1F77D3"/>
-                                                        <stop offset="1" stop-color="#321B71"/>
-                                                    </linearGradient>
-                                                    <clipPath id="clip0_145_484">
-                                                        <rect width="20" height="22.5" fill="white" transform="translate(0 20) rotate(-90)"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
+                    <x-loop.layanan-home
+                        number="03."
+                        label="Kerjasama Komersial Kawasan Industri"
+                        desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                        url="#"
+                        image="media/exterior-view-modern-industrial-building.jpg"
+                    />
                 </div>
 
                 <!--Button Mobile-->
@@ -446,234 +304,60 @@
                 <!--Content-->
                 <div class="flex lg:flex-row flex-col lg:px-0 lg:pb-0 pb-18 sm:px-6 px-4">
 
-                    <!--Item-->
-                    <div class="keunggulan-item group transition-all duration-[500ms] relative flex flex-col overflow-hidden lg:w-1/6 lg:hover:w-1/3 w-full lg:!min-h-100 !min-[unset] lg:border-r border-b border-[var(--color-bordertransparent)]">
-                        <!--front-->
-                        <div class="flex flex-col justify-between grow lg:gap-15 gap-5 sm:p-6 sm:pl-0 p-4 pl-0 lg:pl-6 lg:pt-60 pt-0 group-hover:pt-60 transition-[padding] duration-300 ease-in-out">
-                            <h6 class="text-white">01.</h6>
-                            <h5 class="text-white">Pelayanan Satu Atap</h5>
-                        </div>
-                        <!--back-->
-                        <div class="absolute group-hover:top-[0%] top-[100%] transition-all duration-[500ms] flex flex-col justify-between bg-white gap-15 px-6 pt-6 h-full">
-                            <h6>01.</h6>
-                            <div class="flex flex-col gap-5">
-                                <h5>Pelayanan Satu Atap</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <div class="mt-3">
-                                    <a class="w-full btn3" href="#">
-                                        <span class="gradient-text">Selengkapnya</span>
-                                        <span class="gradient-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
-                                                <g clip-path="url(#clip0_145_484)">
-                                                    <path class="icon.arrow-path" d="M21.2356 11.0682C21.8172 10.4774 21.8172 9.5179 21.2356 8.92709L13.7914 1.36468C13.2098 0.77387 12.2653 0.77387 11.6837 1.36468C11.1022 1.9555 11.1022 2.91498 11.6837 3.50579L16.5923 8.48752L2.31795 8.48752C1.49443 8.48752 0.829101 9.16341 0.829101 10C0.829101 10.8366 1.49443 11.5125 2.31795 11.5125L16.5876 11.5125L11.6884 16.4942C11.1068 17.085 11.1068 18.0445 11.6884 18.6353C12.27 19.2261 13.2145 19.2261 13.796 18.6353L21.2403 11.0729L21.2356 11.0682Z" fill="url(#paint0_linear_145_484)"/>
-                                                </g>
-                                                <defs>
-                                                    <linearGradient id="paint0_linear_145_484" x1="6.4406" y1="0.921573" x2="7.12695" y2="19.4465" gradientUnits="userSpaceOnUse">
-                                                        <stop stop-color="#1F77D3"/>
-                                                        <stop offset="1" stop-color="#321B71"/>
-                                                    </linearGradient>
-                                                    <clipPath id="clip0_145_484">
-                                                        <rect width="20" height="22.5" fill="white" transform="translate(0 20) rotate(-90)"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-loop.keunggulan-home
+                        number="01."
+                        label="Pelayanan Satu Atap"
+                        desc="
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        "
+                        url="#"
+                    />
 
-                    <!--Item-->
-                    <div class="keunggulan-item group transition-all duration-[500ms] relative flex flex-col lg:pt-0 sm:pt-6 pt-4 overflow-hidden lg:w-1/6 lg:hover:w-1/3 w-full lg:!min-h-100 !min-h-30 lg:border-r border-b border-[var(--color-bordertransparent)]">
-                        <!--front-->
-                        <div class="flex flex-col justify-between grow lg:gap-15 gap-5 sm:p-6 sm:pl-0 p-4 pl-0 lg:pl-6 lg:pt-60 pt-0 group-hover:pt-60 transition-[padding] duration-300 ease-in-out">
-                            <h6 class="!text-white">02.</h6>
-                            <h5 class="!text-white">Infrastruktur & Fasilitas</h5>
-                        </div>
-                        <!--back-->
-                        <div class="absolute group-hover:top-[0%] top-[100%] transition-all duration-[500ms] flex flex-col justify-between bg-white gap-15 px-6 pt-6 h-full">
-                            <h6>02.</h6>
-                            <div class="flex flex-col gap-5">
-                                <h5>Infrastruktur & Fasilitas</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <div class="mt-3">
-                                    <a class="w-full btn3" href="#">
-                                        <span class="gradient-text">Selengkapnya</span>
-                                        <span class="gradient-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
-                                                <g clip-path="url(#clip0_145_484)">
-                                                    <path class="icon.arrow-path" d="M21.2356 11.0682C21.8172 10.4774 21.8172 9.5179 21.2356 8.92709L13.7914 1.36468C13.2098 0.77387 12.2653 0.77387 11.6837 1.36468C11.1022 1.9555 11.1022 2.91498 11.6837 3.50579L16.5923 8.48752L2.31795 8.48752C1.49443 8.48752 0.829101 9.16341 0.829101 10C0.829101 10.8366 1.49443 11.5125 2.31795 11.5125L16.5876 11.5125L11.6884 16.4942C11.1068 17.085 11.1068 18.0445 11.6884 18.6353C12.27 19.2261 13.2145 19.2261 13.796 18.6353L21.2403 11.0729L21.2356 11.0682Z" fill="url(#paint0_linear_145_484)"/>
-                                                </g>
-                                                <defs>
-                                                    <linearGradient id="paint0_linear_145_484" x1="6.4406" y1="0.921573" x2="7.12695" y2="19.4465" gradientUnits="userSpaceOnUse">
-                                                        <stop stop-color="#1F77D3"/>
-                                                        <stop offset="1" stop-color="#321B71"/>
-                                                    </linearGradient>
-                                                    <clipPath id="clip0_145_484">
-                                                        <rect width="20" height="22.5" fill="white" transform="translate(0 20) rotate(-90)"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-loop.keunggulan-home
+                        number="02."
+                        label="Infrastruktur & Fasilitas"
+                        desc="
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        "
+                        url="#"
+                    />
 
-                    <!--Item-->
-                    <div class="keunggulan-item group transition-all duration-[500ms] relative flex flex-col lg:pt-0 sm:pt-6 pt-4 overflow-hidden lg:w-1/6 lg:hover:w-1/3 w-full lg:!min-h-100 !min-h-30 lg:border-r border-b border-[var(--color-bordertransparent)]">
-                        <!--front-->
-                        <div class="flex flex-col justify-between grow lg:gap-15 gap-5 sm:p-6 sm:pl-0 p-4 pl-0 lg:pl-6 lg:pt-60 pt-0 group-hover:pt-60 transition-[padding] duration-300 ease-in-out">
-                            <h6 class="!text-white">03.</h6>
-                            <h5 class="!text-white">Lokasi Strategis</h5>
-                        </div>
-                        <!--back-->
-                        <div class="absolute group-hover:top-[0%] top-[100%] transition-all duration-[500ms] flex flex-col justify-between bg-white gap-15 px-6 pt-6 h-full">
-                            <h6>03.</h6>
-                            <div class="flex flex-col gap-5">
-                                <h5>Lokasi Strategis</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <div class="mt-3">
-                                    <a class="w-full btn3" href="#">
-                                        <span class="gradient-text">Selengkapnya</span>
-                                        <span class="gradient-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
-                                                <g clip-path="url(#clip0_145_484)">
-                                                    <path class="icon.arrow-path" d="M21.2356 11.0682C21.8172 10.4774 21.8172 9.5179 21.2356 8.92709L13.7914 1.36468C13.2098 0.77387 12.2653 0.77387 11.6837 1.36468C11.1022 1.9555 11.1022 2.91498 11.6837 3.50579L16.5923 8.48752L2.31795 8.48752C1.49443 8.48752 0.829101 9.16341 0.829101 10C0.829101 10.8366 1.49443 11.5125 2.31795 11.5125L16.5876 11.5125L11.6884 16.4942C11.1068 17.085 11.1068 18.0445 11.6884 18.6353C12.27 19.2261 13.2145 19.2261 13.796 18.6353L21.2403 11.0729L21.2356 11.0682Z" fill="url(#paint0_linear_145_484)"/>
-                                                </g>
-                                                <defs>
-                                                    <linearGradient id="paint0_linear_145_484" x1="6.4406" y1="0.921573" x2="7.12695" y2="19.4465" gradientUnits="userSpaceOnUse">
-                                                        <stop stop-color="#1F77D3"/>
-                                                        <stop offset="1" stop-color="#321B71"/>
-                                                    </linearGradient>
-                                                    <clipPath id="clip0_145_484">
-                                                        <rect width="20" height="22.5" fill="white" transform="translate(0 20) rotate(-90)"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-loop.keunggulan-home
+                        number="03."
+                        label="Lokasi Strategis"
+                        desc="
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        "
+                        url="#"
+                    />
 
-                    <!--Item-->
-                    <div class="keunggulan-item group transition-all duration-[500ms] relative flex flex-col lg:pt-0 sm:pt-6 pt-4 overflow-hidden lg:w-1/6 lg:hover:w-1/3 w-full lg:!min-h-100 !min-h-30 lg:border-r border-b border-[var(--color-bordertransparent)]">
-                        <!--front-->
-                        <div class="flex flex-col justify-between grow lg:gap-15 gap-5 sm:p-6 sm:pl-0 p-4 pl-0 lg:pl-6 lg:pt-60 pt-0 group-hover:pt-60 transition-[padding] duration-300 ease-in-out">
-                            <h6 class="!text-white">04.</h6>
-                            <h5 class="!text-white">Berbasis Ekosistem</h5>
-                        </div>
-                        <!--back-->
-                        <div class="absolute group-hover:top-[0%] top-[100%] transition-all duration-[500ms] flex flex-col justify-between bg-white gap-15 px-6 pt-6 h-full">
-                            <h6>04.</h6>
-                            <div class="flex flex-col gap-5">
-                                <h5>Berbasis Ekosistem</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <div class="mt-3">
-                                    <a class="w-full btn3" href="#">
-                                        <span class="gradient-text">Selengkapnya</span>
-                                        <span class="gradient-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
-                                                <g clip-path="url(#clip0_145_484)">
-                                                    <path class="icon.arrow-path" d="M21.2356 11.0682C21.8172 10.4774 21.8172 9.5179 21.2356 8.92709L13.7914 1.36468C13.2098 0.77387 12.2653 0.77387 11.6837 1.36468C11.1022 1.9555 11.1022 2.91498 11.6837 3.50579L16.5923 8.48752L2.31795 8.48752C1.49443 8.48752 0.829101 9.16341 0.829101 10C0.829101 10.8366 1.49443 11.5125 2.31795 11.5125L16.5876 11.5125L11.6884 16.4942C11.1068 17.085 11.1068 18.0445 11.6884 18.6353C12.27 19.2261 13.2145 19.2261 13.796 18.6353L21.2403 11.0729L21.2356 11.0682Z" fill="url(#paint0_linear_145_484)"/>
-                                                </g>
-                                                <defs>
-                                                    <linearGradient id="paint0_linear_145_484" x1="6.4406" y1="0.921573" x2="7.12695" y2="19.4465" gradientUnits="userSpaceOnUse">
-                                                        <stop stop-color="#1F77D3"/>
-                                                        <stop offset="1" stop-color="#321B71"/>
-                                                    </linearGradient>
-                                                    <clipPath id="clip0_145_484">
-                                                        <rect width="20" height="22.5" fill="white" transform="translate(0 20) rotate(-90)"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-loop.keunggulan-home
+                        number="04."
+                        label="Berbasis Ekosistem"
+                        desc="
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        "
+                        url="#"
+                    />
 
-                    <!--Item-->
-                    <div class="keunggulan-item group transition-all duration-[500ms] relative flex flex-col lg:pt-0 sm:pt-6 pt-4 overflow-hidden lg:w-1/6 lg:hover:w-1/3 w-full lg:!min-h-100 !min-h-30 lg:border-r border-b border-[var(--color-bordertransparent)]">
-                        <!--front-->
-                        <div class="flex flex-col justify-between grow lg:gap-15 gap-5 sm:p-6 sm:pl-0 p-4 pl-0 lg:pl-6 lg:pt-60 pt-0 group-hover:pt-60 transition-[padding] duration-300 ease-in-out">
-                            <h6 class="!text-white">05.</h6>
-                            <h5 class="!text-white">Upah Minimum Kompetitif</h5>
-                        </div>
-                        <!--back-->
-                        <div class="absolute group-hover:top-[0%] top-[100%] transition-all duration-[500ms] flex flex-col justify-between bg-white gap-15 px-6 pt-6 h-full">
-                            <h6>05.</h6>
-                            <div class="flex flex-col gap-5">
-                                <h5>Upah Minimum Kompetitif</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <div class="mt-3">
-                                    <a class="w-full btn3" href="#">
-                                        <span class="gradient-text">Selengkapnya</span>
-                                        <span class="gradient-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
-                                                <g clip-path="url(#clip0_145_484)">
-                                                    <path class="icon.arrow-path" d="M21.2356 11.0682C21.8172 10.4774 21.8172 9.5179 21.2356 8.92709L13.7914 1.36468C13.2098 0.77387 12.2653 0.77387 11.6837 1.36468C11.1022 1.9555 11.1022 2.91498 11.6837 3.50579L16.5923 8.48752L2.31795 8.48752C1.49443 8.48752 0.829101 9.16341 0.829101 10C0.829101 10.8366 1.49443 11.5125 2.31795 11.5125L16.5876 11.5125L11.6884 16.4942C11.1068 17.085 11.1068 18.0445 11.6884 18.6353C12.27 19.2261 13.2145 19.2261 13.796 18.6353L21.2403 11.0729L21.2356 11.0682Z" fill="url(#paint0_linear_145_484)"/>
-                                                </g>
-                                                <defs>
-                                                    <linearGradient id="paint0_linear_145_484" x1="6.4406" y1="0.921573" x2="7.12695" y2="19.4465" gradientUnits="userSpaceOnUse">
-                                                        <stop stop-color="#1F77D3"/>
-                                                        <stop offset="1" stop-color="#321B71"/>
-                                                    </linearGradient>
-                                                    <clipPath id="clip0_145_484">
-                                                        <rect width="20" height="22.5" fill="white" transform="translate(0 20) rotate(-90)"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-loop.keunggulan-home
+                        number="05."
+                        label="Upah Minimum Kompetitif"
+                        desc="
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        "
+                        url="#"
+                    />
 
-                    <!--Item-->
-                    <div class="keunggulan-item group transition-all duration-[500ms] relative flex flex-col lg:pt-0 sm:pt-6 pt-4 overflow-hidden lg:w-1/6 lg:hover:w-1/3 w-full lg:!min-h-100 !min-h-30">
-                        <!--front-->
-                        <div class="flex flex-col justify-between grow lg:gap-15 gap-5 sm:p-6 sm:pl-0 p-4 pl-0 lg:pl-6 lg:pt-60 pt-0 group-hover:pt-60 transition-[padding] duration-300 ease-in-out">
-                            <h6 class="!text-white">06</h6>
-                            <h5 class="!text-white">Sumber Daya Manusia</h5>
-                        </div>
-                        <!--back-->
-                        <div class="absolute group-hover:top-[0%] top-[100%] transition-all duration-[500ms] flex flex-col justify-between bg-white gap-15 px-6 pt-6 h-full">
-                            <h6>06.</h6>
-                            <div class="flex flex-col gap-5">
-                                <h5>Sumber Daya Manusia</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <div class="mt-3">
-                                    <a class="w-full btn3" href="#">
-                                        <span class="gradient-text">Selengkapnya</span>
-                                        <span class="gradient-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 23 20" fill="none">
-                                                <g clip-path="url(#clip0_145_484)">
-                                                    <path class="icon.arrow-path" d="M21.2356 11.0682C21.8172 10.4774 21.8172 9.5179 21.2356 8.92709L13.7914 1.36468C13.2098 0.77387 12.2653 0.77387 11.6837 1.36468C11.1022 1.9555 11.1022 2.91498 11.6837 3.50579L16.5923 8.48752L2.31795 8.48752C1.49443 8.48752 0.829101 9.16341 0.829101 10C0.829101 10.8366 1.49443 11.5125 2.31795 11.5125L16.5876 11.5125L11.6884 16.4942C11.1068 17.085 11.1068 18.0445 11.6884 18.6353C12.27 19.2261 13.2145 19.2261 13.796 18.6353L21.2403 11.0729L21.2356 11.0682Z" fill="url(#paint0_linear_145_484)"/>
-                                                </g>
-                                                <defs>
-                                                    <linearGradient id="paint0_linear_145_484" x1="6.4406" y1="0.921573" x2="7.12695" y2="19.4465" gradientUnits="userSpaceOnUse">
-                                                        <stop stop-color="#1F77D3"/>
-                                                        <stop offset="1" stop-color="#321B71"/>
-                                                    </linearGradient>
-                                                    <clipPath id="clip0_145_484">
-                                                        <rect width="20" height="22.5" fill="white" transform="translate(0 20) rotate(-90)"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-               
+                    <x-loop.keunggulan-home
+                        number="06."
+                        label="Sumber Daya Manusia"
+                        desc="
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        "
+                        url="#"
+                    />
+
                 </div>
             </div>
         </section>
@@ -704,27 +388,32 @@
                 <div class="sm:!w-[55%] !w-[100%] relative fasilitas-home">
                     <div class="swiper swiper-1">
                         <div class="swiper-wrapper !flex">
-                            <x-loop.fasilitas-home
-                                label="Masjid"
-                                image="media/masjid.jpg"
-                            />
+                               <x-loop.fasilitas-home 
+                                    label="Masjid" 
+                                    image="media/masjid.jpg">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
+                                </x-loop.fasilitas-home>
 
-                            <x-loop.fasilitas-home
-                                label="Pengelola Air Bersih"
-                                image="media/masjid.jpg"
-                            />
+                                <x-loop.fasilitas-home 
+                                    label="Pengelola Air Bersih" 
+                                    image="media/pengelolaan-air.jpg">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
+                                </x-loop.fasilitas-home>
 
-                            <x-loop.fasilitas-home
-                                label="Pemadam Kebakaran"
-                                image="media/masjid.jpg"
-                            />
+                                <x-loop.fasilitas-home 
+                                    label="Pemadam Kebakaran" 
+                                    image="media/pemadam.jpg">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
+                                </x-loop.fasilitas-home>
 
-                            <x-loop.fasilitas-home
-                                label="Masjid"
-                                image="media/masjid.jpg"
-                            />
+                                <x-loop.fasilitas-home 
+                                    label="Jalan Lingkungan" 
+                                    image="media/jalan.jpg">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
+                                </x-loop.fasilitas-home>
                            
                         </div>
+                        
 
                     </div>
                     <!-- Custom icon.arrow Left -->
@@ -740,6 +429,7 @@
                 </div>
 
             </div>
+            <x-popup-content.fasilitas-popup/>
         </section>
 
         <!--End Fasilitas Home-->
@@ -832,10 +522,44 @@
 
             <!--Content-->
             <div class="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-7">
-                <x-loop.artikel-berita/>
-                <x-loop.artikel-berita/>
-                <x-loop.artikel-berita/>
-                <x-loop.artikel-berita/>
+                <x-loop.artikel-berita
+                    label="
+                    Langkah Nyata Kawasan Industri Wijayakusuma Wujudkan Kawasan Industri Modern dan Ramah Lingkungan
+                    "
+                    tag="Informasi"
+                    date="06/01/2025"
+                    image="media/langkah-nyata-kawasan-industri-wijayakusuma.jpeg"
+                    url="#"
+                />
+                <x-loop.artikel-berita
+                    label="
+                    Langkah Nyata Kawasan Industri Wijayakusuma Wujudkan Kawasan Industri Modern dan Ramah Lingkungan
+                    "
+                    tag="Informasi"
+                    date="06/01/2025"
+                    image="media/langkah-nyata-kawasan-industri-wijayakusuma.jpeg"
+                    url="#"
+                />
+                <x-loop.artikel-berita
+                    label="
+                    Langkah Nyata Kawasan Industri Wijayakusuma Wujudkan Kawasan Industri Modern dan Ramah Lingkungan
+                    "
+                    tag="Informasi"
+                    date="06/01/2025"
+                    image="media/langkah-nyata-kawasan-industri-wijayakusuma.jpeg"
+                    url="#"
+                />
+                <x-loop.artikel-berita
+                    label="
+                    Langkah Nyata Kawasan Industri Wijayakusuma Wujudkan Kawasan Industri Modern dan Ramah Lingkungan
+                    "
+                    tag="Informasi"
+                    date="06/01/2025"
+                    image="media/langkah-nyata-kawasan-industri-wijayakusuma.jpeg"
+                    url="#"
+                />
+                
+           
             </div>
 
             <!--button mobile-->

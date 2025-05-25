@@ -910,11 +910,24 @@ h6 {
   background: var(--color-transit);
 }
 
+/* keunggulan item - home */
+#keunggulan-home .keunggulan-item:last-child {
+  border: none;
+}
+
 @media (min-width: 545px) {
+  
+/* Mengapa KIW Keunggulan */
 #mengapa-kiw div:nth-child(even) > div {
   flex-direction: row-reverse !important;
   display: flex;
 }
+
+/* keunggulan item - home */
+#keunggulan-home .keunggulan-item:not(:first-child) {
+ 
+}
+
 }
 
 /* Gallery Hover */
