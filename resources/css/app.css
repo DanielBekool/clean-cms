@@ -836,6 +836,14 @@ h6 {
   right: -16px !important;
   top: 160px !important;
 }
+ 
+#fasilitas-home .fasilitas-home-item:hover {
+  background: linear-gradient(268deg, #1F77D3 1.1%, #321B71 99.1%);
+}
+
+#fasilitas-home .fasilitas-home-item:hover * {
+  color: white;
+}
 
 @media(max-width:544px) {
   #fasilitas-home .swiper {
@@ -923,10 +931,6 @@ h6 {
   display: flex;
 }
 
-/* keunggulan item - home */
-#keunggulan-home .keunggulan-item:not(:first-child) {
- 
-}
 
 }
 
