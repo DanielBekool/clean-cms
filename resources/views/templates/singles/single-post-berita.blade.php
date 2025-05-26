@@ -19,6 +19,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 <script src="{{ asset('js/like-post.js') }}"></script>
+<script src="{{ asset('js/comment-reply-form.js') }}"></script>
+<script src="{{ asset('js/comment-reply-counter.js') }}"></script>
 
  @endPush
 
@@ -113,11 +115,237 @@
         </a>
     </div>
 
-    
-    
 </section>
 
 <!--End Post Content-->
+
+<!-- Start Comment Section -->
+<section id="post-form-comment" class="bg-[--color-transit]">
+
+    <!--Start Form-->
+    <div class="py-18 lg:py-30 px-4 sm:px-6 lg:px-0 flex flex-col gap-7 lg:w-[1200px] lg:mx-auto">
+        <!--title-->
+        <div class="flex flex-col gap-5">
+            <h2 class="text-center">Tinggalkan Komentar</h2>
+            <p class="text-center">Alamat email Anda tidak akan dipublikasikan.</p>
+        </div>
+        <!--form-->
+        <form action="#" method="POST" class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-5">
+            <div class="sm:w-[48.5%] lg:w-[49%]">
+                <label for="name" class="hidden">Nama</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Masukkan nama Anda"
+                    required
+                    class="mt-1 w-full px-4 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+            </div>
+
+            <div class="sm:w-[48.5%] lg:w-[49%]">
+                <label for="email" class="hidden">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Alamat email contoh@email.com"
+                    required
+                    class="mt-1 w-full px-4 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+            </div>
+
+            <div class="sm:w-full">
+                <label for="comment" class="hidden">Komentar</label>
+                <textarea
+                    id="comment"
+                    name="comment"
+                    rows="8"
+                    placeholder="Tulis komentar Anda di sini..."
+                    required
+                    class="w-full px-4 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </textarea>
+            </div>
+
+            <!--Button-->
+            <button type="submit"
+                class="w-fit btn1 mt-5 flex items-center gap-2 text-white self-center"
+                data-aos="fade-down">
+                Kirim Komentar
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path d="M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 5L19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+        </form>
+    </div>
+    <!--End Form-->
+
+    
+    <!--Start Comment Area-->
+    <ol class="pb-18 lg:pb-30 px-4 sm:px-6 lg:px-0 flex flex-col gap-7 lg:w-[1200px] lg:mx-auto">
+
+        <!-- Comment 1 -->
+        <li id="comment-1">
+            <article class="mb-5">
+                <header class="flex flex-col gap-1">
+                    <h5>Budi Santoso</h5>
+                    <time datetime="2025-05-26T11:16:10+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
+                </header>
+                <section class="my-3">
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
+                </section>
+                <div class="mt-5 flex flex-row justify-start gap-2 text-[.85em]">
+                    <div class="bg-white border border-[var(--color-border)] w-fit px-2 py-1">
+                        <span class="count">Balasan 3</span>
+                    </div>
+                    <div class="gradient-blue text-white w-fit px-2 py-1">
+                        <a href="javascript:void(0);" class="reply-button">Balas</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Replies -->
+            <ol class="ml-6">
+                <li class="my-4">
+                    <article class="bg-white p-4 border border-[var(--color-border)]">
+                        <header class="flex flex-col gap-1">
+                            <h5>Andi Pratama</h5>
+                            <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
+                        </header>
+                        <section class="my-3">
+                            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
+                        </section>
+                        <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
+                            <a href="javascript:void(0);" class="reply-button">Balas</a>
+                        </div>
+                    </article>
+
+                    <!-- Nested Reply -->
+                    <ol class="ml-6">
+                        <li class="my-4">
+                            <article class="bg-white p-4 border border-[var(--color-border)]">
+                                <header class="flex flex-col gap-1">
+                                    <h5>Budi Santoso</h5>
+                                    <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
+                                </header>
+                                <section class="my-3">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
+                                </section>
+                                <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
+                                    <a href="javascript:void(0);" class="reply-button">Balas</a>
+                                </div>
+                            </article>
+                        </li>
+                    </ol>
+                </li>
+
+                <li class="my-4">
+                    <article class="bg-white p-4 border border-[var(--color-border)]">
+                        <header class="flex flex-col gap-1">
+                            <h5>Fajar Ramadhan</h5>
+                            <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
+                        </header>
+                        <section class="my-3">
+                            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
+                        </section>
+                        <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
+                            <a href="javascript:void(0);" class="reply-button">Balas</a>
+                        </div>
+                    </article>
+                </li>
+            </ol>
+        </li>
+
+        <!-- Comment 2 -->
+        <li id="comment-2">
+            <article class="mb-5">
+                <header class="flex flex-col gap-1">
+                    <h5>Dewi Anggraini</h5>
+                    <time datetime="2025-05-26T11:16:10+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
+                </header>
+                <section class="my-3">
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
+                </section>
+                <div class="mt-5 flex flex-row justify-start gap-2 text-[.85em]">
+                    <div class="bg-white border border-[var(--color-border)] w-fit px-2 py-1">
+                        <span class="count">Balasan 0</span>
+                    </div>
+                    <div class="gradient-blue text-white w-fit px-2 py-1">
+                        <a href="javascript:void(0);" class="reply-button">Balas</a>
+                    </div>
+                </div>
+            </article>
+        </li>
+
+        <!-- Comment 3 -->
+        <li id="comment-3">
+            <article class="mb-5">
+                <header class="flex flex-col gap-1">
+                    <h5>Mike</h5>
+                    <time datetime="2025-05-26T11:16:10+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
+                </header>
+                <section class="my-3">
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
+                </section>
+                <div class="mt-5 flex flex-row justify-start gap-2 text-[.85em]">
+                    <div class="bg-white border border-[var(--color-border)] w-fit px-2 py-1">
+                        <span class="count">Balasan 0</span>
+                    </div>
+                    <div class="gradient-blue text-white w-fit px-2 py-1">
+                        <a href="javascript:void(0);" class="reply-button">Balas</a>
+                    </div>
+                </div>
+            </article>
+        </li>
+
+    </ol>
+
+
+    <!-- Hidden Reply Form -->
+    <form id="reply-form-template" class="reply-form flex flex-col sm:flex-row justify-between gap-2 flex-wrap hidden mt-4">
+        <textarea class="w-full p-2 border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            placeholder="Tulis Komentar Anda"
+            id="comment"
+            name="comment"
+            rows="4"
+        ></textarea>
+        <div class="sm:w-[49%] lg:w-[49%]">
+            <label for="name" class="hidden">Nama</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Masukkan nama Anda"
+                required
+                class="w-full p-2 border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+        </div>
+
+        <div class="sm:w-[49%] lg:w-[49%]">
+            <label for="email" class="hidden">Email</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Alamat email contoh@email.com"
+                required
+                class="w-full p-2 border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+        </div>
+        <button type="submit" class="mt-2 px-3 py-1 bg-[var(--color-black)] w-fit text-white">Kirim</button>
+    </form>
+
+    <!--End Comment Area-->
+
+   
+
+
+</section>
+<!-- End Comment Section -->
+
 
 </main>
 <x-partials.footer />
