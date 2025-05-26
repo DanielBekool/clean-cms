@@ -37,7 +37,7 @@
 <section id="bangunan-pabrik" class="flex flex-col my-18 lg:my-30 px-4 sm:px-6 lg:px-0 gap-18 lg:gap-20 lg:w-[1200px] lg:mx-auto">
     
     <!--Title-->
-    <div class="flex flex-col lg:flex-row lg:items-start gap-5 lg:gap-10">
+    <div class="flex flex-col lg:flex-row lg:items-start gap-7 lg:gap-9">
         <h2 class="lg:w-1/3">
             BPSP Modern & Fungsional
         </h2>

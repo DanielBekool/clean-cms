@@ -237,8 +237,20 @@ h6 {
   color: var(--color-heading);
 }
 
+#laporan-tahunan th {
+  font-family: Manrope;
+}
+
+#laporan-tahunan td {
+  font-family: "DM Sans";
+}
+
 .manrope {
   font-family: Manrope;
+}
+
+#whistleblowing-content b {
+  color: var(--color-heading) !important;
 }
 
 

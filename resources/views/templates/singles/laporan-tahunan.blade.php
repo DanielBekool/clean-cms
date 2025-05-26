@@ -3,12 +3,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-
-    <!-- Alpine JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    
-
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -27,9 +21,69 @@
 
 
 <x-header-kiw/>
-<x-partials.hero-page image="media/manajemen-hero.jpg" h1="Laporan Tahunan"/>
+<x-partials.hero-page image="media/laporan-tahunan-hero.jpg" h1="Laporan Tahunan"/>
 
-<!---->
+<!--Start Laporan Tahunan-->
+
+<section id="laporan-tahunan" class="my-18 lg:my-30 sm:px-6 lg:px-0 flex flex-col gap-9 lg:w-[1200px] lg:mx-auto">
+    <h2 class="pl-4 sm:px-0">Laporan Tahunan</h2>
+
+    <div class="overflow-x-auto w-full flex flex-row pl-4 sm:px-0">
+        <table class="grow min-w-[900px] sm:min-w-[100%] text-left text-[var(--color-heading)] bg-[var(--color-transit)] rounded-md">
+            <thead class="text-[var(--color-heading)] border-b border-[var(--color-border)]">
+                <tr>
+                    <th class="px-6 py-3">Title</th>
+                    <th class="px-6 py-3">Size</th>
+                    <th class="px-6 py-3">Format</th>
+                    <th class="px-6 py-3">Date</th>
+                    <th class="px-6 py-3 px-6 py-4 flex flex-row justify-center">Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                <x-loop.table-data
+                    title="Laporan Tahunan PT KIW (persero) Tahun 2014"
+                    size="9.45MB"
+                    format="pdf"
+                    date="2025-03-26"
+                    link="#"
+                />
+                <x-loop.table-data
+                    title="Laporan Tahunan PT KIW (persero) Tahun 2015"
+                    size="9.45MB"
+                    format="pdf"
+                    date="2025-03-26"
+                    link="#"
+                />
+                <x-loop.table-data
+                    title="Laporan Tahunan PT KIW (persero) Tahun 2016"
+                    size="9.45MB"
+                    format="pdf"
+                    date="2025-03-26"
+                    link="#"
+                />
+                <x-loop.table-data
+                    title="Laporan Tahunan PT KIW (persero) Tahun 2017"
+                    size="9.45MB"
+                    format="pdf"
+                    date="2025-03-26"
+                    link="#"
+                />
+                <x-loop.table-data
+                    title="Laporan Tahunan PT KIW (persero) Tahun 2018"
+                    size="9.45MB"
+                    format="pdf"
+                    date="2025-03-26"
+                    link="#"
+                />
+            </tbody>
+        </table>
+
+    </div>
+
+</section>
+
+
+<!--End Laporan Tahunan-->
 
 </main>
 <x-partials.footer />

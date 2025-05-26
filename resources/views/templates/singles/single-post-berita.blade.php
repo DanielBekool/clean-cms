@@ -36,7 +36,7 @@
 <section id="single-tender" class="flex flex-col lg:flex-row gap-18 my-18 lg:my-30 px-4 sm:px-6 lg:px-0 lg:w-[1200px] lg:mx-auto">
 
     <!--Main Content-->
-    <div class="flex flex-col gap-10">
+    <div class="flex flex-col gap-7 lg:gap-9">
         
         <!--Top-->
         <div class="flex flex-col gap-5">
@@ -185,7 +185,7 @@
 
     
     <!--Start Comment Area-->
-    <ol class="pb-18 lg:pb-30 px-4 sm:px-6 lg:px-0 flex flex-col gap-7 lg:w-[1200px] lg:mx-auto">
+    <ol class="pb-18 lg:pb-30 px-4 sm:px-6 lg:px-0 flex flex-col gap-9 lg:w-[1200px] lg:mx-auto">
 
         <!-- Comment 1 -->
         <li id="comment-1">
