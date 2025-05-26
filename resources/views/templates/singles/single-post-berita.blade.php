@@ -20,7 +20,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 <script src="{{ asset('js/like-post.js') }}"></script>
 <script src="{{ asset('js/comment-reply-form.js') }}"></script>
-<script src="{{ asset('js/comment-reply-counter.js') }}"></script>
+<script src="{{ asset('js/reply-from-comment.js') }}"></script>
 
  @endPush
 
@@ -191,51 +191,55 @@
         <li id="comment-1">
             <article class="mb-5">
                 <header class="flex flex-col gap-1">
-                    <h5>Budi Santoso</h5>
-                    <time datetime="2025-05-26T11:16:10+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
+                    <h5 class="name">Budi Santoso</h5>
                 </header>
                 <section class="my-3">
                     <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
                 </section>
-                <div class="mt-5 flex flex-row justify-start gap-2 text-[.85em]">
-                    <div class="bg-white border border-[var(--color-border)] w-fit px-2 py-1">
-                        <span class="count">Balasan 3</span>
-                    </div>
-                    <div class="gradient-blue text-white w-fit px-2 py-1">
+                <div class="flex flex-row justify-between mt-5">
+                    <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
                         <a href="javascript:void(0);" class="reply-button">Balas</a>
                     </div>
+                    <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
                 </div>
             </article>
 
             <!-- Replies -->
-            <ol class="ml-6">
+            <ol class="ml-5">
                 <li class="my-4">
                     <article class="bg-white p-4 border border-[var(--color-border)]">
                         <header class="flex flex-col gap-1">
-                            <h5>Andi Pratama</h5>
-                            <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
+                            <p class="italic text-[.8em] reply">Membalas <span class="from-name">From Name</span></p>
+                            <h5 class="name">Andi Pratama</h5>
                         </header>
                         <section class="my-3">
                             <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
                         </section>
-                        <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
-                            <a href="javascript:void(0);" class="reply-button">Balas</a>
+                        <div class="flex flex-row justify-between mt-5">
+                            <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
+                                <a href="javascript:void(0);" class="reply-button">Balas</a>
+                            </div>
+                            <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
                         </div>
+                        
                     </article>
 
                     <!-- Nested Reply -->
-                    <ol class="ml-6">
+                    <ol class="ml-0">
                         <li class="my-4">
                             <article class="bg-white p-4 border border-[var(--color-border)]">
                                 <header class="flex flex-col gap-1">
-                                    <h5>Budi Santoso</h5>
-                                    <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
+                                    <p class="italic text-[.8em] reply">Membalas <span class="from-name">From Name</span></p>
+                                    <h5 class="name">Budi Santoso</h5>
                                 </header>
                                 <section class="my-3">
                                     <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
                                 </section>
-                                <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
-                                    <a href="javascript:void(0);" class="reply-button">Balas</a>
+                                <div class="flex flex-row justify-between mt-5">
+                                    <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
+                                        <a href="javascript:void(0);" class="reply-button">Balas</a>
+                                    </div>
+                                    <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
                                 </div>
                             </article>
                         </li>
@@ -245,14 +249,17 @@
                 <li class="my-4">
                     <article class="bg-white p-4 border border-[var(--color-border)]">
                         <header class="flex flex-col gap-1">
-                            <h5>Fajar Ramadhan</h5>
-                            <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
+                            <p class="italic text-[.8em] reply">Membalas <span class="from-name">From Name</span></p>
+                            <h5 class="name">Fajar Ramadhan</h5>
                         </header>
                         <section class="my-3">
                             <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
                         </section>
-                        <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
-                            <a href="javascript:void(0);" class="reply-button">Balas</a>
+                        <div class="flex flex-row justify-between mt-5">
+                            <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
+                                <a href="javascript:void(0);" class="reply-button">Balas</a>
+                            </div>
+                            <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
                         </div>
                     </article>
                 </li>
@@ -263,19 +270,17 @@
         <li id="comment-2">
             <article class="mb-5">
                 <header class="flex flex-col gap-1">
-                    <h5>Dewi Anggraini</h5>
+                    <h5 class="name">Dewi Anggraini</h5>
                     <time datetime="2025-05-26T11:16:10+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
                 </header>
                 <section class="my-3">
                     <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
                 </section>
-                <div class="mt-5 flex flex-row justify-start gap-2 text-[.85em]">
-                    <div class="bg-white border border-[var(--color-border)] w-fit px-2 py-1">
-                        <span class="count">Balasan 0</span>
-                    </div>
-                    <div class="gradient-blue text-white w-fit px-2 py-1">
+                <div class="flex flex-row justify-between mt-5">
+                    <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
                         <a href="javascript:void(0);" class="reply-button">Balas</a>
                     </div>
+                    <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
                 </div>
             </article>
         </li>
@@ -284,19 +289,17 @@
         <li id="comment-3">
             <article class="mb-5">
                 <header class="flex flex-col gap-1">
-                    <h5>Mike</h5>
+                    <h5 class="name">Mike</h5>
                     <time datetime="2025-05-26T11:16:10+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
                 </header>
                 <section class="my-3">
                     <p>Lorem ipsum dolor sit amet consectetur adipiscing elit...</p>
                 </section>
-                <div class="mt-5 flex flex-row justify-start gap-2 text-[.85em]">
-                    <div class="bg-white border border-[var(--color-border)] w-fit px-2 py-1">
-                        <span class="count">Balasan 0</span>
-                    </div>
-                    <div class="gradient-blue text-white w-fit px-2 py-1">
+                <div class="flex flex-row justify-between mt-5">
+                    <div class="gradient-blue text-white w-fit px-2 py-1 text-[.85em]">
                         <a href="javascript:void(0);" class="reply-button">Balas</a>
                     </div>
+                    <time datetime="2025-05-26T11:16:56+07:00" class="text-[var(--color-text)] text-[.9em]">May 26, 2025 at 11:16 am</time>
                 </div>
             </article>
         </li>
@@ -350,3 +353,4 @@
 </main>
 <x-partials.footer />
 </x-layouts.app>
+
