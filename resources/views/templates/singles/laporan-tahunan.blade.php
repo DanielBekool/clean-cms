@@ -36,7 +36,7 @@
                     <th class="px-6 py-3">Size</th>
                     <th class="px-6 py-3">Format</th>
                     <th class="px-6 py-3">Date</th>
-                    <th class="px-6 py-3 px-6 py-4 flex flex-row justify-center">Download</th>
+                    <th class="px-6 py-3 flex flex-row justify-center">Download</th>
                 </tr>
             </thead>
             <tbody>

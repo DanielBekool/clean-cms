@@ -185,18 +185,18 @@
     <div x-data="{ tab: 'tab1' }" class="rounded-md">
         <!-- Tab Headers -->
         <div class="flex gap-1 sm:gap-2 z-1">
-            <x-tab.tab-headers title="Pemegang Saham" tab="tab1"/>
-            <x-tab.tab-headers title="Anak Perusahaan 1" tab="tab2"/>
-            <x-tab.tab-headers title="Anak Perusahaan 2" tab="tab3"/>
+            <x-tab.tab-headers-saham title="Pemegang Saham" tab="tab1"/>
+            <x-tab.tab-headers-saham title="Anak Perusahaan 1" tab="tab2"/>
+            <x-tab.tab-headers-saham title="Anak Perusahaan 2" tab="tab3"/>
         </div>
 
         <!-- Tab Contents -->
-        <x-tab.tab-contents id="tab1">
+        <x-tab.tab-contents-saham id="tab1">
             <img src="{{ asset('media/pemegang-saham.png') }}" alt="Pemegang Saham" class="w-full">
-        </x-tab.tab-contents>
+        </x-tab.tab-contents-saham>
 
         
-        <x-tab.tab-contents id="tab2">
+        <x-tab.tab-contents-saham id="tab2">
             <div class="flex flex-col lg:flex-row lg:justify-between gap-12">
                 <div class="flex flex-col justify-between gap-10 lg:gap-20 lg:w-1/2">
                     <img class="w-1/4 sm:w-1/5 lg:w-1/3" src="{{ asset('media/gbc-logo.png') }}" alt="PWS">
@@ -220,10 +220,10 @@
                 </div>
                 <img src="{{ asset('media/anak-perusahaan-1.png') }}" alt="Anak Perusahaan 1" class="w-full lg:w-1/2 object-contain">
             </div>
-        </x-tab.tab-contents>
+        </x-tab.tab-contents-saham>
 
 
-        <x-tab.tab-contents id="tab3">
+        <x-tab.tab-contents-saham id="tab3">
             <div class="flex flex-col lg:flex-row lg:justify-between gap-12">
                 <div class="flex flex-col justify-between gap-10 lg:gap-20 lg:w-1/2">
                     <img class="w-1/4 sm:w-1/5 lg:w-1/3" src="{{ asset('media/pws-logo.png') }}" alt="PWS">
@@ -247,7 +247,7 @@
                 </div>
                 <img src="{{ asset('media/anak-perusahaan-2.png') }}" alt="Anak Perusahaan 1" class="w-full lg:w-1/2 object-contain">
             </div>
-        </x-tab.tab-contents>
+        </x-tab.tab-contents-saham>
 
     </div>
 </section>
