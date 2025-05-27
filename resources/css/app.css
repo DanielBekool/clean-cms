@@ -227,13 +227,12 @@ h5 {
 
 h6 {
   font-family: Manrope;
-  font-size: .9em;
+  font-size: 1.1em;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   line-height: normal;
   letter-spacing: 0.42px;
   text-transform: uppercase;
-  font-weight: 500;
   color: var(--color-heading);
 }
 
@@ -253,7 +252,7 @@ h6 {
   color: var(--color-heading) !important;
 }
 
-
+/* font tablet */
 @media(max-width:921px) {
   p {
       font-size: 15px;
@@ -333,6 +332,7 @@ h6 {
   }
 }
 
+/* font mobile */
 @media(max-width:544px) {
     p {
         font-size: 14px;
@@ -420,9 +420,7 @@ h6 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
- 
-
-  
+  width: fit-content;
 }
 
 .bullet-1::before {
@@ -434,6 +432,8 @@ h6 {
   border-radius: 100%;
   margin-right: 10px;
 }
+
+
 
 .bullet-2::before {
   content: "";

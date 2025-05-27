@@ -581,7 +581,7 @@
                     
                 <!--Heading-->
                 <div class="flex flex-col justify-start gap-5">
-                    <h6 class="bullet-1 sm:text-center text-left">Hubungan Investor</h6>
+                    <h6 class="bullet-1 sm:text-center text-left sm:self-center">Hubungan Investor</h6>
                     <h2 class="sm:text-center text-left">Laporan Tahunan & Audit Perusahaan</h2>
                 </div>
               
