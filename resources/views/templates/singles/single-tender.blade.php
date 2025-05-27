@@ -11,7 +11,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
  @endPush
@@ -31,7 +31,7 @@
         
         <!--Title-->
         <div class="flex flex-col gap-5">
-            <div class="flex flex-row gap-4">
+            <div data-aos="fade-down" class="flex flex-row gap-4">
                 <div class="flex flex-row items-center gap-2">
                     <x-icon.tag-icon-color />
                     <p class="!text-[var(--color-purple)]">Informasi</p>
@@ -41,7 +41,7 @@
                     <p class="!text-[var(--color-purple)]">Lokasi Pengadaan</p>
                 </div>
             </div>
-            <h2>
+            <h2 data-aos="fade-up">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
             </h2>
         </div>
@@ -132,7 +132,7 @@
                 tag="terbaru"
             />
             <div>
-                <h3>Tahapan Proses</h3>
+                <h3 data-aos="fade-up">Tahapan Proses</h3>
             </div>
         </div>
 
