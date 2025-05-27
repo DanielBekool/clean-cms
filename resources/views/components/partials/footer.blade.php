@@ -7,7 +7,7 @@
         <div>
             <!--Title-->
             <div class="mb-15">
-                <h2 class="!text-white lg:w-[850px] sm:w-[500px] footer">Mulai Investasi Anda di Kawasan Industri Strategis!</h2>
+                <h2 class="!text-white lg:w-[850px] sm:w-[500px] footer" data-aos="fade-up">Mulai Investasi Anda di Kawasan Industri Strategis!</h2>
             </div>
 
             <!--Content-->

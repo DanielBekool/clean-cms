@@ -22,7 +22,7 @@
 
  @endPush
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="{{ asset('js/popup-init-modal-events.js') }}"></script>
 <script src="{{ asset('js/popup-modal-controller.js') }}"></script>
 <script src="{{ asset('js/swiper.js') }}"></script>
@@ -165,8 +165,8 @@
                 <div class="flex lg:flex-row flex-col justify-between !gap-15 items-start lg:-mb-10">
                     <!--content left-->
                     <div class="flex flex-col justify-start gap-5 lg:!w-[55%]">
-                        <h6 class="bullet-1">tentang kiw</h6>
-                        <h2 class="text-[var(--color-heading)]">Pilar Industri Jawa Tengah</h2>
+                        <h6 data-aos="fade-down" class="bullet-1">tentang kiw</h6>
+                        <h2 data-aos="fade-up" class="text-[var(--color-heading)]">Pilar Industri Jawa Tengah</h2>
 
                         <p class="body-text text-[var(--color-text)]">
                             PT Kawasan Industri Wijayakusuma (KIW) merupakan perusahaan yang bergerak di bidang pengembangan dan pengelolaan kawasan industri. Pemegang saham KIW antara lain; Kementerian BUMN, PT Danareksa (Persero), Pemerintah Provinsi Jawa Tengah, dan Pemerintah Kabupaten Cilacap.
@@ -239,8 +239,8 @@
                 <div class="flex sm:flex-row flex-col justify-between items-end">
                     <!--Heading-->
                     <div class="flex flex-col justify-start gap-5 sm:w-[60%]">
-                        <h6 class="bullet-2 text-white ">layanan kami</h6>
-                        <h2 class="text-white">Solusi Komprehensif untuk Kebutuhan Industri</h2>
+                        <h6 class="bullet-2 text-white" data-aos="fade-down">layanan kami</h6>
+                        <h2 class="text-white" data-aos="fade-up">Solusi Komprehensif untuk Kebutuhan Industri</h2>
                     </div>
                     <!--Button Desktop Tablet-->
                     <div class="sm:w-[40%] sm:flex hidden flex-row justify-end">
@@ -298,8 +298,8 @@
 
                 <!--Title-->
                 <div class="flex flex-col gap-5 lg:px-0 sm:px-6 px-4">
-                    <h6 class="lg:text-center !text-white">Keunggulan</h6>
-                    <h2 class="lg:text-center !text-white">Alasan Memilih KIW?</h2>
+                    <h6 class="lg:text-center !text-white" data-aos="fade-down">Keunggulan</h6>
+                    <h2 class="lg:text-center !text-white" data-aos="fade-up">Alasan Memilih KIW?</h2>
                 </div>
                 
                 <!--Content-->
@@ -370,8 +370,8 @@
                 <!--title-->
                 <div class="flex flex-col justify-between gap-5 sm:!w-[40%]">
                     <div class="flex flex-col justify-between gap-5" >
-                        <h6 class="bullet-1">fasilitas lengkap</h6>
-                        <h2>Lingkungan Industri yang Lengkap</h2>
+                        <h6 class="bullet-1" data-aos="fade-down">fasilitas lengkap</h6>
+                        <h2 data-aos="fade-up">Lingkungan Industri yang Lengkap</h2>
                     </div>  
                     
                     <!--button-->
@@ -507,8 +507,8 @@
             <!--Title-->
             <div class="flex sm:flex-row flex-col justify-between items-end">
                 <div class="flex flex-col gap-5">
-                    <h6 class="bullet-1">Artikel & Berita</h6>
-                    <h2>Dapatkan Informasi Terbaru</h2>
+                    <h6 class="bullet-1" data-aos="fade-down">Artikel & Berita</h6>
+                    <h2 data-aos="fade-up">Dapatkan Informasi Terbaru</h2>
                 </div>
                 <!--button desktop tablet-->
                 <a class="sm:!flex !hidden w-fit btn1 mt-5"data-aos="fade-down" href="/berita">Berita Lainnya
@@ -581,8 +581,8 @@
                     
                 <!--Heading-->
                 <div class="flex flex-col justify-start gap-5">
-                    <h6 class="bullet-1 sm:text-center text-left sm:self-center">Hubungan Investor</h6>
-                    <h2 class="sm:text-center text-left">Laporan Tahunan & Audit Perusahaan</h2>
+                    <h6 class="bullet-1 sm:text-center text-left sm:self-center" data-aos="fade-down">Hubungan Investor</h6>
+                    <h2 class="sm:text-center text-left" data-aos="fade-up">Laporan Tahunan & Audit Perusahaan</h2>
                 </div>
               
 
