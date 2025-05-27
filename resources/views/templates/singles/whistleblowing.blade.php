@@ -14,7 +14,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
 <!--Light Box Image Body Bottom -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
@@ -36,7 +36,7 @@
     <!--Main Content-->
     <div class="flex flex-col gap-7 lg:gap-9">
         <!--Title-->
-        <h2>
+        <h2 data-aos="fade-up">
             Whistle Blowing System (WBS) dan Pengendalian Gratifikasi
         </h2>
 
@@ -76,7 +76,7 @@
     <div class="py-18 lg:py-30 px-4 sm:px-6 lg:px-0 flex flex-col gap-7 lg:gap-9 lg:w-[1200px] lg:mx-auto">
         <!--title-->
         <div class="flex flex-col gap-5">
-            <h2 class="text-center">Formulir Pengaduan</h2>
+            <h2 data-aos="fade-up" class="text-center">Formulir Pengaduan</h2>
             <p class="text-center">Laporkan pelanggaran, keluhan, atau saran secara aman.</p>
         </div>
         <!--form-->
