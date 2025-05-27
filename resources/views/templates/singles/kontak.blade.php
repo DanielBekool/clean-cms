@@ -118,8 +118,8 @@
     <div class="py-18 lg:py-30 px-4 sm:px-6 lg:px-0 flex flex-col gap-7 lg:gap-9 lg:w-[1200px] lg:mx-auto">
         <!--title-->
         <div class="flex flex-col gap-5">
-            <h2 class="text-center">Formulir Pengaduan</h2>
-            <p class="text-center">Laporkan pelanggaran, keluhan, atau saran secara aman.</p>
+            <h2 class="text-center">Mari Bergabung dengan KIW?/h2>
+            <p class="text-center">Gabung sekarang dan temukan berbagai kemudahan serta peluang bisnis strategis bersama KIW.</p>
         </div>
         <!--form-->
         <form action="#" method="POST" class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-5">
@@ -129,7 +129,7 @@
                     type="text"
                     id="name"
                     name="name"
-                    placeholder="Masukkan nama Lengkap Anda"
+                    placeholder="Nama Lengkap"
                     required
                     class="mt-1 w-full px-4 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
@@ -152,7 +152,7 @@
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="Alamat email contoh@email.com"
+                    placeholder="Email"
                     required
                     class="mt-1 w-full px-4 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
@@ -178,7 +178,7 @@
                     id="comment"
                     name="comment"
                     rows="8"
-                    placeholder="Tulis pesan Anda di sini..."
+                    placeholder="Tulis Pesan"
                     required
                     class="w-full px-4 py-2 border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </textarea>
