@@ -11,7 +11,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
  @endPush
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -25,10 +25,9 @@
 
 <!--Start Laporan Tahunan-->
 
-<section id="laporan-tahunan" class="my-18 lg:my-30 sm:px-6 lg:px-0 flex flex-col gap-9 lg:w-[1200px] lg:mx-auto">
-    <h2 class="pl-4 sm:px-0">Laporan Tahunan</h2>
-
-    <div class="overflow-x-auto w-full flex flex-row pl-4 sm:px-0">
+<section id="laporan-tahunan" class="my-18 lg:my-30 sm:px-6 lg:px-0 lg:w-[1200px] lg:mx-auto">
+ 
+    <div data-aos="zoom-in-up" class="overflow-x-auto w-full flex flex-row pl-4 sm:px-0">
         <table class="grow min-w-[900px] sm:min-w-[100%] text-left text-[var(--color-heading)] bg-[var(--color-transit)] rounded-md">
             <thead class="text-[var(--color-heading)] border-b border-[var(--color-border)]">
                 <tr>

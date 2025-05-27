@@ -7,7 +7,7 @@
  @endPush
 
 @push('before_body_close')
-    <script>AOS.init();</script>
+    <script src="{{ asset('js/aos-animate.js') }}"></script>
     <script src="{{ asset('js/popup-init-modal-events.js') }}"></script>
     <script src="{{ asset('js/popup-modal-controller.js') }}"></script>
  @endPush
@@ -21,7 +21,7 @@
 
 <!--Start Lahan Industri-->
 
-<section id="lahan-industri" class="map-container my-18 lg:my-30 relative px-4 sm:px-6 lg:px-0 overflow-x-auto whitespace-nowrap max-w-full lg:w-[1200px] lg:mx-auto">
+<section data-aos="zoom-in-up" id="lahan-industri" class="map-container my-18 lg:my-30 relative px-4 sm:px-6 lg:px-0 overflow-x-auto whitespace-nowrap max-w-full lg:w-[1200px] lg:mx-auto">
         <img src="{{ asset('media/lahan-industri.jpg') }}">
         
         <!-- Hotspot Items -->
