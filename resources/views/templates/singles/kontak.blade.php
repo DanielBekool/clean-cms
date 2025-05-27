@@ -11,7 +11,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
 
  @endPush
 
@@ -27,7 +27,7 @@
 
 <section id="informasi-kontak" class="my-18 lg:my-30 px-4 sm:px-6 lg:px-0 flex flex-col gap-7 lg:gap-10 lg:w-[1200px] lg:mx-auto lg:flex-row">
     <div class="flex flex-col gap-5 lg:w-1/3">
-        <h2>
+        <h2 data-aos="fade-up">
             Hubungi Kami
         </h2>
         <p>
@@ -39,7 +39,7 @@
     <div class="grid grid-cols-1 gap-5 lg:w-2/3 sm:grid-cols-2">
         
         <!--Item-->
-        <div class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
+        <div data-aos="fade-down" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
             <h5 class="text-[var(--color-purple)] group-hover:text-white">Alamat Kantor</h5>
             <a class="text-[var(--color-heading)] group-hover:text-white" href="https://maps.app.goo.gl/ncL2ZnA64wVHRJJAA" target="_blank" rel="noopener noreferrer">
                 Jl. Raya Semarang, Kendal No.Km .12,<br> Tugurejo, Semarang, Indonesia 50153
@@ -47,7 +47,7 @@
         </div>
 
         <!--Item-->
-        <div class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
+        <div data-aos="fade-down" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
             <h5 class="text-[var(--color-purple)] group-hover:text-white">Email</h5>
             <div class="flex flex-col gap-2">
                 <a class="text-[var(--color-heading)] group-hover:text-white" href="mailto:pemasaran@kiw.co.id" target="_blank" rel="noopener noreferrer">
@@ -60,7 +60,7 @@
         </div>
 
         <!--Item-->
-        <div class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
+        <div data-aos="fade-up" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
             <h5 class="text-[var(--color-purple)] group-hover:text-white">Nomor Telepon</h5>
             <div class="flex flex-col gap-2">
                 <a class="text-[var(--color-heading)] group-hover:text-white" href="tel:+6281211118022" target="_blank" rel="noopener noreferrer">
@@ -73,7 +73,7 @@
         </div>
 
         <!--Item-->
-        <div class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
+        <div data-aos="fade-up" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
             <h5 class="text-[var(--color-purple)] group-hover:text-white">Media Sosial</h5>
             <div class="flex flex-row gap-8 w-[70%] lg:w-full group-hover:invert group-hover:[filter:brightness(9999)]">
                 <a href="https://www.facebook.com/PT.KIW/" target="_blank" rel="noopener noreferrer">
@@ -118,7 +118,7 @@
     <div class="py-18 lg:py-30 px-4 sm:px-6 lg:px-0 flex flex-col gap-7 lg:gap-9 lg:w-[1200px] lg:mx-auto">
         <!--title-->
         <div class="flex flex-col gap-5">
-            <h2 class="text-center">Mari Bergabung dengan KIW?<h2>
+            <h2 data-aos="fade-up" class="text-center">Mari Bergabung dengan KIW?<h2>
             <p class="text-center">Gabung sekarang dan temukan berbagai kemudahan serta peluang bisnis strategis bersama KIW.</p>
         </div>
         <!--form-->
