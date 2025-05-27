@@ -9,7 +9,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
  @endPush
@@ -28,22 +28,22 @@
     <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-5 z-50">
 
         <!--Category-->
-        <div class="flex flex-row flex-wrap gap-2 justify-center sm:justify-start sm:w-1/2 lg:w-2/3">
-            <a class=" btn6 group w-fit" href="#" target="_blank" rel="noopener noreferrer">
+        <div data-aos="fade-up" class="flex flex-row flex-wrap gap-2 justify-center sm:justify-start sm:w-1/2 lg:w-2/3">
+            <a class=" btn6 group w-fit" href="#">
                 semua 
             </a>
 
-            <a class=" btn6 group w-fit" href="#" target="_blank" rel="noopener noreferrer">
+            <a class=" btn6 group w-fit" href="#">
                 penghargaan 
             </a>
 
-            <a class=" btn6 group w-fit" href="#" target="_blank" rel="noopener noreferrer">
+            <a class=" btn6 group w-fit" href="#">
                 sertifikasi
             </a>
         </div>
 
         <!--Field-->
-        <div class="flex flex-col sm:flex-row-reverse gap-2 sm:w-1/2 lg:w-1/3">
+        <div data-aos="fade-down" class="flex flex-col sm:flex-row-reverse gap-2 sm:w-1/2 lg:w-1/3">
 
             <!--Search-->
             <div class="relative max-w-md w-full">

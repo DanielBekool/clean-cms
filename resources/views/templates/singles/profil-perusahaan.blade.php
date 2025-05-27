@@ -31,7 +31,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="{{ asset('js/swiper.js') }}"></script>
 <script src="{{ asset('js/swiper-auto-height.js') }}"></script>
 <script src="{{ asset('js/counter.js') }}"></script>
@@ -49,9 +49,9 @@
 <section id="about" class="bg-contain bg-no-repeat bg-bottom sm:bg-cover" style="background-image:url({{ asset('media/about-image.jpg') }})">
     <div class="flex flex-col grow pt-18 pb-42 sm:pb-70 lg:pb-130 px-4 sm:px-6 lg:px-0 lg:pt-30  gradient-white-about">
         <div class="lg:w-[1200px] lg:mx-auto flex flex-col gap-5 sm:flex-row sm:justify-between">
-            <h2 class="sm:w-1/3 lg:w-[35%]">Pilar Industri Jawa Tengah</h2>
+            <h2 data-aos="fade-up" class="sm:w-1/3 lg:w-[35%]">Pilar Industri Jawa Tengah</h2>
             <div class="flex flex-col gap-5 sm:w-2/3 lg:w-[60%]">
-                <p class="sub-p">
+                <p data-aos="fade-down" class="sub-p">
                     PT Kawasan Industri Wijayakusuma (KIW) adalah perusahaan pengembang dan pengelola kawasan industri yang berlokasi strategis di Semarang, Jawa Tengah. Sebagai anggota Holding BUMN Danareksa sejak 2022, KIW dimiliki oleh Kementerian BUMN, PT Danareksa (Persero), Pemerintah Provinsi Jawa Tengah, dan Pemerintah Kabupaten Cilacap.
                 </p>
                 <p>
@@ -107,8 +107,8 @@
 
             <!--Title-->
             <div class="flex flex-col gap-5">
-                <h6 class="bullet-2 text-white ">perjalanan kami</h6>
-                <h2 class="text-white" >Sejarah & Pencapaian Kami</h4>
+                <h6 data-aos="fade-down" class="bullet-2 text-white ">perjalanan kami</h6>
+                <h2 data-aos="fade-up" class="text-white" >Sejarah & Pencapaian Kami</h4>
             </div>
 
             <!--carousel-->
@@ -164,7 +164,7 @@
                 </div>
 
                 <!-- Custom icon.arrow Right -->
-                <div class="absolute top-10 lg:top-15 swiper-button-next bg-white rounded-[100%] !h-[30px] !w-[30px] p-1">
+                <div class="absolute !top-10 lg:!top-15 swiper-button-next bg-white rounded-[100%] !h-[30px] !w-[30px] p-1">
                     <img class="w-2/3" src="{{ asset('media/arrow-right-solid.png') }}" alt="arrow">
                 </div>
             
@@ -258,8 +258,8 @@
 <section id="koneksi-global" class="lg:w-[1200px] lg:mx-auto my-18 lg:my-30">
 
     <div class="flex flex-col gap-5 px-4 sm:px-6 lg:px-0 text-center items-center">
-        <h6 class="bullet-1">koneksi global</h6>
-        <h2 class="sm:w-[500px] lg:w-[600px]">Dipercaya oleh Lebih dari 100 Perusahaan Global</h2>
+        <h6 data-aos="fade-down" class="bullet-1">koneksi global</h6>
+        <h2 data-aos="fade-up" class="sm:w-[500px] lg:w-[600px]">Dipercaya oleh Lebih dari 100 Perusahaan Global</h2>
     </div>
 
    

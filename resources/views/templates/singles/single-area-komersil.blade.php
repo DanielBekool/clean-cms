@@ -14,7 +14,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
 <!--Light Box Image Body Bottom -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
@@ -38,7 +38,7 @@
     
     <!--Title-->
     <div class="flex flex-col lg:flex-row lg:items-start gap-5 lg:gap-10">
-        <h2 class="lg:w-1/3">
+        <h2 data-aos="fade-up" class="lg:w-1/3">
             Meeting Room
         </h2>
       
@@ -56,7 +56,7 @@
                 </a>
 
                 <!--Button-->
-                <a class="w-fit btn7 mt-5" data-aos="fade-down" href="/layanan">
+                <a class="w-fit btn7 mt-5" data-aos="fade-up" href="/layanan">
                     <span class="gradient-text">sign in</span>
                 </a>
             </div>
@@ -96,7 +96,7 @@
     <div class="flex flex-col lg:flex-row lg:gap-8 gap-5 lg:px-0 lg:lg:max-w-[1200px] lg:mx-auto sm:px-6 px-4">
             
         <!--Heading-->
-        <h2 class="lg:w-1/3">Spesifikasi</h2>
+        <h2 data-aos="fade-up" class="lg:w-1/3">Spesifikasi</h2>
 
         <!--Content-->
         <div class="lg:w-2/3 flex flex-col">
