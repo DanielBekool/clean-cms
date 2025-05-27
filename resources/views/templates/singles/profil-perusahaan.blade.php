@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css">
     <script src="https://unpkg.com/popper.js@1"></script>
     <script src="https://unpkg.com/tippy.js@5"></script>
+
+    <!--Light Box Image Head -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
     
     @vite(['resources/js/app.js'])
 
@@ -36,6 +39,9 @@
 <script src="{{ asset('js/swiper-auto-height.js') }}"></script>
 <script src="{{ asset('js/counter.js') }}"></script>
 <script src="{{ asset('js/tippy.js') }}"></script>
+<!--Light Box Image Body Bottom -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
  @endPush
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -192,7 +198,11 @@
 
         <!-- Tab Contents -->
         <x-tab.tab-contents-saham id="tab1">
-            <img src="{{ asset('media/pemegang-saham.png') }}" alt="Pemegang Saham" class="w-full">
+            <div class="relative">
+                <a href="{{ asset('media/pemegang-saham.png') }}" data-lightbox="gallery">
+                    <img class="w-full" src="{{ asset('media/pemegang-saham.png') }}">
+                </a>
+            </div>
         </x-tab.tab-contents-saham>
 
         
@@ -218,7 +228,11 @@
                         </a>
                     </div>
                 </div>
-                <img src="{{ asset('media/anak-perusahaan-1.png') }}" alt="Anak Perusahaan 1" class="w-full lg:w-1/2 object-contain">
+                <div class="relative lg:w-1/2">
+                    <a href="{{ asset('media/anak-perusahaan-1.png') }}" data-lightbox="gallery">
+                        <img class="w-full object-contain" src="{{ asset('media/anak-perusahaan-1.png') }}">
+                    </a>
+                </div>
             </div>
         </x-tab.tab-contents-saham>
 
@@ -245,7 +259,11 @@
                         </a>
                     </div>
                 </div>
-                <img src="{{ asset('media/anak-perusahaan-2.png') }}" alt="Anak Perusahaan 1" class="w-full lg:w-1/2 object-contain">
+                <div class="relative lg:w-1/2">
+                    <a href="{{ asset('media/anak-perusahaan-2.png') }}" data-lightbox="gallery">
+                        <img class="w-full object-contain" src="{{ asset('media/anak-perusahaan-2.png') }}">
+                    </a>
+                </div>
             </div>
         </x-tab.tab-contents-saham>
 
