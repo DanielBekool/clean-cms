@@ -2,10 +2,10 @@
     <button class="accordion-header flex flex-row w-full justify-between items-center  pb-7 lg:pb-10 focus:outline-none">
         
         <div class="flex flex-col lg:flex-row gap-2 lg:gap-5">
-            <p class="border border-[var(--color-blue)] rounded-full px-3 py-1 lg:px-4 w-fit text-[var(--color-blue)] uppercase">
+            <p class="border border-[var(--color-blue)] rounded-full px-3 py-1 lg:px-4 w-fit text-[var(--color-blue)] uppercase" data-aos="fade-down">
                 {{ $category ?? 'Fulltime' }}
             </p>
-            <h4 class="text-left">{{ $label ?? 'Karier' }}</h4>
+            <h4 class="text-left" data-aos="fade-up">{{ $label ?? 'Karier' }}</h4>
         </div>
     
         <x-icon.arrow-accordion/>
