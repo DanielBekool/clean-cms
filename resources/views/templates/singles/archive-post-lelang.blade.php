@@ -11,7 +11,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
  @endPush
@@ -28,7 +28,7 @@
 
     <!--Title-->
     <div class="flex flex-col lg:flex-row lg:items-start gap-5 lg:gap-25">
-        <h2 class="lg:w-1/3">
+        <h2 class="lg:w-1/3" data-aos="fade-up">
             Pedoman Barang dan Jasa
         </h2>
       

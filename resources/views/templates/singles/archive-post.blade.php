@@ -11,7 +11,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
  @endPush
@@ -30,10 +30,10 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 z-50">
 
         <!--Title-->
-        <h2 class="text-center sm:text-left">Temukan Berita Terbaru</h2>
+        <h2 class="text-center sm:text-left" data-aos="fade-up">Temukan Berita Terbaru</h2>
 
         <!--Field-->
-        <div class="flex flex-col sm:flex-row-reverse gap-2 sm:w-1/2 lg:w-1/3">
+        <div class="flex flex-col sm:flex-row-reverse gap-2 sm:w-1/2 lg:w-1/3" data-aos="fade-down">
 
             <!--Search-->
             <div class="relative max-w-md w-full">
