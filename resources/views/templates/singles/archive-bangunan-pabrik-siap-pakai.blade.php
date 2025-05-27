@@ -11,7 +11,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
  @endPush
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -28,11 +28,11 @@
     
     <!--Title-->
     <div class="flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-10">
-        <h2>
+        <h2 data-aos="fade-up">
             BPSP Modern & Fungsional
         </h2>
         <div class="flex flex-col gap-5">
-            <p class="sub-p">
+            <p class="sub-p" data-aos="fade-down">
                 KIW menyediakan Bangunan Pabrik Siap Pakai (BPSP) dengan total seluas 48.388m2 untuk berbagai penggunaan, seperti pabrik dan gudang.
             </p>
             <p>
