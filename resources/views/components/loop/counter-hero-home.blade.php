@@ -1,5 +1,5 @@
  <!-- item counter -->
-<div class="counter-item lg:w-1/5 sm:w-1/5 w-1/2 lg:p-5 sm:p-5 lg:mb-0 sm:mb-0 flex flex-col justify-center sm:items-center items-start lg:border-l lg:border-r sm:border-l sm:border-r border-[var(--color-bordertransparent)]">
+<div class="counter-item lg:w-1/5 sm:w-1/5 w-1/2 lg:p-5 sm:p-5 lg:mb-0 sm:mb-0 flex flex-col justify-center sm:items-center items-start sm:border-r border-[var(--color-bordertransparent)]">
     <div class="flex flex-row justify-center items-center gap-1">
         <div class="flex flex-col gap-2 w-fit">
             <div class="flex flex-row gap-2">

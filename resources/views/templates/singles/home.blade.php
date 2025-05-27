@@ -20,6 +20,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!--Light Box Image Head -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
+
  @endPush
 @push('before_body_close')
 <script src="{{ asset('js/aos-animate.js') }}"></script>
@@ -32,6 +35,10 @@
 <script src="{{ asset('js/video-modal.js') }}"></script>
 <script src="{{ asset('js/video-inline.js') }}"></script>
 <script src="{{ asset('js/youtube-src-conversion.js') }}"></script>
+<!--Light Box Image Body Bottom -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+
 
  @endPush
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -298,7 +305,7 @@
 
                 <!--Title-->
                 <div class="flex flex-col gap-5 lg:px-0 sm:px-6 px-4">
-                    <h6 class="lg:text-center !text-white" data-aos="fade-down">Keunggulan</h6>
+                    <h6 class="lg:text-center !text-white bullet-2" data-aos="fade-down">Keunggulan</h6>
                     <h2 class="lg:text-center !text-white" data-aos="fade-up">Alasan Memilih KIW?</h2>
                 </div>
                 
@@ -307,36 +314,36 @@
 
                     <x-loop.keunggulan-home
                         number="01."
-                        label="Pelayanan Satu Atap"
+                        label="Layanan Perizinan"
                         desc="
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        KIW menawarkan kemudahan dalam menjalankan bisnis melalui sistem pelayanan satu atap yang terintegrasi.
                         "
                         url="#"
                     />
 
                     <x-loop.keunggulan-home
                         number="02."
-                        label="Infrastruktur & Fasilitas"
+                        label="Lokasi Strategis"
                         desc="
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Kawasan Industri Wijayakusuma terletak di jalur utama Semarang, pusat pertumbuhan ekonomi di Jawa Tengah.
                         "
                         url="#"
                     />
 
                     <x-loop.keunggulan-home
                         number="03."
-                        label="Lokasi Strategis"
+                        label="Berbasis Ekosistem"
                         desc="
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        KIW mengusung ekosistem industri terintegrasi yang mendorong kolaborasi antar pelaku usaha untuk tumbuh secara berkelanjutan.
                         "
                         url="#"
                     />
 
                     <x-loop.keunggulan-home
                         number="04."
-                        label="Berbasis Ekosistem"
+                        label="Infrastruktur & Fasilitas"
                         desc="
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        KIW dibangun dengan infrastruktur kelas industri yang lengkap dan modern.
                         "
                         url="#"
                     />
@@ -345,7 +352,7 @@
                         number="05."
                         label="Upah Minimum Kompetitif"
                         desc="
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        KIW memiliki Upah Minimum yang relatif lebih rendah dibandingkan kota-kota besar seperti Jakarta atau Surabaya.
                         "
                         url="#"
                     />
@@ -354,7 +361,16 @@
                         number="06."
                         label="Sumber Daya Manusia"
                         desc="
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        KIW dikelilingi institusi pendidikan dan pelatihan yang mencetak lulusan siap kerja dan terampil.
+                        "
+                        url="#"
+                    />
+
+                    <x-loop.keunggulan-home
+                        number="07."
+                        label="Ekosistem Klaster Bisnis"
+                        desc="
+                        KIW mendukung ekosistem industri melalui fasilitas modern, tata kelola profesional, dan layanan satu pintu.
                         "
                         url="#"
                     />
@@ -363,6 +379,95 @@
             </div>
         </section>
         <!--End Keunggulan-->
+
+        <!--Start Tab Sektor Industri-->
+        <section id="tab" class="my-18 lg:my-30 px-4 sm:px-6 lg:px-0 lg:w-[1200px] lg:mx-auto relative">
+            <div x-data="{ tab: 'tab1' }" class="rounded-md">
+                <!-- Tab Headers -->
+                <div class="header-sektor-wrap lg:flex lg:flex-row lg:justify-start lg:gap-5 grid grid-cols-2 gap-2 justify-center z-1">
+                    <x-tab.tab-headers-sektor title="Modern Textile & Garment" tab="tab1"/>
+                    <x-tab.tab-headers-sektor title="Wood & Furniture" tab="tab2"/>
+                    <x-tab.tab-headers-sektor title="Chemical & New Material" tab="tab3"/>
+                    <x-tab.tab-headers-sektor title="Consumer Goods & Food Procesing" tab="tab4"/>
+                    <x-tab.tab-headers-sektor title="Others" tab="tab5"/>
+                </div>
+
+                <!-- Tab Contents -->
+                <x-tab.tab-contents-sektor id="tab1"
+                    label="Modern Textile and Garment Industry"
+                    image="media/garmen.png"
+                    desc="<p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a augue in erat fermentum imperdiet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed sodales semper tincidunt. Curabitur varius ultricies magna eleifend tincidunt. Suspendisse fringilla malesuada metus eu rutrum. Proin neque ante, fermentum sed hendrerit eget, scelerisque at risus. In posuere dui a neque dictum placerat.
+                    <ul class='list-disc pl-6 mt-5'>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Lorem ipsum dolor sit amet</li>
+                    </ul>
+                    </p>
+                    "
+                />
+
+                <x-tab.tab-contents-sektor id="tab2"
+                    label="Wood & Furniture"
+                    image="media/furniture.png"
+                    desc="<p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a augue in erat fermentum imperdiet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed sodales semper tincidunt. Curabitur varius ultricies magna eleifend tincidunt. Suspendisse fringilla malesuada metus eu rutrum. Proin neque ante, fermentum sed hendrerit eget, scelerisque at risus. In posuere dui a neque dictum placerat.
+                    <ul class='list-disc pl-6 mt-5'>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Lorem ipsum dolor sit amet</li>
+                    </ul>
+                    </p>
+                    "
+                />
+
+                <x-tab.tab-contents-sektor id="tab3"
+                    label="Chemical & New Material"
+                    image="media/chemical.png"
+                    desc="<p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a augue in erat fermentum imperdiet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed sodales semper tincidunt. Curabitur varius ultricies magna eleifend tincidunt. Suspendisse fringilla malesuada metus eu rutrum. Proin neque ante, fermentum sed hendrerit eget, scelerisque at risus. In posuere dui a neque dictum placerat.
+                    <ul class='list-disc pl-6 mt-5'>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Lorem ipsum dolor sit amet</li>
+                    </ul>
+                    </p>
+                    "
+                />
+
+                <x-tab.tab-contents-sektor id="tab4"
+                    label="Consumer Goods & Food Procesing"
+                    image="media/consumer.png"
+                    desc="<p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a augue in erat fermentum imperdiet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed sodales semper tincidunt. Curabitur varius ultricies magna eleifend tincidunt. Suspendisse fringilla malesuada metus eu rutrum. Proin neque ante, fermentum sed hendrerit eget, scelerisque at risus. In posuere dui a neque dictum placerat.
+                    <ul class='list-disc pl-6 mt-5'>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Lorem ipsum dolor sit amet</li>
+                    </ul>
+                    </p>
+                    "
+                />
+
+                <x-tab.tab-contents-sektor id="tab5"
+                    label="Others"
+                    image="media/others.png"
+                    desc="<p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a augue in erat fermentum imperdiet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed sodales semper tincidunt. Curabitur varius ultricies magna eleifend tincidunt. Suspendisse fringilla malesuada metus eu rutrum. Proin neque ante, fermentum sed hendrerit eget, scelerisque at risus. In posuere dui a neque dictum placerat.
+                    <ul class='list-disc pl-6 mt-5'>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Lorem ipsum dolor sit amet</li>
+                        <li>Lorem ipsum dolor sit amet</li>
+                    </ul>
+                    </p>
+                    "
+                />
+                
+                     
+            </div>
+        </section>
+
+        <!--End Sektor Industri-->
 
         <!--Start Fasilitas Home-->
         <section id="fasilitas-home" class="overflow-hidden lg:my-30 my-18 lg:px-0 sm:px-6 px-4">
@@ -501,6 +606,60 @@
         </section>
         <!--End Video Home-->
 
+        <!--Start Tenant-->
+        <section id="tenant-home" class="my-18 lg:my-30 px-4 sm:px-6 lg:px-0 gap-7">
+            <div class="flex flex-col gap-5">
+                <h6 class="bullet-1 self-center">
+                    Tenant kami
+                </h6>
+                <h2 class="text-center">Tenant dari Berbagai Sektor Industri</h2>
+            </div>
+            <!--carousel-->
+            <div class="sm:!w-[55%] !w-[100%] relative fasilitas-home">
+                <div class="swiper swiper-1">
+                    <div class="swiper-wrapper !flex">
+                            <x-loop.fasilitas-home 
+                                label="Masjid" 
+                                image="media/masjid.jpg">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
+                            </x-loop.fasilitas-home>
+
+                            <x-loop.fasilitas-home 
+                                label="Pengelola Air Bersih" 
+                                image="media/pengelolaan-air.jpg">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
+                            </x-loop.fasilitas-home>
+
+                            <x-loop.fasilitas-home 
+                                label="Pemadam Kebakaran" 
+                                image="media/pemadam.jpg">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
+                            </x-loop.fasilitas-home>
+
+                            <x-loop.fasilitas-home 
+                                label="Jalan Lingkungan" 
+                                image="media/jalan.jpg">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
+                            </x-loop.fasilitas-home>
+                        
+                    </div>
+                    
+
+                </div>
+                <!-- Custom icon.arrow Left -->
+                <div class="swiper-button-prev gradient-blue rounded-[100%] !h-[30px] !w-[30px] p-1 ">
+                    <x-icon.arrow-left-white/>
+                </div>
+
+                <!-- Custom icon.arrow Right -->
+                <div class="swiper-button-next gradient-blue  rounded-[100%] !h-[30px] !w-[30px] p-1">
+                    <x-icon.arrow-right-white/>
+                </div>
+            
+            </div>
+        </section>
+        <!--End Tenant-->
+        
 
         <!--Start Artikel Berita-->
         <section id="artikel-berita-home" class="lg:max-w-[1200px] lg:mx-auto flex flex-col lg:my-30 my-18 lg:px-0 sm:px-6 px-4 gap-8">

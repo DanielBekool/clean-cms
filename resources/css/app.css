@@ -248,6 +248,15 @@ h6 {
   font-family: Manrope;
 }
 
+.dm-sans {
+  font-family: "DM Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--color-text);
+}
+
 #whistleblowing-content b {
   color: var(--color-heading) !important;
 }
@@ -986,6 +995,12 @@ h6 {
   padding-right: 0;
 }
 
+@media(min-width: 544px) {
+.counter-hero-home > div:nth-child(2){
+  border-left: 1px solid var(--color-bordertransparent);
+
+}
+}
 
 /* karier accordion*/
 #karier .accordion-item:not(:first-child) .accordion-header {
@@ -1033,3 +1048,16 @@ h6 {
 .milestone > div:last-child {
   padding-bottom: 0px
 }
+
+/* tab sektor home */
+@media(max-width: 921px) {
+.header-sektor-wrap .tab-header-sektor:last-child {
+  grid-column: span 2;
+}
+
+.header-sektor-wrap .tab-header-sektor:not(:last-child) {
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+}
+}
+
