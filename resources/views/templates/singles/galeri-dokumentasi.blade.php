@@ -11,7 +11,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="{{ asset('js/youtube-src-conversion.js') }}"></script>
 
  @endPush
@@ -30,12 +30,12 @@
     
     <!--Title-->
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <h2>
+        <h2 data-aos="fade-up">
             Foto Kegiatan Perusahaan
         </h2>
       
         <!--button-->
-        <a class="w-fit btn1" href="https://www.instagram.com/ptkiw/" target="_blank" rel="noopener noreferrer">kunjungi instagram
+        <a class="w-fit btn1" data-aos="fade-down" href="https://www.instagram.com/ptkiw/" target="_blank" rel="noopener noreferrer">kunjungi instagram
             <x-icon.instagram-icon-white/>
         </a>
        
@@ -65,10 +65,10 @@
       
         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 ">
            
-            <h2>Dokumentasi Video</h2>
+            <h2 data-aos="fade-up">Dokumentasi Video</h2>
     
             <!-- Tab Headers -->
-            <div class="flex flex-row gap-2 sm:gap-2 z-1">
+            <div class="flex flex-row gap-2 sm:gap-2 z-1" data-aos="fade-down">
                 <x-tab.tab-headers-video title="youtube" tab="tab1"/>
                 <x-tab.tab-headers-video title="Reels instagram" tab="tab2"/>
             </div>
