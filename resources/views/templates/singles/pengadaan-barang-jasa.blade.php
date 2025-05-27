@@ -12,12 +12,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
-
-
-
-
-
+<script src="{{ asset('js/aos-animate.js') }}"></script>
  @endPush
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -35,7 +30,7 @@
         <div class="gradient-white-visi-misi-bottom pb-70 sm:pb-80 lg:pb-200 pt-18 px-4 sm:px-6 lg:px-0 lg:pt-30">
             <div class="lg:w-[1200px] lg:mx-auto flex flex-col lg:flex-row gap-5 sm:justify-between">
                 <div class="lg:w-[37%] flex flex-col gap-5">
-                    <h2 >Selamat Datang di E-Procurement KIW</h2>
+                    <h2 data-aos="fade-up">Selamat Datang di E-Procurement KIW</h2>
                 </div>
 
                 <!--Wrap Items-->
@@ -64,7 +59,7 @@
 <!--End About Pengadaan-->
 
 <!--Start Section Peringatan-->
-<section id="peringatan" class="relative sm:px-6 lg:px-0 sm:-mt-20 lg:-mt-25 lg:w-[1200px] lg:mx-auto z-20">
+<section data-aos="fade-up" id="peringatan" class="relative sm:px-6 lg:px-0 sm:-mt-20 lg:-mt-25 lg:w-[1200px] lg:mx-auto z-20">
     <div class="bg-cover px-4 sm:px-6 pt-18 sm:pt-0 lg:px-10 flex flex-col sm:rounded-lg justify-between sm:flex-row gap-8" style="background-image:url('{{ asset('media/gradient-pengadaan.jpg') }}')">
         <div class="flex flex-col gap-5 sm:w-2/3 lg:w-1/2 sm:py-9 lg:self-center">
             <h3 class="text-white">HATI-HATI TERHADAP PENIPUAN!</h3>
@@ -84,8 +79,8 @@
             
         <!--Heading-->
         <div class="flex flex-col justify-start gap-5">
-            <h6 class="bullet-1 sm:text-center text-left">panduan pengadaan</h6>
-            <h2 class="sm:text-center text-left">Panduan Lengkap Proses Pengadaan</h2>
+            <h6 data-aos="fade-down" class="bullet-1 sm:text-center text-left sm:self-center">panduan pengadaan</h6>
+            <h2 data-aos="fade-up" class="sm:text-center text-left">Panduan Lengkap Proses Pengadaan</h2>
         </div>
     
 
@@ -134,8 +129,8 @@
         <!--Heading-->
         <div class="flex flex-row justify-between">
             <div class="flex flex-col justify-start gap-5">
-                <h6 class="bullet-1 sm:text-left text-left">Pengadaan terbaru</h6>
-                <h2 class="sm:text-center text-left">Pengadaan yang Sedang Berlangsung</h2>
+                <h6 data-aos="fade-down" class="bullet-1 sm:text-left text-left">Pengadaan terbaru</h6>
+                <h2 data-aos="fade-up" class="sm:text-center text-left">Pengadaan yang Sedang Berlangsung</h2>
             </div>
             <!--button Desktop Tablet-->
             <a class="w-fit btn1 mt-5 !hidden"data-aos="fade-down" href="#">lihat semua
