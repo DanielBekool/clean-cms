@@ -4,14 +4,14 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" link="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
  
 
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
  @endPush
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -31,7 +31,7 @@
             <br><br>
             <b>Code of Conduct</b> tersebut memuat nilai-nilai etika perilaku bagi seluruh insan PT Kawasan Industri Wijayakusuma untuk mendukung pencapaian visi, misi, tujuan dan strategi Perusahaan, dengan dibangunnya budaya kerja untuk menjaga berlangsungnya lingkungan kerja yang professional, jujur, terbuka, peduli dan tanggap terhadap setiap kegiatan PT Kawasan Industri Wijayakusuma serta kepentingan pihak stakeholders.
         "
-        href="#"
+        link="#"
         button="Unduh Code of Conduct" 
     />
 
@@ -46,7 +46,7 @@
             <br><br>
             <b>COCG</b> akan ditinjau dan dimutakhirkan secara berkala seiring dengan kegiatan usaha Perusahaan yang dinamis dan selalu mengalami perkembangan. Dengan diberlakunya Pedoman Tata Kelola Perusahaan ini di lingkungan PT KIW, diharapkan akan memberikan motivasi bagi organ perusahaan untuk menjadi Perusahaan yang memiliki kinerja yang tinggi dan citra yang baik di masyarakat dan stakeholder.
         "
-        href="#"
+        link="#"
         button="Unduh CODE OF CORPORATE GOVERNANCE" 
     />
 
@@ -57,7 +57,7 @@
         <br><br>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         "
-        href="#"
+        link="#"
         button="Unduh manajemen risiko" 
     />
 
