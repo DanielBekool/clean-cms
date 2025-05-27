@@ -7,7 +7,7 @@
  @endPush
 
 @push('before_body_close')
-<script>AOS.init();</script>
+<script src="{{ asset('js/aos-animate.js') }}"></script>
  @endPush
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
