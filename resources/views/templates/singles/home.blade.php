@@ -31,6 +31,7 @@
 <script src="{{ asset('js/counter.js') }}"></script>
 <script src="{{ asset('js/video-modal.js') }}"></script>
 <script src="{{ asset('js/video-inline.js') }}"></script>
+<script src="{{ asset('js/youtube-src-conversion.js') }}"></script>
 
  @endPush
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">

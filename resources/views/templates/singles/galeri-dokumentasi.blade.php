@@ -7,23 +7,12 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- Alpine JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!--Light Box Image Head -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
-
 
  @endPush
 
 @push('before_body_close')
 <script>AOS.init();</script>
-<!--Light Box Image Body Bottom -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
-
-
-
+<script src="{{ asset('js/youtube-src-conversion.js') }}"></script>
 
  @endPush
 
@@ -54,24 +43,14 @@
 
     <!--Content-->
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
-        <x-loop.gallery-grid
-            image="media/bpsp-1.jpg"
-        />
-        <x-loop.gallery-grid
-            image="media/bpsp-2.jpg"
-        />
-        <x-loop.gallery-grid
-            image="media/bpsp-3.jpg"
-        />
-        <x-loop.gallery-grid
-            image="media/bpsp-4.jpg"
-        />
-        <x-loop.gallery-grid
-            image="media/bpsp-1.jpg"
-        />
-        <x-loop.gallery-grid
-            image="media/bpsp-2.jpg"
-        />
+        <img src="{{ asset('media/ig-1.jpg') }}">
+        <img src="{{ asset('media/ig-2.jpg') }}">
+        <img src="{{ asset('media/ig-1.jpg') }}">
+        <img src="{{ asset('media/ig-2.jpg') }}">
+        <img src="{{ asset('media/ig-1.jpg') }}">
+        <img src="{{ asset('media/ig-2.jpg') }}">
+        <img src="{{ asset('media/ig-1.jpg') }}">
+        <img src="{{ asset('media/ig-2.jpg') }}">
     </div>
 
 
@@ -99,25 +78,27 @@
         <!-- Tab Contents -->
         <x-tab.tab-contents-video id="tab1">
             
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
-                <x-loop.gallery-grid
-                    image="media/bpsp-1.jpg"
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4">
+                <x-loop.youtube
+                    src="https://www.youtube.com/watch?v=-jK-qj3ZNLI&ab_channel=PTKIW"
                 />
-                <x-loop.gallery-grid
-                    image="media/bpsp-2.jpg"
+                <x-loop.youtube
+                    src="https://www.youtube.com/watch?v=Gkd6nIngOY4&ab_channel=PTKIW"
                 />
-                <x-loop.gallery-grid
-                    image="media/bpsp-3.jpg"
+                <x-loop.youtube
+                    src="https://www.youtube.com/watch?v=ZaFJi0aiWsg&ab_channel=PTKIW"
                 />
-                <x-loop.gallery-grid
-                    image="media/bpsp-4.jpg"
+                <x-loop.youtube
+                    src="https://www.youtube.com/watch?v=YX5BzjiFFiw&ab_channel=PTKIW"
                 />
-                <x-loop.gallery-grid
-                    image="media/bpsp-1.jpg"
+                <x-loop.youtube
+                    src="https://www.youtube.com/watch?v=cAYqlHFaS3M&ab_channel=PTKIW"
                 />
-                <x-loop.gallery-grid
-                    image="media/bpsp-2.jpg"
+                <x-loop.youtube
+                    src="https://www.youtube.com/watch?v=dflIUeHhr-Y&ab_channel=PTKIW"
                 />
+
+
             </div>
             
         </x-tab.tab-contents-video>
@@ -125,15 +106,14 @@
         
         <x-tab.tab-contents-video id="tab2">
              <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
-                <x-loop.gallery-grid
-                    image="media/bpsp-2.jpg"
-                />
-                <x-loop.gallery-grid
-                    image="media/bpsp-2.jpg"
-                />
-                <x-loop.gallery-grid
-                    image="media/bpsp-3.jpg"
-                />
+                <img src="{{ asset('media/ig-1.jpg') }}">
+                <img src="{{ asset('media/ig-2.jpg') }}">
+                <img src="{{ asset('media/ig-1.jpg') }}">
+                <img src="{{ asset('media/ig-2.jpg') }}">
+                <img src="{{ asset('media/ig-1.jpg') }}">
+                <img src="{{ asset('media/ig-2.jpg') }}">
+                <img src="{{ asset('media/ig-1.jpg') }}">
+                <img src="{{ asset('media/ig-2.jpg') }}">
             </div>
         </x-tab.tab-contents-video>
 
