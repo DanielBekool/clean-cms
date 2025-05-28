@@ -91,7 +91,7 @@
                         <div class="absolute inset-0 z-0">
                             <img id="video-fallback" src="{{ asset('media/background-home.jpg') }}" alt="Banner Image" class="w-full h-full object-cover absolute inset-0 z-0" />
                             <iframe id="video-frame"
-                                class="absolute inset-0 w-full h-full object-cover scale-[3] sm:scale-[1.5] lg:scale-[1.2]"
+                                class="absolute inset-0 w-full h-full object-cover scale-[3] sm:scale-[1.5] lg:scale-[1.5]"
                                 src="https://www.youtube.com/embed/1t_z7FMcsOw?autoplay=1&loop=1&mute=1&controls=0&playlist=1t_z7FMcsOw&modestbranding=1&showinfo=0"
                                 title="YouTube video background" frameborder="0"
                                 allow="autoplay; encrypted-media" allowfullscreen>
@@ -100,7 +100,7 @@
                         <!-- overlay -->
                         <div class="bg-[var(--color-overlayblack)] z-10 bg-opacity-60 relative">
                             <div class="gradient-black-hero">
-                                <div class=" flex flex-col justify-between items-start lg:pt-13 sm:pb-2 lg:pb-7 pb-6 lg:h-[100vh] sm:h-[600px] h-[654px]">
+                                <div class=" flex flex-col justify-between items-start lg:pt-13 sm:pb-2 lg:pb-7 pb-6 lg:h-[110vh] sm:h-[600px] h-[654px]">
                                     <!-- content -->
                                     <div class="flex flex-col items-start gap-5 sm:p-6 p-4 lg:w-[1200px] lg:mx-auto lg:px-0 sm:pt-8 px-4 mt-40 z-20">
                                         <h1 data-aos="fade-up" class="text-left text-white lg:max-w-[600px] sm:max-w-[500px] lg:!text-[2.8rem] sm:!text-[2.2rem] !text-[1.6rem]">
@@ -148,12 +148,12 @@
                     </div>
 
                     <!--Item Photo-->
-                    <div class="swiper-slide relative" style="background-image:url('{{ asset('media/hero-home-2.jpg') }}')">
+                    <div class="swiper-slide relative bg-cover bg-no-repeat" style="background-image:url('{{ asset('media/hero-home-2.jpg') }}')">
                         
                         <!-- overlay -->
                         <div class="bg-[var(--color-overlayblack)] z-10 bg-opacity-60 relative">
                             <div class="gradient-black-hero">
-                                <div class=" flex flex-col justify-between items-start lg:pt-13 sm:pb-2 lg:pb-7 pb-6 lg:h-[100vh] sm:h-[600px] h-[654px]">
+                                <div class=" flex flex-col justify-between items-start lg:pt-13 sm:pb-2 lg:pb-7 pb-6 lg:h-[110vh] sm:h-[600px] h-[654px]">
                                     <!-- content -->
                                     <div class="flex flex-col items-start gap-5 sm:p-6 p-4 lg:w-[1200px] lg:mx-auto lg:px-0 sm:pt-8 px-4 mt-40 z-20">
                                         <h1 data-aos="fade-up" class="text-left text-white lg:max-w-[600px] sm:max-w-[500px] lg:!text-[2.8rem] sm:!text-[2.2rem] !text-[1.6rem]">

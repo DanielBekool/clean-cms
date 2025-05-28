@@ -1,11 +1,11 @@
 <!--Start Header Menu-->
 <div x-data="{ open: false, openSubMenu: null }"> 
-    <header class="absolute top-0 left-1/2 -translate-x-1/2 w-full lg:w-[1200px] z-50 lg:p-0 sm:p-6 p-4">
-        <div class="lg:max-w-[1200px] mx-auto flex pt-5 justify-between gap-5">
+    <header class="absolute top-0 left-1/2 -translate-x-1/2 w-full lg:w-[1200px] z-50 lg:p-0 sm:p-6 px-4 pt-2">
+        <div class="lg:max-w-[1200px] mx-auto flex pt-5 justify-between gap-10">
     
             <!--Logo-->
             <div class=" flex items-center ">
-                    <a href="#"><img class="w-20 filter brightness-0 invert" src="{{ asset('media/logo.png') }}" alt="logo"></a>
+                    <a href="/"><img class="!w-12 sm:!w-20 mr-20 filter brightness-0 invert" src="{{ asset('media/logo.png') }}" alt="logo"></a>
             </div>
 
             <div class="flex flex-col justify-between w-full grow">
@@ -29,20 +29,20 @@
                     </a>
 
                     <!--Translate-->
-                    <div class="flex flex-row gap-5 items-center">
-                            <a href="#" class="border-r border-[var(--color-bordertransparent)] pr-5 flex flex-row gap-2 items-center">
+                    <div class="flex flex-row gap-5 items-center text-white ">
+                            <a href="#" class="hover:text-[var(--color-lightblue)] border-r border-[var(--color-bordertransparent)] pr-5 flex flex-row gap-2 items-center">
                             <img class="w-5 h-4" src="{{ asset('media/english.jpg') }}" alt="english">
                             English
                         </a>
-                            <a href="#" class="border-r border-[var(--color-bordertransparent)] pr-5 flex flex-row gap-2 items-center">
+                            <a href="#" class="hover:text-[var(--color-lightblue)] border-r border-[var(--color-bordertransparent)] pr-5 flex flex-row gap-2 items-center">
                             <img class="w-5 h-4" src="{{ asset('media/mandarin.jpg') }}" alt="mandarin">
                             Mandarin
                         </a>
-                        <a href="#" class="border-r border-[var(--color-bordertransparent)] pr-5 flex flex-row gap-2 items-center">
+                        <a href="#" class="hover:text-[var(--color-lightblue)] border-r border-[var(--color-bordertransparent)] pr-5 flex flex-row gap-2 items-center">
                             <img class="w-5 h-4" src="{{ asset('media/korea.jpg') }}" alt="korea">
                             Korea
                         </a>
-                        <a href="#" class="flex flex-row gap-2 items-center">
+                        <a href="#" class="hover:text-[var(--color-lightblue)] flex flex-row gap-2 items-center">
                             <img class="w-5 h-4" src="{{ asset('media/indonesia.jpg') }}" alt="indonesia">
                             Indonesia
                         </a>
@@ -54,217 +54,208 @@
                 <nav class="hidden lg:flex lg:flex-row lg:justify-end">
                     <ul class="flex flex-row justify-between gap-2 items-end grow">
 
-                    
-                        <!--START Debuging-->
-                        <!-- Bagian produk & layanan -->
-                        <!-- Produk & Layanan -->
+                        <!-- Menu Beranda -->
                         <li class="relative group">
+                            <!-- Main Menu -->
                             <x-menu.parent-menu
-                                menu="Lahan Industri"
-                                URL="#"
+                                menu="beranda"
+                                url="#"
+                            />
+                        </li>      
+
+                        <!-- Menu Tentang -->
+                        <li class="relative group">
+                            <!-- Main Menu -->
+                            <x-menu.parent-menu-have-sub
+                                menu="Tentang"
+                                url="#"
                             />
 
-                        <!-- Submenu utama -->
-                        <ul class="absolute left-0 top-full mt-0 w-60 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                            
-                            <li class="relative group/submenu">
-                                <x-menu.sub-parent-menu
-                                menu="Lahan Industri"
-                                URL="#"
+                            <!-- Main Submenu -->
+                            <ul class="absolute left-0 top-full mt-1 w-60 bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                                
+                                <!-- Submenu -->
+                                <x-menu.sub-menu
+                                    menu="Profil Perusahaan"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Visi Misi & Tata Nilai"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Manajemen Perusahaan"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Pedoman & Tata Kelola"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Penghargaan"
+                                    url="#"
+                                />
+                            </ul>
+                        </li>
+
+                        <!-- Menu Produk -->
+                        <li class="relative group">
+                            <!-- Main Menu -->
+                            <x-menu.parent-menu-have-sub
+                                menu="produk & layanan"
+                                url="#"
                             />
 
-                                <!-- Submenu dalam -->
-                                <ul class="absolute left-full top-0 mt-0 w-56 bg-white shadow-lg rounded-md opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all">
-                                    <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Submenu Pabrik 1</a>
-                                    </li>
-                                    <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Submenu Pabrik 2</a>
-                                    </li>
-                                    <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Submenu Pabrik 3</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            <!-- Main Submenu -->
+                            <ul class="absolute left-0 top-full mt-1 w-60 bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                                
+                                <!-- Submenu -->
+                                <x-menu.sub-menu
+                                    menu="Lahan Industri"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Bangunan Pabrik Siap Pakai"
+                                    url="#"
+                                />
 
-                            <li>
-                            <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Gudang Siap Pakai</a>
-                            </li>
-                            <li>
-                            <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Jasa Konstruksi Bangunan</a>
-                            </li>
-                            <li>
-                            <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Pemasangan Atap & Genteng</a>
-                            </li>
+                                <!-- Submenu have sub menu -->
+                                <li class="relative group/submenu">
+                                    <x-menu.sub-parent-menu
+                                        menu="Area Komersil"
+                                        url="#"
+                                    />
 
-                        </ul>
-                        </li>
-
-                        <!--END Debuging-->
-
-                        <!-- Item -->
-                        <li>
-                            <a href="/home" class="inline-flex items-center px-1 pt-1 uppercase text-white hover:text-[var(--color-lightblue)]">
-                                Beranda
-                            </a>
-                        </li>
-
-                        <!-- Item w sub -->
-                        <li class="relative group">
-                            <a href="#" class="inline-flex items-center px-1 pt-1 uppercase text-white hover:text-[var(--color-lightblue)] focus:outline-none">
-                                Tentang
-                                <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-
-                            <!-- Submenu -->
-                            <ul class="absolute overflow-hidden left-0 mt-2 w-60 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                                <li>
-                                    <a href="/profil-perusahaan" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Profil Perusahaan</a>
+                                    <!-- Sub-submenu -->
+                                    <ul class="absolute left-full top-0 mt-0 w-40 bg-white shadow-lg opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all">
+                                        <x-menu.sub-sub-menu
+                                            menu="ATM"
+                                            url="#"
+                                        />
+                                        <x-menu.sub-sub-menu
+                                            menu="Meeting Room"
+                                            url="#"
+                                        />
+                                        <x-menu.sub-sub-menu
+                                            menu="Sport Center"
+                                            url="#"
+                                        />
+                                    </ul>
                                 </li>
-                                <li>
-                                    <a href="/visi-misi-tata-nilai" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Visi Misi & Tata Nilai</a>
-                                </li>
-                                <li>
-                                    <a href="/manajemen-perusahaan" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Manajemen Perusahaan</a>
-                                </li>
-                                <li>
-                                    <a href="/pedoman-tata-kelola" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Pedoman & Tata Kelola</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Penghargaan</a>
-                                </li>
+
+                                <x-menu.sub-menu
+                                    menu="Fasilitas"
+                                    url="#"
+                                />
                             </ul>
                         </li>
 
-                        <!-- Item w sub -->
+                        <!-- Menu Keunggulan -->
                         <li class="relative group">
-                            <a href="#" class="inline-flex items-center px-1 pt-1 uppercase text-white hover:text-[var(--color-lightblue)] focus:outline-none">
-                                produk & layanan
-                                <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
+                            <!-- Main Menu -->
+                            <x-menu.parent-menu
+                                menu="keunggulan"
+                                url="#"
+                            />
+                        </li> 
 
-                            <!-- Submenu -->
-                            <ul class="absolute overflow-hidden left-0 mt-2 w-60 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Lahan Industri</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Bangunan Pabrik Siap Pakai</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Komersil</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Fasilitas</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                            <!-- Item w sub -->
+                        <!-- Menu Informasi -->
                         <li class="relative group">
-                            <a href="#" class="inline-flex items-center px-1 pt-1 uppercase text-white hover:text-[var(--color-lightblue)] focus:outline-none">
-                                tenant
-                                <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
+                            <!-- Main Menu -->
+                            <x-menu.parent-menu-have-sub
+                                menu="Informasi"
+                                url="#"
+                            />
 
-                            <!-- Submenu -->
-                            <ul class="absolute overflow-hidden left-0 mt-2 w-60 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Wood and Furniture</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Modern Textile and Garment</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Consumer Goods and Food Procesing</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Chemical and New Material</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Other Industry</a>
-                                </li>
-                            </ul>
-                        </li>
+                            <!-- Main Submenu -->
+                            <ul class="absolute left-0 top-full mt-1 w-60 bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                                
+                                <!-- Submenu -->
+                                <x-menu.sub-menu
+                                    menu="Karier"
+                                    url="#"
+                                />
 
-                        <!-- Item -->
-                        <li>
-                            <a href="#" class="inline-flex items-center px-1 pt-1 uppercase text-white hover:text-[var(--color-lightblue)]">
-                                keunggulan
-                            </a>
-                        </li>
-                    
-                        <!-- Item w sub -->
-                        <li class="relative group">
-                            <a href="#" class="inline-flex items-center px-1 pt-1 uppercase text-white hover:text-[var(--color-lightblue)] focus:outline-none">
-                                informasi
-                                <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                            
-                            <!-- Submenu -->
-                            <ul class="absolute overflow-hidden left-0 mt-2 w-60 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Karir</a>
+                                <!-- Submenu have sub menu -->
+                                <li class="relative group/submenu">
+                                    <x-menu.sub-parent-menu
+                                        menu="Pengadaan Barang & Jasa"
+                                        url="#"
+                                    />
+
+                                    <!-- Sub-submenu -->
+                                    <ul class="absolute left-full top-0 mt-0 w-40 bg-white shadow-lg opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all">
+                                        <x-menu.sub-sub-menu
+                                            menu="Tender"
+                                            url="#"
+                                        />
+                                    </ul>
                                 </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Pengadaan Barang & Jasa</a>
-                                </li>
+
+                                <x-menu.sub-menu
+                                    menu="Fasilitas"
+                                    url="#"
+                                />
                             </ul>
                         </li>
 
 
-                        <!-- Item w sub -->
+                        <!-- Menu Media -->
                         <li class="relative group">
-                            <a href="#" class="inline-flex items-center px-1 pt-1 uppercase text-white hover:text-[var(--color-lightblue)] focus:outline-none">
-                                Media
-                                <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                            
-                            <!-- Submenu -->
-                            <ul class="absolute overflow-hidden left-0 mt-2 w-60 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Berita Perusahaan</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Siaran Pers</a>
-                                </li>
-                                    <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Berita CSR & Lingkungan</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Lelang</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">E Procurement</a>
-                                </li>
-                                    <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Whistle Blowing System</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Laporan Tahunan & Audit Keuangan</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white">Galeri Dokumentasi</a>
-                                </li>
+                            <!-- Main Menu -->
+                            <x-menu.parent-menu-have-sub
+                                menu="Media"
+                                url="#"
+                            />
+
+                            <!-- Main Submenu -->
+                            <ul class="absolute left-0 top-full mt-1 w-60 bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                                
+                                <!-- Submenu -->
+                                <x-menu.sub-menu
+                                    menu="Berita Perusahaan"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Siaran Pers"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Berita CSR & Lingkungan"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Lelang"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="E-Procurement"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Whistleblowing System"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Laporan Tahunan"
+                                    url="#"
+                                />
+                                <x-menu.sub-menu
+                                    menu="Galeri Dokumentasi"
+                                    url="#"
+                                />
                             </ul>
                         </li>
 
-                        <!-- Item -->
-                        <li>
-                            <a href="#" class="inline-flex items-center px-1 pt-1 uppercase text-white hover:text-[var(--color-lightblue)]">
-                                Kontak
-                            </a>
-                        </li>
+                        <!-- Menu Kontak -->
+                        <li class="relative group">
+                            <!-- Main Menu -->
+                            <x-menu.parent-menu
+                                menu="Kontak"
+                                url="#"
+                            />
+                        </li>  
+                        
 
 
                     </ul>
@@ -277,7 +268,7 @@
 
             <!-- Mobile Menu Button -->
             <div class="lg:hidden">
-                <button @click="open = !open" class="text-[] focus:outline-none">
+                <button @click="open = !open" class="text-white focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -290,11 +281,11 @@
 
             
         <!-- Off-canvas Mobile Menu -->
-        <div x-show="open" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" @click="open = false"></div>
+        <div x-show="open" class="fixed inset-0 bg-black bg-opacity-50 z-50 lg:hidden" @click="open = false"></div>
 
         <div x-show="open"
-            class="fixed top-0 right-0 w-[90%] h-full bg-cover shadow-lg z-50 transform transition-transform duration-300 ease-in-out lg:hidden"
-            style="background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 10%, rgba(255, 255, 255, 0.45) 100%), url({{ asset('media/top-view-of-a-truck-driving-along-a-highway-road-i-2023-11-27-05-27-13-utc-111-scaled.jpg') }});"
+            class="fixed top-0 right-0 w-[90%] bg-cover shadow-lg z-50 transform transition-transform duration-300 ease-in-out lg:hidden"
+            style="background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 10%, rgba(255, 255, 255, 0.45) 100%), url({{ asset('media/about-image.jpg') }});"
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="translate-x-full"
             x-transition:enter-end="translate-x-0"
@@ -303,7 +294,7 @@
             x-transition:leave-end="translate-x-full">
 
             <div class="px-6 mt-5">
-                <button @click="open = false" class="text-[] var(--color-white)float-right">
+                <button @click="open = false" class="text-[var(--color-heading)] float-right">
                     ✕
                 </button>
 
@@ -311,7 +302,7 @@
 
                     <!--Logo-->
                     <div class=" flex items-center ">
-                        <a href="#"><img class="w-25" src="{{ asset('media/logo.png') }}" alt="logo"></a>
+                        <a href="/"><img class="w-15" src="{{ asset('media/logo.png') }}" alt="logo"></a>
                     </div>
 
                     <ul class="mt-10 space-y-4">
