@@ -1,5 +1,5 @@
 
-@push('before_head_close')
+@pushOnce('before_head_close')
     <!--AOS-->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -11,10 +11,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
 
 
- @endPush
+ @endPushOnce
 
-@push('before_body_close')
+@pushOnce('before_body_close')
 <script src="{{ asset('js/aos-animate.js') }}"></script>
+<script src="{{ asset('js/accessibility.js') }}"></script>
 <!--Light Box Image Body Bottom -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
@@ -22,7 +23,7 @@
 <script src="{{ asset('js/comment-reply-form.js') }}"></script>
 <script src="{{ asset('js/reply-from-comment.js') }}"></script>
 
- @endPush
+ @endPushOnce
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
 <x-partials.header />

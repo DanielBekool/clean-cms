@@ -1,5 +1,5 @@
 const swiperLogo = new Swiper('.swiper-logo', {
-  slidesPerView: 7, // default untuk desktop besar
+  slidesPerView: 7, // default 
   spaceBetween: 20,
   loop: true,
   autoplay: {
@@ -15,15 +15,15 @@ const swiperLogo = new Swiper('.swiper-logo', {
     clickable: true,
   },
   breakpoints: {
-    0: {          // untuk layar >= 0px (mobile kecil dan besar)
+    0: {          // mobile
       slidesPerView: 2,
       spaceBetween: 10,
     },
-    768: {        // untuk layar >= 768px (tablet)
+    768: {        // tablet
       slidesPerView: 3,
       spaceBetween: 20,
     },
-    1024: {       // untuk layar >= 1024px (desktop)
+    1024: {       // desktop
       slidesPerView: 7,
       spaceBetween: 20,
     },

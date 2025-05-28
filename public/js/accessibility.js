@@ -6,11 +6,11 @@ window.interdeal = {
         "js": "https://cdn.equalweb.com/",
         "acc": "https://access.equalweb.com/"
     },
-    "Menulang": "EN",
+    "Menulang": "ID",
     "btnStyle": {
         "vPosition": [
             "80%",
-            "20%"
+            "0%"
         ],
         "scale": [
             "0.5",

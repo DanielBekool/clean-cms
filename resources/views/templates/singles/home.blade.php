@@ -615,8 +615,8 @@
             </div>
             <!--carousel-->
             <div class="relative w-full lg:max-w-[100vw] overflow-hidden">
-                <div class="swiper swiper-logo ">
-                    <div class="swiper-wrapper !flex gap-5">
+                <div class="swiper-logo ">
+                    <div class="swiper-wrapper lg:!flex lg:gap-5">
                         <x-loop.tenant-logo
                             image="media/logoipsum-1.png"
                         />

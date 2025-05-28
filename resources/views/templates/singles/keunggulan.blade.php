@@ -1,14 +1,15 @@
-@push('before_head_close')
+@pushOnce('before_head_close')
     <!--AOS-->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 
- @endPush
+ @endPushOnce
 
-@push('before_body_close')
+@pushOnce('before_body_close')
 <script src="{{ asset('js/aos-animate.js') }}"></script>
- @endPush
+<script src="{{ asset('js/accessibility.js') }}"></script>
+ @endPushOnce
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
     <x-partials.header />
