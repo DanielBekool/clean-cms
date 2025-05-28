@@ -25,6 +25,7 @@
 <script src="{{ asset('js/accessibility.js') }}"></script>
 <script src="{{ asset('js/swiper.js') }}"></script>
 <script src="{{ asset('js/swiper-logo-image.js') }}"></script>
+<script src="{{ asset('js/swiper-hero.js') }}"></script>
 <script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="{{ asset('js/popup-init-modal-events.js') }}"></script>
 <script src="{{ asset('js/popup-modal-controller.js') }}"></script>
@@ -34,7 +35,6 @@
 <script src="{{ asset('js/video-modal.js') }}"></script>
 <script src="{{ asset('js/video-inline.js') }}"></script>
 <script src="{{ asset('js/youtube-src-conversion.js') }}"></script>
-<!--Light Box Image Body Bottom -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 
@@ -83,83 +83,107 @@
        
         <!--Start Hero Banner-->
         <section id="hero-banner" class="relative bg-cover bg-center overflow-hidden">
-            <div>
-
-                <!-- Video Background -->
-                <div class="absolute inset-0 z-0 pointer-events-none">
-
-                    <img id="video-fallback" src="./img/background-home.jpg" alt="Banner Image" class="w-full h-full object-cover absolute inset-0 z-0" />
-
-
-                    <iframe id="video-frame"
-                        class="absolute inset-0 w-full h-full object-cover scale-[3] sm:scale-[1.5] lg:scale-[1.2]"
-                        src="https://www.youtube.com/embed/1t_z7FMcsOw?autoplay=1&loop=1&mute=1&controls=0&playlist=1t_z7FMcsOw&modestbranding=1&showinfo=0"
-                        title="YouTube video background" frameborder="0"
-                        allow="autoplay; encrypted-media" allowfullscreen>
-                    </iframe>
-
-                </div>
-
-
-                <!-- overlay -->
-                <div class="bg-[var(--color-overlayblack)] z-10 bg-opacity-60 relative">
-                    <div class="gradient-black-hero">
-                        <div class=" flex flex-col justify-between items-start lg:pt-13 sm:pb-2 lg:pb-7 pb-6 lg:h-[100vh] sm:h-[600px] h-[654px]">
-            
-                            <!-- content -->
-                            <div class="flex flex-col items-start gap-5 sm:p-6 p-4 lg:w-[1200px] lg:mx-auto lg:px-0 sm:pt-8 px-4 mt-40 z-20">
-                                <h1 data-aos="fade-up" class="text-left text-white lg:max-w-[600px] sm:max-w-[500px] lg:!text-[2.8rem] sm:!text-[2.2rem] !text-[1.6rem]">
-                                    Kawasan Industri Strategis untuk Pertumbuhan Bisnis
-                                </h1>
-                                <p class="text-white lg:max-w-[700px] sm:max-w-[400px] text-left">
-                                    Fasilitas lengkap, aksesibilitas tinggi, dan dukungan profesional bagi investor.
-                                </p>
-
-                                <!--Button-->
-                                <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/layanan">
-                                    <span class="gradient-text">Lihat Layanan</span>
-                                    <img src="{{ asset('media/arrow-right-solid.png') }}" alt="icon">
-                                    </span>
-                                </a>
-                                
-                            </div>
+            <div class="swiper swiper-hero">
+                <div class="swiper-wrapper relative">
                     
-
-                            <!-- counter -->
-                            <div class="counter-hero-home flex flex-row flex-wrap justify-between lg:w-[1200px] lg:mx-auto sm:gap-0 gap-y-5 mt-5 lg:px-0 sm:px-6 px-4">
-
-                                <div class="lg:w-1/5 sm:w-1/5 w-full self-center">
-                                    <h5 class="text-white">Luas Area Tersedia</h5>
+                    <!--Item Video-->
+                    <div class="swiper-slide relative">
+                        <div class="absolute inset-0 z-0">
+                            <img id="video-fallback" src="{{ asset('media/background-home.jpg') }}" alt="Banner Image" class="w-full h-full object-cover absolute inset-0 z-0" />
+                            <iframe id="video-frame"
+                                class="absolute inset-0 w-full h-full object-cover scale-[3] sm:scale-[1.5] lg:scale-[1.2]"
+                                src="https://www.youtube.com/embed/1t_z7FMcsOw?autoplay=1&loop=1&mute=1&controls=0&playlist=1t_z7FMcsOw&modestbranding=1&showinfo=0"
+                                title="YouTube video background" frameborder="0"
+                                allow="autoplay; encrypted-media" allowfullscreen>
+                            </iframe>
+                        </div>
+                        <!-- overlay -->
+                        <div class="bg-[var(--color-overlayblack)] z-10 bg-opacity-60 relative">
+                            <div class="gradient-black-hero">
+                                <div class=" flex flex-col justify-between items-start lg:pt-13 sm:pb-2 lg:pb-7 pb-6 lg:h-[100vh] sm:h-[600px] h-[654px]">
+                                    <!-- content -->
+                                    <div class="flex flex-col items-start gap-5 sm:p-6 p-4 lg:w-[1200px] lg:mx-auto lg:px-0 sm:pt-8 px-4 mt-40 z-20">
+                                        <h1 data-aos="fade-up" class="text-left text-white lg:max-w-[600px] sm:max-w-[500px] lg:!text-[2.8rem] sm:!text-[2.2rem] !text-[1.6rem]">
+                                            Kawasan Industri Strategis untuk Pertumbuhan Bisnis
+                                        </h1>
+                                        <p class="text-white lg:max-w-[700px] sm:max-w-[400px] text-left">
+                                            Fasilitas lengkap, aksesibilitas tinggi, dan dukungan profesional bagi investor.
+                                        </p>
+                                        <!--Button-->
+                                        <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/layanan">
+                                            <span class="gradient-text">Lihat Layanan</span>
+                                            <img src="{{ asset('media/arrow-right-solid.png') }}" alt="icon">
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <!-- counter -->
+                                    <div class="counter-hero-home flex flex-row flex-wrap justify-between lg:w-[1200px] lg:mx-auto sm:gap-0 gap-y-5 mt-5 lg:px-0 sm:px-6 px-4">
+                                        <div class="lg:w-1/5 sm:w-1/5 w-full self-center">
+                                            <h5 class="text-white">Luas Area Tersedia</h5>
+                                        </div>
+                                        <x-loop.counter-hero-home
+                                            counter="36"
+                                            unit="Ha"
+                                            label="Lahan Industri"    
+                                        />
+                                        <x-loop.counter-hero-home
+                                            counter="1000"
+                                            unit="Unit"
+                                            label="BPSP"    
+                                        />
+                                        <x-loop.counter-hero-home
+                                            counter="200"
+                                            unit="Unit"
+                                            label="Foodcourt"    
+                                        />
+                                        <x-loop.counter-hero-home
+                                            counter="50"
+                                            unit="Unit"
+                                            label="Commercial Area"    
+                                        />
+                                    </div>
                                 </div>
-
-                                <x-loop.counter-hero-home
-                                    counter="36"
-                                    unit="Ha"
-                                    label="Lahan Industri"    
-                                />
-
-                                <x-loop.counter-hero-home
-                                    counter="1000"
-                                    unit="Unit"
-                                    label="BPSP"    
-                                />
-
-                                <x-loop.counter-hero-home
-                                    counter="200"
-                                    unit="Unit"
-                                    label="Foodcourt"    
-                                />
-
-                                <x-loop.counter-hero-home
-                                    counter="50"
-                                    unit="Unit"
-                                    label="Commercial Area"    
-                                />
-
                             </div>
                         </div>
                     </div>
+
+                    <!--Item Photo-->
+                    <div class="swiper-slide relative" style="background-image:url('{{ asset('media/hero-home-2.jpg') }}')">
+                        
+                        <!-- overlay -->
+                        <div class="bg-[var(--color-overlayblack)] z-10 bg-opacity-60 relative">
+                            <div class="gradient-black-hero">
+                                <div class=" flex flex-col justify-between items-start lg:pt-13 sm:pb-2 lg:pb-7 pb-6 lg:h-[100vh] sm:h-[600px] h-[654px]">
+                                    <!-- content -->
+                                    <div class="flex flex-col items-start gap-5 sm:p-6 p-4 lg:w-[1200px] lg:mx-auto lg:px-0 sm:pt-8 px-4 mt-40 z-20">
+                                        <h1 data-aos="fade-up" class="text-left text-white lg:max-w-[600px] sm:max-w-[500px] lg:!text-[2.8rem] sm:!text-[2.2rem] !text-[1.6rem]">
+                                            Dukungan Infrastruktur Lengkap untuk Kesuksesan Bisnis Anda
+                                        </h1>
+                                        <p class="text-white lg:max-w-[700px] sm:max-w-[400px] text-left">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.magna aliqua.
+                                        </p>
+                                        <!--Button-->
+                                        <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/layanan">
+                                            <span class="gradient-text">Lihat Layanan</span>
+                                            <img src="{{ asset('media/arrow-right-solid.png') }}" alt="icon">
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+                <!-- Custom icon.arrow Left -->
+                <div class="swiper-button-prev bg-[--white-transparent] hover:bg-[--color-blue] rounded-[100%] sm:!h-[30px] sm:!w-[30px] !h-[20px] !w-[20px] p-1">
+                    <x-icon.arrow-left-white/>
+                </div>
+
+                <!-- Custom icon.arrow Right -->
+                <div class="swiper-button-next bg-[--white-transparent] hover:bg-[--color-blue] rounded-[100%] sm:!h-[30px] sm:!w-[30px] !h-[20px] !w-[20px] p-1">
+                    <x-icon.arrow-right-white/>
+                </div>    
             </div>
         </section>
         <!--End Hero Banner-->
