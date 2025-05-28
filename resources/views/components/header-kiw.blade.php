@@ -59,36 +59,32 @@
                         <!-- Bagian produk & layanan -->
                         <!-- Produk & Layanan -->
                         <li class="relative group">
-                        <a href="#" class="inline-flex items-center px-1 pt-1 uppercase text-white hover:text-[var(--color-lightblue)] focus:outline-none">
-                            Test sm inside sm
-                            <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                            </svg>
-                        </a>
+                            <x-menu.parent-menu
+                                menu="Lahan Industri"
+                                URL="#"
+                            />
 
                         <!-- Submenu utama -->
                         <ul class="absolute left-0 top-full mt-0 w-60 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                             
                             <li class="relative group/submenu">
-                            <a href="#" class="flex items-center justify-between px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">
-                                Bangunan Pabrik Siap Pakai
-                                <svg class="ml-2 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.21 5.23a.75.75 0 011.06 0l4.65 4.25a.75.75 0 010 1.08l-4.65 4.25a.75.75 0 11-1.06-1.06L10.293 10 7.21 6.97a.75.75 0 010-1.06z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
+                                <x-menu.sub-parent-menu
+                                menu="Lahan Industri"
+                                URL="#"
+                            />
 
-                            <!-- Submenu dalam -->
-                            <ul class="absolute left-full top-0 mt-0 w-56 bg-white shadow-lg rounded-md opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all">
-                                <li>
-                                <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Submenu Pabrik 1</a>
-                                </li>
-                                <li>
-                                <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Submenu Pabrik 2</a>
-                                </li>
-                                <li>
-                                <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Submenu Pabrik 3</a>
-                                </li>
-                            </ul>
+                                <!-- Submenu dalam -->
+                                <ul class="absolute left-full top-0 mt-0 w-56 bg-white shadow-lg rounded-md opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all">
+                                    <li>
+                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Submenu Pabrik 1</a>
+                                    </li>
+                                    <li>
+                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Submenu Pabrik 2</a>
+                                    </li>
+                                    <li>
+                                    <a href="#" class="block px-4 py-2 text-[var(--color-heading)] hover:bg-[var(--color-lightblue)] hover:text-white rounded-md">Submenu Pabrik 3</a>
+                                    </li>
+                                </ul>
                             </li>
 
                             <li>
@@ -224,13 +220,6 @@
                             </ul>
                         </li>
 
-
-                        <!-- Item -->
-                        <li>
-                        <a href="#" class="inline-flex items-center px-1 pt-1 uppercase text-white hover:text-[var(--color-lightblue)]">
-                            VR
-                        </a>
-                        </li>
 
                         <!-- Item w sub -->
                         <li class="relative group">
