@@ -1,4 +1,4 @@
-@push('before_head_close')
+@pushOnce('before_head_close')
     <!--AOS-->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -8,10 +8,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <!-- Swiper CSS -->
-    <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -23,14 +20,16 @@
     <!--Light Box Image Head -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
 
- @endPush
-@push('before_body_close')
+ @endPushOnce
+@pushOnce('before_body_close')
+<script src="{{ asset('js/accessibility.js') }}"></script>
+<script src="{{ asset('js/swiper.js') }}"></script>
+<script src="{{ asset('js/swiper-logo-image.js') }}"></script>
 <script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="{{ asset('js/popup-init-modal-events.js') }}"></script>
 <script src="{{ asset('js/popup-modal-controller.js') }}"></script>
-<script src="{{ asset('js/swiper.js') }}"></script>
 <script src="{{ asset('js/fasilitas-swiper-number.js') }}"></script>
-<script src="{{ asset('js/swiper-auto-height.js') }}"></script>
+<script src="{{ asset('js/swiper-auto-height.js-') }}"></script>
 <script src="{{ asset('js/counter.js') }}"></script>
 <script src="{{ asset('js/video-modal.js') }}"></script>
 <script src="{{ asset('js/video-inline.js') }}"></script>
@@ -40,7 +39,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 
 
- @endPush
+ @endPushOnce
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
     <x-partials.header />
     <main>
@@ -84,84 +83,84 @@
        
         <!--Start Hero Banner-->
         <section id="hero-banner" class="relative bg-cover bg-center overflow-hidden">
+            <div>
+
+                <!-- Video Background -->
+                <div class="absolute inset-0 z-0 pointer-events-none">
+
+                    <img id="video-fallback" src="./img/background-home.jpg" alt="Banner Image" class="w-full h-full object-cover absolute inset-0 z-0" />
+
+
+                    <iframe id="video-frame"
+                        class="absolute inset-0 w-full h-full object-cover scale-[3] sm:scale-[1.5] lg:scale-[1.2]"
+                        src="https://www.youtube.com/embed/1t_z7FMcsOw?autoplay=1&loop=1&mute=1&controls=0&playlist=1t_z7FMcsOw&modestbranding=1&showinfo=0"
+                        title="YouTube video background" frameborder="0"
+                        allow="autoplay; encrypted-media" allowfullscreen>
+                    </iframe>
+
+                </div>
+
+
+                <!-- overlay -->
+                <div class="bg-[var(--color-overlayblack)] z-10 bg-opacity-60 relative">
+                    <div class="gradient-black-hero">
+                        <div class=" flex flex-col justify-between items-start lg:pt-13 sm:pb-2 lg:pb-7 pb-6 lg:h-[100vh] sm:h-[600px] h-[654px]">
             
+                            <!-- content -->
+                            <div class="flex flex-col items-start gap-5 sm:p-6 p-4 lg:w-[1200px] lg:mx-auto lg:px-0 sm:pt-8 px-4 mt-40 z-20">
+                                <h1 data-aos="fade-up" class="text-left text-white lg:max-w-[600px] sm:max-w-[500px] lg:!text-[2.8rem] sm:!text-[2.2rem] !text-[1.6rem]">
+                                    Kawasan Industri Strategis untuk Pertumbuhan Bisnis
+                                </h1>
+                                <p class="text-white lg:max-w-[700px] sm:max-w-[400px] text-left">
+                                    Fasilitas lengkap, aksesibilitas tinggi, dan dukungan profesional bagi investor.
+                                </p>
 
-            <!-- Video Background -->
-            <div class="absolute inset-0 z-0 pointer-events-none">
-
-                <img id="video-fallback" src="./img/background-home.jpg" alt="Banner Image" class="w-full h-full object-cover absolute inset-0 z-0" />
-
-
-                <iframe id="video-frame"
-                    class="absolute inset-0 w-full h-full object-cover scale-[3] sm:scale-[1.5] lg:scale-[1.2]"
-                    src="https://www.youtube.com/embed/1t_z7FMcsOw?autoplay=1&loop=1&mute=1&controls=0&playlist=1t_z7FMcsOw&modestbranding=1&showinfo=0"
-                    title="YouTube video background" frameborder="0"
-                    allow="autoplay; encrypted-media" allowfullscreen>
-                </iframe>
-
-            </div>
-
-
-            <!-- overlay -->
-            <div class="bg-[var(--color-overlayblack)] z-10 bg-opacity-60 relative">
-                <div class="gradient-black-hero">
-                    <div class=" flex flex-col justify-between items-start lg:pt-13 sm:pb-2 lg:pb-7 pb-6 lg:h-[100vh] sm:h-[600px] h-[654px]">
-        
-                        <!-- content -->
-                        <div class="flex flex-col items-start gap-5 sm:p-6 p-4 lg:w-[1200px] lg:mx-auto lg:px-0 sm:pt-8 px-4 mt-40 z-20">
-                            <h1 data-aos="fade-up" class="text-left text-white lg:max-w-[600px] sm:max-w-[500px] lg:!text-[2.8rem] sm:!text-[2.2rem] !text-[1.6rem]">
-                                Kawasan Industri Strategis untuk Pertumbuhan Bisnis
-                            </h1>
-                            <p class="text-white lg:max-w-[700px] sm:max-w-[400px] text-left">
-                                Fasilitas lengkap, aksesibilitas tinggi, dan dukungan profesional bagi investor.
-                            </p>
-
-                            <!--Button-->
-                            <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/layanan">
-                                <span class="gradient-text">Lihat Layanan</span>
-                                <img src="{{ asset('media/arrow-right-solid.png') }}" alt="icon">
-                                </span>
-                            </a>
-                            
-                        </div>
-                
-
-                        <!-- counter -->
-                        <div class="counter-hero-home flex flex-row flex-wrap justify-between lg:w-[1200px] lg:mx-auto sm:gap-0 gap-y-5 mt-5 lg:px-0 sm:px-6 px-4">
-
-                            <div class="lg:w-1/5 sm:w-1/5 w-full self-center">
-                                <h5 class="text-white">Luas Area Tersedia</h5>
+                                <!--Button-->
+                                <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/layanan">
+                                    <span class="gradient-text">Lihat Layanan</span>
+                                    <img src="{{ asset('media/arrow-right-solid.png') }}" alt="icon">
+                                    </span>
+                                </a>
+                                
                             </div>
+                    
 
-                            <x-loop.counter-hero-home
-                                counter="36"
-                                unit="Ha"
-                                label="Lahan Industri"    
-                            />
+                            <!-- counter -->
+                            <div class="counter-hero-home flex flex-row flex-wrap justify-between lg:w-[1200px] lg:mx-auto sm:gap-0 gap-y-5 mt-5 lg:px-0 sm:px-6 px-4">
 
-                            <x-loop.counter-hero-home
-                                counter="1000"
-                                unit="Unit"
-                                label="BPSP"    
-                            />
+                                <div class="lg:w-1/5 sm:w-1/5 w-full self-center">
+                                    <h5 class="text-white">Luas Area Tersedia</h5>
+                                </div>
 
-                            <x-loop.counter-hero-home
-                                counter="200"
-                                unit="Unit"
-                                label="Foodcourt"    
-                            />
+                                <x-loop.counter-hero-home
+                                    counter="36"
+                                    unit="Ha"
+                                    label="Lahan Industri"    
+                                />
 
-                            <x-loop.counter-hero-home
-                                counter="50"
-                                unit="Unit"
-                                label="Commercial Area"    
-                            />
+                                <x-loop.counter-hero-home
+                                    counter="1000"
+                                    unit="Unit"
+                                    label="BPSP"    
+                                />
 
+                                <x-loop.counter-hero-home
+                                    counter="200"
+                                    unit="Unit"
+                                    label="Foodcourt"    
+                                />
+
+                                <x-loop.counter-hero-home
+                                    counter="50"
+                                    unit="Unit"
+                                    label="Commercial Area"    
+                                />
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-    
         </section>
         <!--End Hero Banner-->
 
@@ -607,55 +606,60 @@
         <!--End Video Home-->
 
         <!--Start Tenant-->
-        <section id="tenant-home" class="my-18 lg:my-30 px-4 sm:px-6 lg:px-0 gap-7">
-            <div class="flex flex-col gap-5">
+        <section id="tenant-home" class="my-18 lg:my-30 px-4 sm:px-6 lg:px-0 flex flex-col lg:gap-9 gap-7">
+            <div class="flex flex-col gap-5 lg:max-w-[1200px] lg:mx-auto">
                 <h6 class="bullet-1 self-center">
                     Tenant kami
                 </h6>
                 <h2 class="text-center">Tenant dari Berbagai Sektor Industri</h2>
             </div>
             <!--carousel-->
-            <div class="sm:!w-[55%] !w-[100%] relative fasilitas-home">
-                <div class="swiper swiper-1">
-                    <div class="swiper-wrapper !flex">
-                            <x-loop.fasilitas-home 
-                                label="Masjid" 
-                                image="media/masjid.jpg">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
-                            </x-loop.fasilitas-home>
-
-                            <x-loop.fasilitas-home 
-                                label="Pengelola Air Bersih" 
-                                image="media/pengelolaan-air.jpg">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
-                            </x-loop.fasilitas-home>
-
-                            <x-loop.fasilitas-home 
-                                label="Pemadam Kebakaran" 
-                                image="media/pemadam.jpg">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
-                            </x-loop.fasilitas-home>
-
-                            <x-loop.fasilitas-home 
-                                label="Jalan Lingkungan" 
-                                image="media/jalan.jpg">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus facilisis mi ac mattis vehicula. Aliquam semper maximus metus, ut vulputate justo tempor vitae. Curabitur vestibulum sem eget massa semper, a sagittis tortor accumsan. Duis luctus ante vel augue efficitur lacinia. Sed ut tortor in velit porta tristique ac nec purus. Etiam eu leo a arcu iaculis pretium. Vivamus dignissim urna non neque congue laoreet. Duis posuere placerat dui, id auctor nisl hendrerit ut. Phasellus vitae odio purus. In id nisi vitae risus hendrerit gravida vitae in lectus. Donec ut ex a magna lobortis lobortis. Aenean aliquam nisi libero, id faucibus turpis sagittis at. Curabitur vestibulum ligula commodo enim tempor luctus. Fusce lacinia a neque dapibus congue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget turpis eget odio malesuada dignissim non a lectus.
-                            </x-loop.fasilitas-home>
+            <div class="relative w-full lg:max-w-[100vw] overflow-hidden">
+                <div class="swiper swiper-logo ">
+                    <div class="swiper-wrapper !flex gap-5">
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-1.png"
+                        />
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-2.png"
+                        />
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-3.png"
+                        />
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-4.png"
+                        />
                         
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-7.png"
+                        />
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-8.png"
+                        />
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-1.png"
+                        />
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-2.png"
+                        />
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-3.png"
+                        />
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-4.png"
+                        />
+                        
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-7.png"
+                        />
+                        <x-loop.tenant-logo
+                            image="media/logoipsum-8.png"
+                        />
+                    
                     </div>
                     
-
-                </div>
-                <!-- Custom icon.arrow Left -->
-                <div class="swiper-button-prev gradient-blue rounded-[100%] !h-[30px] !w-[30px] p-1 ">
-                    <x-icon.arrow-left-white/>
                 </div>
 
-                <!-- Custom icon.arrow Right -->
-                <div class="swiper-button-next gradient-blue  rounded-[100%] !h-[30px] !w-[30px] p-1">
-                    <x-icon.arrow-right-white/>
-                </div>
-            
             </div>
         </section>
         <!--End Tenant-->

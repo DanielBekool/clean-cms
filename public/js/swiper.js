@@ -26,33 +26,6 @@ const swiper1 = new Swiper('.swiper-1', {
   },
 });
 
-const swiper2 = new Swiper('.swiper-2', {
-  loop: true,
-  spaceBetween: 20,
-  pagination: {
-    el: '.swiper-pagination',
-    clickable: true,
-  },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  autoplay: {
-    delay: 3000,
-    disableOnInteraction: true,
-  },
-  breakpoints: {
-    1024: {
-      slidesPerView: 4,
-    },
-    768: {
-      slidesPerView: 2,
-    },
-    0: {
-      slidesPerView: 1,
-    },
-  },
-});
 
 const swiper3 = new Swiper('.swiper-3', {
   loop: true,
@@ -81,3 +54,4 @@ const swiper3 = new Swiper('.swiper-3', {
     },
   },
 });
+
