@@ -1,6 +1,7 @@
 const swiperHero = new Swiper('.swiper-hero', {
   loop: true,
   spaceBetween: 0,
+  speed: 600, 
   pagination: {
     el: '.swiper-pagination',
     clickable: true,
@@ -10,9 +11,10 @@ const swiperHero = new Swiper('.swiper-hero', {
     prevEl: '.swiper-button-prev',
   },
   autoplay: {
-    delay: 3000,
+    delay: 3000,         
     disableOnInteraction: true,
   },
+  allowTouchMove: true,  
   breakpoints: {
     1024: {
       slidesPerView: 1,
@@ -25,3 +27,4 @@ const swiperHero = new Swiper('.swiper-hero', {
     },
   },
 });
+

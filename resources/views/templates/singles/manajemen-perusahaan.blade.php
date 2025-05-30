@@ -103,7 +103,7 @@
                     <img class="w-full rounded-md" src="" alt="Foto Manajemen">
                 </div>
                 <div class="modal-info w-full md:w-2/3 flex flex-col gap-3">
-                    <h6 class="modal-position text-[var(--color-blue)] "></h6>
+                    <h6 class="modal-position position w-fit text-transparent bg-clip-text bg-gradient-to-r from-[#1F77D3] to-[#321B71]"></h6>
                     <h3 class="modal-title sm:mb-5 mb-1"></h3>
                     <div class="modal-description text-[var(--color-text)] pr-2 overflow-y-auto sm:max-h-[300px] max-h-[150px]"></div>
                 </div>

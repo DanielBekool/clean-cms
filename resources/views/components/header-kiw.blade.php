@@ -94,8 +94,8 @@
                                     url="/pedoman-tata-kelola"
                                 />
                                 <x-menu.sub-menu
-                                    menu="Penghargaan"
-                                    url="/penghargaan-sertifikat"
+                                    menu="Penghargaan & Sertifikasi"
+                                    url="/penghargaan-sertifikasi"
                                 />
                             </ul>
                         </li>
@@ -315,7 +315,7 @@
                             <x-menu-mobile.menu menu="Visi Misi & Tata Nilai" url="/visi-misi-tata-nilai" />
                             <x-menu-mobile.menu menu="Manajemen Perusahaan" url="/manajemen-perusahaan" />
                             <x-menu-mobile.menu menu="Pedoman & Tata Kelola" url="/pedoman-tata-kelola" />
-                            <x-menu-mobile.menu menu="Penghargaan & Sertifikat" url="/penghargaan-sertifikat" />
+                            <x-menu-mobile.menu menu="Penghargaan & Sertifikasi" url="/penghargaan-sertifikasi" />
                         </x-menu-mobile.parent-menu-have-sub>
 
                         <!-- Item w sub -->

@@ -70,14 +70,14 @@
                 <!--Link-->
                 <div class="flex flex-col gap-6 text-white">
                     <h6 class="text-white uppercase">Link</h6>
-                    <div class="grid grid-cols-2 gap-2 !text-[.9em] lg:w-full sm:w-[150px]">
-                        <a href="/home">Beranda</a>
-                        <a href="/layanan">Layanan</a>
-                        <a href="/profil-perusahaan">Tentang</a>
+                    <div class="grid grid-cols-2 gap-x-10 gap-y-2 !text-[.9em] lg:w-full sm:w-[150px]">
+                        <a href="/">Beranda</a>
                         <a href="/keunggulan">Keunggulan</a>
-                        <a href="/vr">VR</a>
-                        <a href="/penghargaan">Penghargaasn</a>
-                        <a href="/media">Media</a>
+                        <a href="/profil-perusahaan">Tentang</a>
+                        <a href="/pengadaan-barang-jasa">Informasi</a>
+                        <a href="/lahan-industri">Produk & Layanan</a>
+                        <a href="/penghargaan-sertifikat">Penghargaan</a>
+                        <a href="/galeri-dokumentasi">Media</a>
                         <a href="/kontak">Kontak</a>
                     </div>
                 </div>
@@ -86,9 +86,8 @@
                 <div class="flex flex-col gap-6 text-white">
                     <h6 class="text-white uppercase">Akses</h6>
                     <div class="grid grid-rows-1 gap-2 !text-[.9em]">
-                        <a href="/ppid">PPID</a>
-                        <a href="/billing">Billing</a>
-                        <a href="/csirt">CSIRT</a>
+                        <a href="https://ppid.kiw.co.id/" target="_blank">PPID</a>
+                        <a href="#">CSIRT</a>
                         <a href="/karier">Karier</a>
                     </div>
                 </div>
@@ -97,9 +96,9 @@
                 <div class="flex flex-col gap-6 text-white">
                     <h6 class="text-white uppercase">layanan</h6>
                     <div class="grid grid-rows-1 gap-2 !text-[.9em]">
-                        <a href="/lahan-industri-siap-bangun">Lahan Industri Siap Bangun</a>
-                        <a href="/bangunan-pabrik-siap-pakai">Bangunan Pabrik Siap Pakai (BPSP)</a>
-                        <a href="/kerjasama-komersial-kawasan-industri">Kerjasama Komersial Kawasan Industri</a>
+                        <a href="/lahan-industri">Lahan Industri Siap Bangun</a>
+                        <a href="/archive-bangunan-pabrik-siap-pakai">Bangunan Pabrik Siap Pakai (BPSP)</a>
+                        <a href="/single-area-komersil">Kerjasama Komersial Kawasan Industri</a>
                     </div>
                 </div>
 

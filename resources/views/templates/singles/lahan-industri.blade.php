@@ -83,10 +83,18 @@
                 <div class="modal-image w-full md:w-1/3">
                     <img class="w-full rounded-md" src="" alt="Foto Manajemen">
                 </div>
-                <div class="modal-info w-full md:w-2/3 flex flex-col gap-3">
-                    <h3 class="modal-title "></h3>
-                    <h6 class="modal-position text-[var(--color-blue)] sm:mb-3"></h6>
-                    <div class="modal-description text-[var(--color-text)] pr-2 overflow-y-auto sm:max-h-[300px] max-h-[150px]"></div>
+                <div class="modal-info w-full md:w-2/3 flex flex-col gap-7">
+                    <div class="flex flex-col gap-2">
+                        <h3 class="modal-title "></h3>
+                        <h6 class="modal-position text-[var(--color-purple)] sm:mb-3"></h6>
+                        <div class="modal-description text-[var(--color-text)] pr-2 overflow-y-auto sm:max-h-[300px] max-h-[150px]"></div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h5>Updated by: 26/05/2025</h5>
+                        <p class="text-[#DD2F2F] italic">
+                            *Calon investor tidak wajib membeli satu kavling penuh. Pembelian lahan dapat disesuaikan dengan kebutuhan, sesuai rencana bisnis yang diinginkan.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

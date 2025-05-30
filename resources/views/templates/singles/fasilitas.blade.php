@@ -22,7 +22,7 @@
        
 
 <x-header-kiw/>
-<x-partials.hero-page image="media/fasilitas-hero.jpg" h1="Fasilitas Lengkap"/>
+<x-partials.hero-page image="media/fasilitas-hero.jpg" h1="Fasilitas Penunjang"/>
 
 
 <!--Start Fasilitas Content-->

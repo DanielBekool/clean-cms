@@ -19,7 +19,7 @@
     
     <main>
 <x-header-kiw/>
-<x-partials.hero-page image="media/penghargaan-hero.jpg" h1="Penghargaan & Sertifikat"/>
+<x-partials.hero-page image="media/penghargaan-hero.jpg" h1="Penghargaan & Sertifikasi"/>
 
 <!--Penghargaan & Sertifikat-->
 <section id="penghargaan-sertifikat" class="flex flex-col gap-9 lg:gap-18 my-18 lg:my-30 px-4 sm:px-6 lg:px-0 lg:w-[1200px] lg:mx-auto">

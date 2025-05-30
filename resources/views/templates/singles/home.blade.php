@@ -87,7 +87,7 @@
                 <div class="swiper-wrapper relative">
                     
                     <!--Item Video-->
-                    <div class="swiper-slide relative">
+                    <div class="swiper-slide relative overflow-hidden">
                         <div class="absolute inset-0 z-0">
                             <img id="video-fallback" src="{{ asset('media/background-home.jpg') }}" alt="Banner Image" class="w-full h-full object-cover absolute inset-0 z-0" />
                             <iframe id="video-frame"
@@ -138,7 +138,7 @@
                                         />
                                         <x-loop.counter-hero-home
                                             counter="50"
-                                            unit="Unit"
+                                            unit="Persegi"
                                             label="Commercial Area"    
                                         />
                                     </div>
@@ -148,7 +148,7 @@
                     </div>
 
                     <!--Item Photo-->
-                    <div class="swiper-slide relative bg-cover bg-no-repeat" style="background-image:url('{{ asset('media/hero-home-2.jpg') }}')">
+                    <div class="swiper-slide relative bg-cover bg-no-repeat overflow-hidden" style="background-image:url('{{ asset('media/hero-home-2.jpg') }}')">
                         
                         <!-- overlay -->
                         <div class="bg-[var(--color-overlayblack)] z-10 bg-opacity-60 relative">
@@ -173,6 +173,7 @@
                             </div>
                         </div>
                     </div>
+
 
                 </div>
                 <!-- Custom icon.arrow Left -->
@@ -302,7 +303,7 @@
 
                     <x-loop.layanan-home
                         number="03."
-                        label="Kerjasama Komersial Kawasan Industri"
+                        label="Kerja sama Komersial Kawasan Industri"
                         desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                         url="#"
                         image="media/exterior-view-modern-industrial-building.jpg"
@@ -341,7 +342,7 @@
                         desc="
                         KIW menawarkan kemudahan dalam menjalankan bisnis melalui sistem pelayanan satu atap yang terintegrasi.
                         "
-                        url="#"
+                        url="/keunggulan#perijinan"
                     />
 
                     <x-loop.keunggulan-home
@@ -350,7 +351,7 @@
                         desc="
                         Kawasan Industri Wijayakusuma terletak di jalur utama Semarang, pusat pertumbuhan ekonomi di Jawa Tengah.
                         "
-                        url="#"
+                        url="/keunggulan#lokasi"
                     />
 
                     <x-loop.keunggulan-home
@@ -359,7 +360,7 @@
                         desc="
                         KIW mengusung ekosistem industri terintegrasi yang mendorong kolaborasi antar pelaku usaha untuk tumbuh secara berkelanjutan.
                         "
-                        url="#"
+                        url="/keunggulan#ekosistem"
                     />
 
                     <x-loop.keunggulan-home
@@ -368,7 +369,7 @@
                         desc="
                         KIW dibangun dengan infrastruktur kelas industri yang lengkap dan modern.
                         "
-                        url="#"
+                        url="/keunggulan#infrastruktur"
                     />
 
                     <x-loop.keunggulan-home
@@ -377,7 +378,7 @@
                         desc="
                         KIW memiliki Upah Minimum yang relatif lebih rendah dibandingkan kota-kota besar seperti Jakarta atau Surabaya.
                         "
-                        url="#"
+                        url="/keunggulan#upah"
                     />
 
                     <x-loop.keunggulan-home
@@ -386,7 +387,7 @@
                         desc="
                         KIW dikelilingi institusi pendidikan dan pelatihan yang mencetak lulusan siap kerja dan terampil.
                         "
-                        url="#"
+                        url="/keunggulan#sdm"
                     />
 
                     <x-loop.keunggulan-home
@@ -395,7 +396,7 @@
                         desc="
                         KIW mendukung ekosistem industri melalui fasilitas modern, tata kelola profesional, dan layanan satu pintu.
                         "
-                        url="#"
+                        url="/keunggulan#bisnis"
                     />
 
                 </div>
@@ -498,7 +499,7 @@
                 <!--title-->
                 <div class="flex flex-col justify-between gap-5 sm:!w-[40%]">
                     <div class="flex flex-col justify-between gap-5" >
-                        <h6 class="bullet-1" data-aos="fade-down">fasilitas lengkap</h6>
+                        <h6 class="bullet-1" data-aos="fade-down">fasilitas Penunjang</h6>
                         <h2 data-aos="fade-up">Lingkungan Industri yang Lengkap</h2>
                     </div>  
                     
