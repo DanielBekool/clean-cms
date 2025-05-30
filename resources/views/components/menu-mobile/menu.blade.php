@@ -1,0 +1,1 @@
+<li><a href="{{ $url }}" class="block hover:text-[var(--color-lightblue)]">{{ $menu }}</a></li>

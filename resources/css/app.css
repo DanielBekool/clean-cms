@@ -1061,4 +1061,18 @@ h6 {
 }
 }
 
+/* disable scroll when off canvas mobile open */
+body.off-canvas-open {
+  overflow: hidden;
+}
+
+
+/* hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
 

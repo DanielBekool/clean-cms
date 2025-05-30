@@ -10,7 +10,7 @@
 
  @endPushOnce
 
-@push('before_body_close')
+@pushOnce('before_body_close')
 <script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="{{ asset('js/accessibility.js') }}"></script>
  @endPushOnce

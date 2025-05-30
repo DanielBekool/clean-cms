@@ -1,5 +1,7 @@
 <!--Start Header Menu-->
-<div x-data="{ open: false, openSubMenu: null }"> 
+<div x-data="{ open: false, openSubMenu: null }"
+     x-effect="document.body.classList.toggle('off-canvas-open', open)"> 
+
     <header class="absolute top-0 left-1/2 -translate-x-1/2 w-full lg:w-[1200px] z-50 lg:p-0 sm:p-6 px-4 pt-2">
         <div class="lg:max-w-[1200px] mx-auto flex pt-5 justify-between gap-10">
     
@@ -59,7 +61,7 @@
                             <!-- Main Menu -->
                             <x-menu.parent-menu
                                 menu="beranda"
-                                url="#"
+                                url="/"
                             />
                         </li>      
 
@@ -68,7 +70,7 @@
                             <!-- Main Menu -->
                             <x-menu.parent-menu-have-sub
                                 menu="Tentang"
-                                url="#"
+                                url="javascript:void(0)"
                             />
 
                             <!-- Main Submenu -->
@@ -77,23 +79,23 @@
                                 <!-- Submenu -->
                                 <x-menu.sub-menu
                                     menu="Profil Perusahaan"
-                                    url="#"
+                                    url="/profil-perusahaan"
                                 />
                                 <x-menu.sub-menu
                                     menu="Visi Misi & Tata Nilai"
-                                    url="#"
+                                    url="/visi-misi-tata-nilai"
                                 />
                                 <x-menu.sub-menu
                                     menu="Manajemen Perusahaan"
-                                    url="#"
+                                    url="/manajemen-perusahaan"
                                 />
                                 <x-menu.sub-menu
                                     menu="Pedoman & Tata Kelola"
-                                    url="#"
+                                    url="/pedoman-tata-kelola"
                                 />
                                 <x-menu.sub-menu
                                     menu="Penghargaan"
-                                    url="#"
+                                    url="/penghargaan-sertifikat"
                                 />
                             </ul>
                         </li>
@@ -103,7 +105,7 @@
                             <!-- Main Menu -->
                             <x-menu.parent-menu-have-sub
                                 menu="produk & layanan"
-                                url="#"
+                                url="javascript:void(0)"
                             />
 
                             <!-- Main Submenu -->
@@ -112,40 +114,40 @@
                                 <!-- Submenu -->
                                 <x-menu.sub-menu
                                     menu="Lahan Industri"
-                                    url="#"
+                                    url="/lahan-industri"
                                 />
                                 <x-menu.sub-menu
                                     menu="Bangunan Pabrik Siap Pakai"
-                                    url="#"
+                                    url="/archive-bangunan-pabrik-siap-pakai"
                                 />
 
                                 <!-- Submenu have sub menu -->
                                 <li class="relative group/submenu">
                                     <x-menu.sub-parent-menu
                                         menu="Area Komersil"
-                                        url="#"
+                                        url="javascript:void(0)"
                                     />
 
                                     <!-- Sub-submenu -->
                                     <ul class="absolute left-full top-0 mt-0 w-40 bg-white shadow-lg opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all">
                                         <x-menu.sub-sub-menu
                                             menu="ATM"
-                                            url="#"
+                                            url="/single-area-komersil"
                                         />
                                         <x-menu.sub-sub-menu
                                             menu="Meeting Room"
-                                            url="#"
+                                            url="/single-area-komersil"
                                         />
                                         <x-menu.sub-sub-menu
                                             menu="Sport Center"
-                                            url="#"
+                                            url="/single-area-komersil"
                                         />
                                     </ul>
                                 </li>
 
                                 <x-menu.sub-menu
                                     menu="Fasilitas"
-                                    url="#"
+                                    url="/fasilitas"
                                 />
                             </ul>
                         </li>
@@ -155,7 +157,7 @@
                             <!-- Main Menu -->
                             <x-menu.parent-menu
                                 menu="keunggulan"
-                                url="#"
+                                url="/keunggulan"
                             />
                         </li> 
 
@@ -164,7 +166,7 @@
                             <!-- Main Menu -->
                             <x-menu.parent-menu-have-sub
                                 menu="Informasi"
-                                url="#"
+                                url="javascript:void(0)"
                             />
 
                             <!-- Main Submenu -->
@@ -173,29 +175,24 @@
                                 <!-- Submenu -->
                                 <x-menu.sub-menu
                                     menu="Karier"
-                                    url="#"
+                                    url="/karier"
                                 />
 
                                 <!-- Submenu have sub menu -->
                                 <li class="relative group/submenu">
                                     <x-menu.sub-parent-menu
                                         menu="Pengadaan Barang & Jasa"
-                                        url="#"
+                                        url="/pengadaan-barang-jasa"
                                     />
 
                                     <!-- Sub-submenu -->
                                     <ul class="absolute left-full top-0 mt-0 w-40 bg-white shadow-lg opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all">
                                         <x-menu.sub-sub-menu
                                             menu="Tender"
-                                            url="#"
+                                            url="/archive-tender"
                                         />
                                     </ul>
                                 </li>
-
-                                <x-menu.sub-menu
-                                    menu="Fasilitas"
-                                    url="#"
-                                />
                             </ul>
                         </li>
 
@@ -205,7 +202,7 @@
                             <!-- Main Menu -->
                             <x-menu.parent-menu-have-sub
                                 menu="Media"
-                                url="#"
+                                url="javascript:void(0)"
                             />
 
                             <!-- Main Submenu -->
@@ -214,35 +211,35 @@
                                 <!-- Submenu -->
                                 <x-menu.sub-menu
                                     menu="Berita Perusahaan"
-                                    url="#"
+                                    url="/archive-post"
                                 />
                                 <x-menu.sub-menu
                                     menu="Siaran Pers"
-                                    url="#"
+                                    url="/archive-post"
                                 />
                                 <x-menu.sub-menu
                                     menu="Berita CSR & Lingkungan"
-                                    url="#"
+                                    url="/archive-post"
                                 />
                                 <x-menu.sub-menu
                                     menu="Lelang"
-                                    url="#"
+                                    url="/archive-post-lelang"
                                 />
                                 <x-menu.sub-menu
                                     menu="E-Procurement"
-                                    url="#"
+                                    url="javascript:void(0)"
                                 />
                                 <x-menu.sub-menu
                                     menu="Whistleblowing System"
-                                    url="#"
+                                    url="/whistleblowing"
                                 />
                                 <x-menu.sub-menu
                                     menu="Laporan Tahunan"
-                                    url="#"
+                                    url="/laporan-tahunan"
                                 />
                                 <x-menu.sub-menu
                                     menu="Galeri Dokumentasi"
-                                    url="#"
+                                    url="/galeri-dokumentasi"
                                 />
                             </ul>
                         </li>
@@ -252,7 +249,7 @@
                             <!-- Main Menu -->
                             <x-menu.parent-menu
                                 menu="Kontak"
-                                url="#"
+                                url="/kontak"
                             />
                         </li>  
                         
@@ -266,25 +263,24 @@
             
 
 
-            <!-- Mobile Menu Button -->
-            <div class="lg:hidden">
-                <button @click="open = !open" class="text-white focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </div>
+        <!-- Mobile Menu Button -->
+        <div class="lg:hidden">
+            <button @click="open = !open;"
+                class="text-white focus:outline-none"
+            >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
 
-
-
-            
         <!-- Off-canvas Mobile Menu -->
-        <div x-show="open" class="fixed inset-0 bg-black bg-opacity-50 z-50 lg:hidden" @click="open = false"></div>
+        <div x-show="open" class="fixed inset-0 bg-black h-[100vh] bg-opacity-50 z-40 lg:hidden" @click="open = false"></div>
 
         <div x-show="open"
-            class="fixed top-0 right-0 w-[90%] bg-cover shadow-lg z-50 transform transition-transform duration-300 ease-in-out lg:hidden"
+            class="fixed top-0 right-0 w-[90%] h-[100vh] bg-cover shadow-lg z-50 transform transition-transform duration-300 ease-in-out lg:hidden"
             style="background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 10%, rgba(255, 255, 255, 0.45) 100%), url({{ asset('media/about-image.jpg') }});"
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="translate-x-full"
@@ -298,7 +294,7 @@
                     ✕
                 </button>
 
-                <div class="pt-10">
+                <div class="pt-10 overflow-y-auto max-h-[95vh] scrollbar-hide">
 
                     <!--Logo-->
                     <div class=" flex items-center ">
@@ -306,137 +302,84 @@
                     </div>
 
                     <ul class="mt-10 space-y-4">
-
+                        
                         <!-- Item -->
-                        <li><a href="#" class="block text-white hover:text-[var(--color-lightblue)]">Home</a></li>
+                        <x-menu-mobile.parent-menu
+                            menu="Beranda"
+                            url="/"
+                        />
 
                         <!-- Item w sub -->
-                        <li x-data="{ openSubMenu: null }"
-                                @click="if (!$event.target.closest('a')) { openSubMenu === 'about' ? openSubMenu = null : openSubMenu = 'about' }" 
-                                class="cursor-pointer select-none" 
-                        >
-                            <div class="flex flex-row  justify-between items-start w-full">
-                                <a href="#" class="block text-white hover:text-[var(--color-lightblue)]">
-                                    About
-                                </a>
-
-                                <div class="ml-2 text-white hover:text-[var(--color-lightblue)]">
-                                    <svg class="w-4 h-4 transform" 
-                                        :class="{ 'rotate-180': openSubMenu === 'about' }" 
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" 
-                                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" 
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <!-- Submenu -->
-                            <ul x-show="openSubMenu === 'about'" class="ml-4 mt-2 space-y-2 text-sm text-[var(--color-heading)]" x-cloak>
-                                <li><a href="#" class="block hover:text-[var(--color-lightblue)]">Profile</a></li>
-                                <li><a href="#" class="block hover:text-[var(--color-lightblue)]">Management</a></li>
-                                <li><a href="#" class="block hover:text-[var(--color-lightblue)]">Corporate Secretary</a></li>
-                            </ul>
-
-                        </li>
-
-                        <!-- Item -->
-                        <li><a href="#" class="block text-white hover:text-[var(--color-lightblue)]">Contact</a></li>
-
-                        <!-- Item -->
-                        <li><a href="#" class="block text-white hover:text-[var(--color-lightblue)]">Business</a></li>
-
-                        <!-- Item -->
-                        <li><a href="#" class="block text-white hover:text-[var(--color-lightblue)]">Products</a></li>
+                        <x-menu-mobile.parent-menu-have-sub menu="Tentang" url="javascript:void(0)">
+                            <x-menu-mobile.menu menu="Profil Perusahaan" url="/profil-perusahaan" />
+                            <x-menu-mobile.menu menu="Visi Misi & Tata Nilai" url="/visi-misi-tata-nilai" />
+                            <x-menu-mobile.menu menu="Manajemen Perusahaan" url="/manajemen-perusahaan" />
+                            <x-menu-mobile.menu menu="Pedoman & Tata Kelola" url="/pedoman-tata-kelola" />
+                            <x-menu-mobile.menu menu="Penghargaan & Sertifikat" url="/penghargaan-sertifikat" />
+                        </x-menu-mobile.parent-menu-have-sub>
 
                         <!-- Item w sub -->
-                        <li x-data="{ openSubMenu: null }"
-                                @click="if (!$event.target.closest('a')) { openSubMenu === 'investor' ? openSubMenu = null : openSubMenu = 'investor' }" 
-                                class="cursor-pointer select-none" 
-                        >
-                            <div class="flex flex-row justify-between items-start w-full">
-                                <a href="#" class="block text-white hover:text-[var(--color-lightblue)]">
-                                    Investor Relation
-                                </a>
-
-                                <div class="ml-2 text-white hover:text-[var(--color-lightblue)]">
-                                    <svg class="w-4 h-4 transform" 
-                                        :class="{ 'rotate-180': openSubMenu === 'investor' }" 
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" 
-                                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" 
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </div>
+                        <x-menu-mobile.parent-menu-have-sub menu="Produk & Layanan" url="javascript:void(0)">
+                            <x-menu-mobile.menu menu="Lahan Industri" url="/lahan-industri" />
+                            <x-menu-mobile.menu menu="Bangunan Pabrik Siap Pakai" url="/archive-bangunan-pabrik-siap-pakai" />
+                            <x-menu-mobile.sub-parent-menu menu="Area Komersil" url="javascript:void(0)">
+                                <x-menu-mobile.menu menu="ATM" url="/single-area-komersil" />
+                                <x-menu-mobile.menu menu="Meeting Room" url="/single-area-komersil" />
+                                <x-menu-mobile.menu menu="Sport Center" url="/single-area-komersil" />
+                            </x-menu-mobile.sub-parent-menu>
+                            <x-menu-mobile.menu menu="Fasilitas" url="/fasilitas" />
+                        </x-menu-mobile.parent-menu-have-sub>
                         
-                            <!-- Submenu -->
-                            <ul x-show="openSubMenu === 'investor'" class="ml-4 mt-2 space-y-2 text-sm text-[var(--color-heading)]" x-cloak>
-                                <li><a href="#" class="block hover:text-[var(--color-lightblue)]">Annual Report</a></li>
-                                <li><a href="#" class="block hover:text-[var(--color-lightblue)]">GMS</a></li>
-                            </ul>
-                        </li>
+                        <!-- Item -->
+                        <x-menu-mobile.parent-menu
+                            menu="Keunggulan"
+                            url="/keunggulan"
+                        />
 
                         <!-- Item w sub -->
-                        <li x-data="{ openSubMenu: null }"
-                                @click="if (!$event.target.closest('a')) { openSubMenu === 'media' ? openSubMenu = null : openSubMenu = 'media' }" 
-                                class="cursor-pointer select-none" 
-                        >
-                            <div class="flex flex-row justify-between items-start w-full">
-                                <a href="#" class="block text-white hover:text-[var(--color-lightblue)]">
-                                    Media
-                                </a>
+                        <x-menu-mobile.parent-menu-have-sub menu="Informasi" url="javascript:void(0)">
+                            <x-menu-mobile.menu menu="Karier" url="/karier" />
+                            <x-menu-mobile.sub-parent-menu menu="Pengadaan Barang & Jasa" url="/pengadaan-barang-jasa">
+                                <x-menu-mobile.menu menu="Tender" url="/archive-tender" />
+                            </x-menu-mobile.sub-parent-menu>
+                        </x-menu-mobile.parent-menu-have-sub>
 
-                                <div class="ml-2 text-white hover:text-[var(--color-lightblue)]">
-                                    <svg class="w-4 h-4 transform" 
-                                        :class="{ 'rotate-180': openSubMenu === 'media' }" 
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" 
-                                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" 
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </div>
-                    
-                        <!-- Submenu -->
-                        <ul x-show="openSubMenu === 'media'" class="ml-4 mt-2 space-y-2 text-sm text-[var(--color-heading)]" x-cloak>
-                            <li><a href="#" class="block hover:text-[var(--color-lightblue)]">News Update</a></li>
-                            <li><a href="#" class="block hover:text-[var(--color-lightblue)]">Gallery</a></li>
-                        </ul>
-                    </li>
+                        <!-- Item w sub -->
+                        <x-menu-mobile.parent-menu-have-sub menu="Media" url="javascript:void(0)">
+                            <x-menu-mobile.menu menu="Berita Perusahaan" url="/archive-post" />
+                            <x-menu-mobile.menu menu="Siaran Pers" url="/archive-post" />
+                            <x-menu-mobile.menu menu="Berita CSR & Lingkungan" url="/archive-post" />
+                            <x-menu-mobile.menu menu="Lelang" url="/archive-post-lelang" />
+                            <x-menu-mobile.menu menu="E-Procurement" url="javascript:void(0)" />
+                            <x-menu-mobile.menu menu="Whistleblowing System" url="/whistleblowing" />
+                            <x-menu-mobile.menu menu="Laporan Tahunan" url="/laporan-tahunan" />
+                            <x-menu-mobile.menu menu="Galeri Dokumentasi" url="/galeri-dokumentasi" />
+                        </x-menu-mobile.parent-menu-have-sub>
 
-                    <!-- Item -->
-                    <li><a href="#" class="block text-white hover:text-[var(--color-lightblue)]">Career</a></li>
-
-                    <!-- Item -->
-                    <li><a href="#" class="block text-white hover:text-[var(--color-lightblue)]">Contact</a></li>
-                        
-                        
+                        <!-- Item -->
+                        <x-menu-mobile.parent-menu
+                            menu="Kontak"
+                            url="/kontak"
+                        />
                     </ul>
-
-                    <!--Button-->
-                    <div class="flex items-center lg:block sm:block mt-7">
-                        <a href="#" class="text-sm uppercase text-white bg-[var(--color-lightblue)] hover:bg-blue-700 px-4 py-2 rounded-md">
-                            Sign In
-                        </a>
-                    </div>
 
                     <!-- Icon -->
                     <div class="flex flex-col gap-4 mt-10 ">
-                        <a href="#" class="flex flex-row gap-2 ">
+                        <a href="tel:+6281211118022" class="flex flex-row gap-2 ">
                             <i aria-hidden="true" class="fas fa-phone-alt text-[var(--color-lightblue)]"></i>
-                            <p class="!text-white">Telephone : +62 21 227 831 98</p>
+                            <p class="text-[var(--color-heading)] hover:text-[var(--color-lightblue)]">Telephone : +62 812 1111 8022</p>
                         </a>
 
-                        <a href="#" class="flex flex-row gap-2">
-                            <i aria-hidden="true" class="fab fa-whatsapp text-[var(--color-lightblue)]"></i>
-                            <p class="!text-white">Whatsapp : +62 8521 1881 421</p>
+                        <a href="mailto:pemasaran@kiw.co.id" class="flex flex-row gap-2">
+                            <i aria-hidden="true" class="fa-solid fa-envelope text-[var(--color-lightblue)]"></i>
+                            <p class="text-[var(--color-heading)] hover:text-[var(--color-lightblue)]">Email : pemasaran@kiw.co.id</p>
                         </a>
                     </div>    
 
                 </div>
             </div>
         </div>
+
     </header>
 </div>   
 <!--End Header Menu-->
