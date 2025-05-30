@@ -17,7 +17,7 @@
                         
                     <!--Button-->
                     <a class=" btn5 group w-fit" href="#" target="_blank" rel="noopener noreferrer">
-                        Buat Janji
+                        Hubungi Kami
                         <span class="gradient-icon">
                             <x-icon.pencil/>
                         </span>
@@ -363,18 +363,42 @@
                         />
                     </ul>
 
-                    <!-- Icon -->
-                    <div class="flex flex-col gap-4 mt-10 ">
-                        <a href="tel:+6281211118022" class="flex flex-row gap-2 ">
-                            <i aria-hidden="true" class="fas fa-phone-alt text-[var(--color-lightblue)]"></i>
-                            <p class="text-[var(--color-heading)] hover:text-[var(--color-lightblue)]">Telephone : +62 812 1111 8022</p>
+                    <!-- Button -->
+                     <div class="mt-10 flex flex-col gap-5">
+                        <a class=" btn9 group w-fit" href="#" target="_blank" rel="noopener noreferrer">
+                            Hubungi Kami
+                            <span class="gradient-icon">
+                                <x-icon.pencil/>
+                            </span>
                         </a>
 
-                        <a href="mailto:pemasaran@kiw.co.id" class="flex flex-row gap-2">
-                            <i aria-hidden="true" class="fa-solid fa-envelope text-[var(--color-lightblue)]"></i>
-                            <p class="text-[var(--color-heading)] hover:text-[var(--color-lightblue)]">Email : pemasaran@kiw.co.id</p>
+                        <a class=" btn9 group w-fit" href="#" target="_blank" rel="noopener noreferrer">
+                            Unduh Brosur
+                        <span class="gradient-icon">
+                            <x-icon.download-icon-current/>
+                        </span>
                         </a>
-                    </div>    
+                     </div>
+
+                    <!--Translate-->
+                    <div class="mt-10 flex flex-row gap-5 items-center text-[var(--color-heading)] ">
+                            <a href="#" class="hover:text-[var(--color-lightblue)] flex flex-row gap-2 items-center">
+                            <img class="w-5 h-4" src="{{ asset('media/english.jpg') }}" alt="english">
+                            GB
+                        </a>
+                            <a href="#" class="hover:text-[var(--color-lightblue)] flex flex-row gap-2 items-center">
+                            <img class="w-5 h-4" src="{{ asset('media/mandarin.jpg') }}" alt="mandarin">
+                            CN
+                        </a>
+                        <a href="#" class="hover:text-[var(--color-lightblue)] border-r flex flex-row gap-2 items-center">
+                            <img class="w-5 h-4" src="{{ asset('media/korea.jpg') }}" alt="korea">
+                            KR
+                        </a>
+                        <a href="#" class="hover:text-[var(--color-lightblue)] flex flex-row gap-2 items-center">
+                            <img class="w-5 h-4" src="{{ asset('media/indonesia.jpg') }}" alt="indonesia">
+                            ID
+                        </a>
+                    </div> 
 
                 </div>
             </div>
