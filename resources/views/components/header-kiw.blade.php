@@ -132,7 +132,7 @@
                                     <ul class="absolute left-full top-0 mt-0 w-40 bg-white shadow-lg opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all">
                                         <x-menu.sub-sub-menu
                                             menu="ATM"
-                                            url="/single-area-komersil"
+                                            url="/single-area-komersil-atm"
                                         />
                                         <x-menu.sub-sub-menu
                                             menu="Meeting Room"
@@ -323,7 +323,7 @@
                             <x-menu-mobile.menu menu="Lahan Industri" url="/lahan-industri" />
                             <x-menu-mobile.menu menu="Bangunan Pabrik Siap Pakai" url="/archive-bangunan-pabrik-siap-pakai" />
                             <x-menu-mobile.sub-parent-menu menu="Area Komersil" url="javascript:void(0)">
-                                <x-menu-mobile.menu menu="ATM" url="/single-area-komersil" />
+                                <x-menu-mobile.menu menu="ATM" url="/single-area-komersil-atm" />
                                 <x-menu-mobile.menu menu="Meeting Room" url="/single-area-komersil" />
                                 <x-menu-mobile.menu menu="Sport Center" url="/single-area-komersil" />
                             </x-menu-mobile.sub-parent-menu>

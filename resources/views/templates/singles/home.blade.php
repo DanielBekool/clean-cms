@@ -266,21 +266,12 @@
         <!-- Start Layanan Home -->
         <section id="layanan-home" class="lg:py-30 py-18 bg-cover " style="background-image: url('{{ asset('media/bg-grad.jpg') }}');">
             <div class="flex flex-col overflow-hidden relative lg:gap-20 sm:gap-10 gap-10 lg:px-0 lg:max-w-[1200px] lg:mx-auto sm:px-6 px-4">
-                <!--Content Heading-->
-                <div class="flex sm:flex-row flex-col justify-between items-end">
-                    <!--Heading-->
-                    <div class="flex flex-col justify-start gap-5 sm:w-[60%]">
-                        <h6 class="bullet-2 text-white" data-aos="fade-down">layanan kami</h6>
-                        <h2 class="text-white" data-aos="fade-up">Solusi Komprehensif untuk Kebutuhan Industri</h2>
+                
+                <!--Heading-->
+                    <div class="flex flex-col justify-start items-center gap-5">
+                        <h6 class="bullet-2 text-white text-center" data-aos="fade-down">layanan kami</h6>
+                        <h2 class="text-white text-center lg:w-[700px]" data-aos="fade-up">Solusi Komprehensif untuk Kebutuhan Industri</h2>
                     </div>
-                    <!--Button Desktop Tablet-->
-                    <div class="sm:w-[40%] sm:flex hidden flex-row justify-end">
-                        <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/layanan">
-                            <span class="gradient-text">Lihat Layanan</span>
-                            <img src="{{ asset('media/arrow-right-solid.png') }}" alt="icon">
-                        </a>
-                    </div>
-                </div>
 
                 <!--Content-->
                 <div class="flex lg:flex-row flex-col gap-7">
@@ -310,13 +301,6 @@
                     />
                 </div>
 
-                <!--Button Mobile-->
-                <div class="sm:w-[40%] flex sm:hidden flex-row justify-start">
-                    <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/layanan">
-                        <span class="gradient-text">Lihat Layanan</span>
-                        <img src="{{ asset('media/arrow-right-solid.png') }}" alt="icon">
-                    </a>
-                </div>
 
             </div>
         </section>
