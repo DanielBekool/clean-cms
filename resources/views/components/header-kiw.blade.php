@@ -3,11 +3,11 @@
      x-effect="document.body.classList.toggle('off-canvas-open', open)"> 
 
     <header class="absolute top-0 left-1/2 -translate-x-1/2 w-full lg:w-[1200px] z-50 lg:p-0 sm:p-6 px-4 pt-2">
-        <div class="lg:max-w-[1200px] mx-auto flex pt-5 justify-between gap-10">
+        <div class="lg:max-w-[1200px] mx-auto flex lg:pt-5 sm:pt-1 pt-1 justify-between gap-10">
     
             <!--Logo-->
             <div class=" flex items-center ">
-                    <a href="/"><img class="!w-12 sm:!w-20 mr-20 filter brightness-0 invert" src="{{ asset('media/logo.png') }}" alt="logo"></a>
+                    <a href="/"><img class="!w-12 sm:!w-14 lg:!w-20 mr-20 filter brightness-0 invert" src="{{ asset('media/logo.png') }}" alt="logo"></a>
             </div>
 
             <div class="flex flex-col justify-between w-full grow">
