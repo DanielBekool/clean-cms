@@ -264,11 +264,11 @@
 
 
         <!-- Mobile Menu Button -->
-        <div class="lg:hidden">
+        <div class="lg:hidden flex flex-col justify-center">
             <button @click="open = !open;"
                 class="text-white focus:outline-none"
             >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M4 6h16M4 12h16M4 18h16" />
