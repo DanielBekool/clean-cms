@@ -30,7 +30,7 @@
 <script src="{{ asset('js/popup-init-modal-events.js') }}"></script>
 <script src="{{ asset('js/popup-modal-controller.js') }}"></script>
 <script src="{{ asset('js/fasilitas-swiper-number.js') }}"></script>
-<script src="{{ asset('js/swiper-auto-height.js-') }}"></script>
+<script src="{{ asset('js/swiper-auto-height.js') }}"></script>
 <script src="{{ asset('js/counter.js') }}"></script>
 <script src="{{ asset('js/video-modal.js') }}"></script>
 <script src="{{ asset('js/video-inline.js') }}"></script>
@@ -517,7 +517,7 @@
                 <!--carousel-->
                 <div class="sm:!w-[55%] !w-[100%] relative fasilitas-home">
                     <div class="swiper swiper-1">
-                        <div class="swiper-wrapper !flex">
+                        <div class="swiper-wrapper">
                                <x-loop.fasilitas-home 
                                     label="Masjid" 
                                     image="media/masjid.jpg">

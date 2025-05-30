@@ -890,16 +890,20 @@ h6 {
   margin-right: -200px !important;
 }
 
+#fasilitas-home .swiper-wrapper {
+  display: flex !important;
+  flex-direction: row;
+}
 
 #fasilitas-home .swiper-button-prev {
   left: -16px !important;
-  top: 160px;
+  top: 175px;
 }
 
 
 #fasilitas-home .swiper-button-next {
   right: -16px !important;
-  top: 160px !important;
+  top: 175px !important;
 }
  
 #fasilitas-home .fasilitas-home-item:hover {
@@ -1120,3 +1124,14 @@ body.off-canvas-open {
   scrollbar-width: none;     /* Firefox */
 }
 
+/* Coming Soon Image */
+.comming-soon-image::after {
+  content: "";
+  background: #ffffff;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  
+}

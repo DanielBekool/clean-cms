@@ -58,7 +58,7 @@
             </div>
             <p>
                 Tata cara pelaporan dengan membuat pengaduan/pengungkapan dan mengirimkannya ke Pengelola WBS melalui 
-                SMS ke <b><a href="tel:+6281211118021">Nomor HP : 081211118021</a></b> atau kirim email ke 
+                SMS ke <b><a href="https://api.whatsapp.com/send?phone=6281211118021&text=Halo%20PT%20Kawasan%20Industri%20Wijayakusuma,%20saya%20ingin%20pengaduan%20Whistleblowing," target="_blank">Nomor HP : 081211118021</a></b> atau kirim email ke 
                 <b><a href="mailto:wbs@kiw.co.id">wbs@kiw.co.id</a></b> atau anda bisa mengisi form dibawah ini :
             </p>
 

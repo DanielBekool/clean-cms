@@ -1,5 +1,5 @@
 function equalizeSwiperSlideHeights() {
-    const slides = document.querySelectorAll('.swiper-slide');
+    const slides = document.querySelectorAll('.same-height');
     let maxHeight = 0;
 
     // Reset tinggi agar bisa dihitung ulang saat resize

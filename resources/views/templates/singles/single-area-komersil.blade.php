@@ -46,7 +46,7 @@
 
             <div class="flex flex-row gap-2">
                 <!--button-->
-                <a class="w-fit btn1 mt-5"data-aos="fade-down" href="/tentang">hubungi sekarang
+                <a class="w-fit btn1 mt-5"data-aos="fade-down" href="https://api.whatsapp.com/send?phone=6281211118022&text=Halo%20PT%20Kawasan%20Industri%20Wijayakusuma,%20saya%20ingin%20informasi%20mengenai%20BPSP," target="_blank">hubungi sekarang
                     <span>
                         <img src="{{ asset('media/whatsapp-white.png') }}">
                     </span>

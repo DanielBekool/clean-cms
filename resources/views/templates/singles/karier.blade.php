@@ -7,12 +7,16 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+     <!--Light Box Image Head -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
  @endPushOnce
 
 @pushOnce('before_body_close')
 <script src="{{ asset('js/aos-animate.js') }}"></script>
 <script src="{{ asset('js/accordion.js') }}"></script>
 <script src="{{ asset('js/accessibility.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
  @endPushOnce
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -42,8 +46,8 @@
             <li>Pengalaman minimal 2 tahun di bidang serupa</li>
             <li>Mampu mengoperasikan software AutoCAD dan MS Project</li>
         </ul>"
-    email="pemasaran@kiw.co.id"
-    subject="Fulltime - Posisi - Nama Lengkap"
+    url="https://www.jobsdb.com/"
+    image="media/karier-1.jpg"
   />
 
   <x-loop.accordion-karier
@@ -61,8 +65,8 @@
             <li>Pengalaman minimal 2 tahun di bidang serupa</li>
             <li>Mampu mengoperasikan software AutoCAD dan MS Project</li>
         </ul>"
-    email="pemasaran@kiw.co.id"
-    subject="Fulltime - Posisi - Nama Lengkap"
+    url="https://www.jobsdb.com/"
+    image="media/karier-1.jpg"
   />
 
   <x-loop.accordion-karier
@@ -80,8 +84,8 @@
             <li>Pengalaman minimal 2 tahun di bidang serupa</li>
             <li>Mampu mengoperasikan software AutoCAD dan MS Project</li>
         </ul>"
-    email="pemasaran@kiw.co.id"
-    subject="Fulltime - Posisi - Nama Lengkap"
+    url="https://www.jobsdb.com/"
+    image="media/karier-1.jpg"
   />
 
   <x-loop.accordion-karier
@@ -99,8 +103,8 @@
             <li>Pengalaman minimal 2 tahun di bidang serupa</li>
             <li>Mampu mengoperasikan software AutoCAD dan MS Project</li>
         </ul>"
-    email="pemasaran@kiw.co.id"
-    subject="Fulltime - Posisi - Nama Lengkap"
+    url="https://www.jobsdb.com/"
+    image="media/karier-1.jpg"
   />
 
   <x-loop.accordion-karier
@@ -118,8 +122,8 @@
             <li>Pengalaman minimal 2 tahun di bidang serupa</li>
             <li>Mampu mengoperasikan software AutoCAD dan MS Project</li>
         </ul>"
-    email="pemasaran@kiw.co.id"
-    subject="Fulltime - Posisi - Nama Lengkap"
+    url="https://www.jobsdb.com/"
+    image="media/karier-1.jpg"
   />
   
   

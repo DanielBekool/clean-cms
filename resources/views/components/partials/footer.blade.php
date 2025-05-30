@@ -98,7 +98,7 @@
                     <div class="grid grid-rows-1 gap-2 !text-[.9em]">
                         <a href="/lahan-industri">Lahan Industri Siap Bangun</a>
                         <a href="/archive-bangunan-pabrik-siap-pakai">Bangunan Pabrik Siap Pakai (BPSP)</a>
-                        <a href="/single-area-komersil">Kerjasama Komersial Kawasan Industri</a>
+                        <a href="/single-area-komersil-atm">Kerjasama Komersial Kawasan Industri</a>
                     </div>
                 </div>
 

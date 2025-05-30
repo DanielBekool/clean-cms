@@ -44,7 +44,7 @@
                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
             <!--button-->
-            <a class="w-fit btn1 mt-5"data-aos="fade-down" href="/tentang">hubungi sekarang
+            <a class="w-fit btn1 mt-5"data-aos="fade-down" href="https://api.whatsapp.com/send?phone=6281211118022&text=Halo%20PT%20Kawasan%20Industri%20Wijayakusuma,%20saya%20ingin%20informasi%20mengenai%20BPSP," target="_blank">hubungi sekarang
                 <span>
                     <img src="{{ asset('media/whatsapp-white.png') }}">
                 </span>
@@ -83,7 +83,7 @@
 <!--Start Spesifikasi-->
 
 <section id="spesifikasi" class="lg:py-30 py-18 bg-cover bg-[var(--color-transit)]">
-    <div class="flex flex-col lg:flex-row lg:gap-8 gap-5 lg:px-0 lg:lg:max-w-[1200px] lg:mx-auto sm:px-6 px-4">
+    <div class="flex flex-col lg:flex-row lg:gap-8 gap-5 lg:px-0 lg:max-w-[1200px] lg:mx-auto sm:px-6 px-4">
             
         <!--Heading-->
         <h2 data-aos="fade-up" class="lg:w-1/3">Spesifikasi</h2>

@@ -33,13 +33,30 @@
         <p>
             Jangan ragu untuk menghubungi kami terkait pertanyaan, kerja sama, atau kebutuhan bisnis Anda.
         </p>
+        <div class="flex flex-row gap-8 w-[70%] lg:w-full lg:mt-10 sm:mt-5">
+            <a href="https://www.facebook.com/PT.KIW/" target="_blank" rel="noopener noreferrer">
+                <img src="{{ asset('media/facebook-blue.png') }}" alt="facebook">
+            </a>
+            <a href="https://twitter.com/pt_kiw" target="_blank" rel="noopener noreferrer">
+                <img src="{{ asset('media/twitter-blue.png') }}" alt="twitter">
+            </a>
+            <a href="https://www.instagram.com/ptkiw/" target="_blank" rel="noopener noreferrer">
+                <img src="{{ asset('media/instagram-blue.png') }}" alt="instagram">
+            </a>
+            <a href="https://www.linkedin.com/company/pt-kawasan-industri-wijayakusuma-persero/" target="_blank" rel="noopener noreferrer">
+                <img src="{{ asset('media/linkedin-blue.png') }}" alt="linkedin">
+            </a>
+            <a href="https://www.youtube.com/channel/UCqKN0Lf8lnGJ1buVMiUyN4A/featured" target="_blank" rel="noopener noreferrer">
+                <img src="{{ asset('media/youtube-blue.png') }}" alt="youtube">
+            </a>
+        </div>
     </div>
 
     <!--Wrap Items-->
     <div class="grid grid-cols-1 gap-5 lg:w-2/3 sm:grid-cols-2">
         
         <!--Item-->
-        <div data-aos="fade-down" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
+        <div data-aos="fade-down" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-start gap-5 p-6 rounded-md">
             <h5 class="text-[var(--color-purple)] group-hover:text-white">Alamat Kantor</h5>
             <a class="text-[var(--color-heading)] group-hover:text-white" href="https://maps.app.goo.gl/ncL2ZnA64wVHRJJAA" target="_blank" rel="noopener noreferrer">
                 Jl. Raya Semarang, Kendal No.Km .12,<br> Tugurejo, Semarang, Indonesia 50153
@@ -47,7 +64,15 @@
         </div>
 
         <!--Item-->
-        <div data-aos="fade-down" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
+        <div data-aos="fade-down" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-start gap-5 p-6 rounded-md">
+            <h5 class="text-[var(--color-purple)] group-hover:text-white">Kantor Perwakilan</h5>
+            <a class="text-[var(--color-heading)] group-hover:text-white" href="https://maps.app.goo.gl/2MFxAR9bgmhRVR4j9" target="_blank" rel="noopener noreferrer">
+                Menara Danareksa, 16th Floor <br>JL. Medan Merdeka Selatan No. 14 <br>Jakarta, 10110
+            </a>
+        </div>
+
+        <!--Item-->
+        <div data-aos="fade-down" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-start gap-5 p-6 rounded-md">
             <h5 class="text-[var(--color-purple)] group-hover:text-white">Email</h5>
             <div class="flex flex-col gap-2">
                 <a class="text-[var(--color-heading)] group-hover:text-white" href="mailto:pemasaran@kiw.co.id" target="_blank" rel="noopener noreferrer">
@@ -60,7 +85,7 @@
         </div>
 
         <!--Item-->
-        <div data-aos="fade-up" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
+        <div data-aos="fade-up" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-start gap-5 p-6 rounded-md">
             <h5 class="text-[var(--color-purple)] group-hover:text-white">Nomor Telepon</h5>
             <div class="flex flex-col gap-2">
                 <a class="text-[var(--color-heading)] group-hover:text-white" href="tel:+6281211118022" target="_blank" rel="noopener noreferrer">
@@ -71,32 +96,7 @@
                 </a>
             </div>
         </div>
-
-        <!--Item-->
-        <div data-aos="fade-up" class="group bg-[var(--color-transit)] hover:bg-[linear-gradient(268deg,_#1F77D3_1.1%,_#321B71_99.1%)] flex flex-col justify-between gap-5 p-6 rounded-md">
-            <h5 class="text-[var(--color-purple)] group-hover:text-white">Media Sosial</h5>
-            <div class="flex flex-row gap-8 w-[70%] lg:w-full group-hover:invert group-hover:[filter:brightness(9999)]">
-                <a href="https://www.facebook.com/PT.KIW/" target="_blank" rel="noopener noreferrer">
-                    <img src="{{ asset('media/facebook-blue.png') }}" alt="facebook">
-                </a>
-                <a href="https://twitter.com/pt_kiw" target="_blank" rel="noopener noreferrer">
-                    <img src="{{ asset('media/twitter-blue.png') }}" alt="twitter">
-                </a>
-                <a href="https://www.instagram.com/ptkiw/" target="_blank" rel="noopener noreferrer">
-                    <img src="{{ asset('media/instagram-blue.png') }}" alt="instagram">
-                </a>
-                <a href="https://www.linkedin.com/company/pt-kawasan-industri-wijayakusuma-persero/" target="_blank" rel="noopener noreferrer">
-                    <img src="{{ asset('media/linkedin-blue.png') }}" alt="linkedin">
-                </a>
-                <a href="https://www.youtube.com/channel/UCqKN0Lf8lnGJ1buVMiUyN4A/featured" target="_blank" rel="noopener noreferrer">
-                    <img src="{{ asset('media/youtube-blue.png') }}" alt="youtube">
-                </a>
-            </div>
-        </div>
-        
-
-        
-        
+ 
 
     </div>
 </section>
@@ -202,5 +202,10 @@
 <!--End Form Kontak-->
 
  </main>
-<x-partials.footer />
+<footer>
+   <!--Copyrights-->
+    <div class="text-white gradient-blue-background text-center py-5 border-t-1 border-[var(--color-bordertransparent)] sm:!text-[.9em] !text-[.75em]">
+        {{ date('Y') }} © Kawasan Industri Wijayakusuma | Seluruh Hak Cipta Dilindungi
+    </div>
+</footer>
 </x-layouts.app>

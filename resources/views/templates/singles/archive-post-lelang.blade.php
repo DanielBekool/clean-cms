@@ -29,12 +29,12 @@
     <!--Title-->
     <div class="flex flex-col lg:flex-row lg:items-start gap-5 lg:gap-25">
         <h2 class="lg:w-1/3" data-aos="fade-up">
-            Pedoman Barang dan Jasa
+            Pedoman Lelang
         </h2>
       
         <div class="lg:w-2/3 flex flex-col gap-5">
             <p>
-                 Pedoman Barang dan Jasa disusun sebagai acuan dalam pelaksanaan pengadaan barang dan jasa di lingkungan KIW. Pedoman ini bertujuan untuk memastikan proses yang transparan, akuntabel, efisien, dan sesuai dengan peraturan yang berlaku, serta mendukung terciptanya tata kelola perusahaan yang baik.
+                 Halaman ini memuat pedoman resmi terkait proses lelang di PT Kawasan Industri Wijayakusuma (Persero), mulai dari tahapan pendaftaran, persyaratan administrasi, hingga tata cara pengajuan penawaran. Informasi disajikan secara transparan untuk memastikan seluruh peserta memahami prosedur yang berlaku dan dapat mengikuti proses pengadaan secara adil, tertib, dan sesuai ketentuan.
             </p>
             <!--button-->
             <a class="w-fit btn1 mt-5"data-aos="fade-down" href="#">Unduh Pedoman
