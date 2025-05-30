@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Filament\Traits;
 
 use Filament\Forms\Components\Builder as FormsBuilder;
 use Filament\Forms\Components\TextInput;
