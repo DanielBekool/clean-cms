@@ -76,8 +76,8 @@
                         <a href="/profil-perusahaan">Tentang</a>
                         <a href="/pengadaan-barang-jasa">Informasi</a>
                         <a href="/lahan-industri">Produk & Layanan</a>
-                        <a href="/penghargaan-sertifikat">Penghargaan</a>
                         <a href="/galeri-dokumentasi">Media</a>
+                        <a href="/#tenant-home">Tenant</a>
                         <a href="/kontak">Kontak</a>
                     </div>
                 </div>

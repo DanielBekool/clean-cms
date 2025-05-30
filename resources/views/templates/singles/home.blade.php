@@ -110,7 +110,7 @@
                                             Fasilitas lengkap, aksesibilitas tinggi, dan dukungan profesional bagi investor.
                                         </p>
                                         <!--Button-->
-                                        <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/layanan">
+                                        <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/#layanan-home">
                                             <span class="gradient-text">Lihat Layanan</span>
                                             <img src="{{ asset('media/arrow-right-solid.png') }}" alt="icon">
                                             </span>
@@ -163,7 +163,7 @@
                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.magna aliqua.
                                         </p>
                                         <!--Button-->
-                                        <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/layanan">
+                                        <a class="w-fit btn2 mt-5" data-aos="fade-down" href="/#layanan-home">
                                             <span class="gradient-text">Lihat Layanan</span>
                                             <img src="{{ asset('media/arrow-right-solid.png') }}" alt="icon">
                                             </span>
@@ -210,7 +210,7 @@
                             <p class="!text-[var(--color-heading)] !text-[1.3em] w-[60px]">ISO Certificate</p>
                         </div>
                         <!--button-->
-                        <a class="w-fit btn1 mt-5"data-aos="fade-down" href="/tentang">selengkapnya
+                        <a class="w-fit btn1 mt-5"data-aos="fade-down" href="/profil-perusahaan">selengkapnya
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -280,7 +280,7 @@
                         number="01."
                         label="Lahan Industri Siap Bangun"
                         desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                        url="#"
+                        url="/lahan-industri"
                         image="media/aerial-view-warehouse-industrial-plant-logistics-center-from-view-from.jpg"
                     />
 
@@ -288,7 +288,7 @@
                         number="02."
                         label="Bangunan Pabrik Siap Pakai (BPSP)"
                         desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                        url="#"
+                        url="/archive-bangunan-pabrik-siap-pakai"
                         image="media/exterior-view-modern-industrial-building.jpg"
                     />
 
@@ -296,7 +296,7 @@
                         number="03."
                         label="Kerja sama Komersial Kawasan Industri"
                         desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                        url="#"
+                        url="/single-area-komersil-atm"
                         image="media/exterior-view-modern-industrial-building.jpg"
                     />
                 </div>
@@ -683,7 +683,7 @@
                     <h2 data-aos="fade-up">Dapatkan Informasi Terbaru</h2>
                 </div>
                 <!--button desktop tablet-->
-                <a class="sm:!flex !hidden w-fit btn1 mt-5"data-aos="fade-down" href="/berita">Berita Lainnya
+                <a class="sm:!flex !hidden w-fit btn1 mt-5"data-aos="fade-down" href="/archive-post">Berita Lainnya
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -736,7 +736,7 @@
             </div>
 
             <!--button mobile-->
-            <a class="!flex sm:!hidden w-fit btn1 mt-5"data-aos="fade-down" href="/berita">Berita Lainnya
+            <a class="!flex sm:!hidden w-fit btn1 mt-5"data-aos="fade-down" href="/archive-post">Berita Lainnya
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path d="M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
