@@ -44,7 +44,7 @@ class AdminLoggedInNotification extends Mailable implements ShouldQueue
             with: [
                 'userName' => $this->user->name,
                 'userEmail' => $this->user->email,
-                'loginTime' => now()->toDateTimeString(),
+                'loginTime' => now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
             ],
         );
     }

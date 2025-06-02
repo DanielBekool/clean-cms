@@ -1,13 +1,13 @@
 <x-mail::message>
-    # Admin User Logged In
+# {{ __('emails.admin_loggedin_subject') }}
 
-    A user has logged into the admin panel.
+{{ __('emails.admin_loggedin_body_line1') }}
 
-    **User Details:**
-    - **Name:** {{ $userName }}
-    - **Email:** {{ $userEmail }}
-    - **Login Time:** {{ $loginTime }}
+**{{ __('emails.admin_loggedin_user_details') }}**
+- **{{ __('emails.admin_loggedin_name') }}** {{ $userName }}
+- **{{ __('emails.admin_loggedin_email') }}** {{ $userEmail }}
+- **{{ __('emails.admin_loggedin_login_time') }}** {{ $loginTime }} GMT+7
 
-    Thanks,<br>
-    {{ config('app.name') }}
+{{ __('emails.thanks') }}<br>
+{{ config('app.name') }}
 </x-mail::message>

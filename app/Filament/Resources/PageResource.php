@@ -5,15 +5,26 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PageResource\Pages;
 use App\Models\Page;
 use App\Filament\Abstracts\BaseContentResource;
+use Filament\Forms\Components\Builder as FormsBuilder;
+use App\Filament\Traits\HasContentBlocks;
 
 class PageResource extends BaseContentResource
 {
+    use HasContentBlocks;
     protected static ?string $model = Page::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationGroup = 'Contents';
     protected static ?int $navigationSort = 0;
 
+    protected static function formSectionField(string $locale): array
+    {
+        return [
+            FormsBuilder::make('section')
+                ->collapsed(false)
+                ->blocks(static::getContentBlocks())
+        ];
+    }
     protected static function formRelationshipsFields(): array
     {
         return [
