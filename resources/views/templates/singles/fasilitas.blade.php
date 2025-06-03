@@ -10,10 +10,12 @@
  @endPushOnce
 
 @pushOnce('before_body_close')
-<script src="{{ asset('js/aos-animate.js') }}"></script>
-<script src="{{ asset('js/popup-init-modal-events.js') }}"></script>
-<script src="{{ asset('js/popup-modal-controller.js') }}"></script>
-<script src="{{ asset('js/accessibility.js') }}"></script>
+
+@vite('resources/js/aos-animate.js')
+@vite('resources/js/accessibility.js')
+@vite('resources/js/popup-init-modal-events.js')
+@vite('resources/js/popup-modal-controller.js')
+
  @endPushOnce
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">

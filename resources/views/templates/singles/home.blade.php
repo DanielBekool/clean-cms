@@ -22,19 +22,19 @@
 
  @endPushOnce
 @pushOnce('before_body_close')
-<script src="{{ asset('js/accessibility.js') }}"></script>
-<script src="{{ asset('js/swiper.js') }}"></script>
-<script src="{{ asset('js/swiper-logo-image.js') }}"></script>
-<script src="{{ asset('js/swiper-hero.js') }}"></script>
-<script src="{{ asset('js/aos-animate.js') }}"></script>
-<script src="{{ asset('js/popup-init-modal-events.js') }}"></script>
-<script src="{{ asset('js/popup-modal-controller.js') }}"></script>
-<script src="{{ asset('js/fasilitas-swiper-number.js') }}"></script>
-<script src="{{ asset('js/swiper-auto-height.js') }}"></script>
-<script src="{{ asset('js/counter.js') }}"></script>
-<script src="{{ asset('js/video-modal.js') }}"></script>
-<script src="{{ asset('js/video-inline.js') }}"></script>
-<script src="{{ asset('js/youtube-src-conversion.js') }}"></script>
+@vite('resources/js/accessibility.js')
+@vite('resources/js/swiper.js')
+@vite('resources/js/swiper-logo-image.js')
+@vite('resources/js/swiper-hero.js')
+@vite('resources/js/aos-animate.js')
+@vite('resources/js/popup-init-modal-events.js')
+@vite('resources/js/popup-modal-controller.js')
+@vite('resources/js/fasilitas-swiper-number.js')
+@vite('resources/js/swiper-auto-height.js')
+@vite('resources/js/counter.js')
+@vite('resources/js/video-modal.js')
+@vite('resources/js/video-inline.js')
+@vite('resources/js/youtube-src-conversion.js')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 
@@ -799,5 +799,6 @@
     </div>
 
   </main>
+    <x-partials.whatsapp />
     <x-partials.footer />
 </x-layouts.app>

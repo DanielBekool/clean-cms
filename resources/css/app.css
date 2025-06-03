@@ -1135,3 +1135,9 @@ body.off-canvas-open {
   top: 0;
   
 }
+
+
+/* wa widget */
+#wa-widget [x-cloak] {
+    display: none !important;
+}

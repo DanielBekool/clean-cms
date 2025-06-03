@@ -11,9 +11,9 @@
  @endPushOnce
 
 @pushOnce('before_body_close')
-<script src="{{ asset('js/aos-animate.js') }}"></script>
-<script src="{{ asset('js/youtube-src-conversion.js') }}"></script>
-<script src="{{ asset('js/accessibility.js') }}"></script>
+@vite('resources/js/aos-animate.js')
+@vite('resources/js/accessibility.js')
+@vite('resources/js/youtube-src-conversion.js')
  @endPushOnce
 
 <x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
@@ -42,6 +42,7 @@
     </div>
 
     <!--Content-->
+    <x-instagram-feed type="all" :columns="4" />
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
         <img src="{{ asset('media/ig-1.jpg') }}">
         <img src="{{ asset('media/ig-2.jpg') }}">
