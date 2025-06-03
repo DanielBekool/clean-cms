@@ -553,6 +553,11 @@ h6 {
     transition: opacity .5s ease, transform .5s ease;
   }
 
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
 
   /* Custom Text Shadow */
   .custom-shadow {
@@ -1136,8 +1141,8 @@ body.off-canvas-open {
   
 }
 
-
-/* wa widget */
-#wa-widget [x-cloak] {
-    display: none !important;
+/* accessibility */
+#INDmenu-btn {
+  display: none !important; 
 }
+

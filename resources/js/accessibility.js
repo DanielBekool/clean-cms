@@ -1,4 +1,3 @@
-
 window.interdeal = {
     "sitekey": "c0c1365aba73619c10d93602d35453bf",
     "Position": "left",
@@ -6,11 +5,11 @@ window.interdeal = {
         "js": "https://cdn.equalweb.com/",
         "acc": "https://access.equalweb.com/"
     },
-    "Menulang": "ID",
+    "Menulang": "EN",
     "btnStyle": {
         "vPosition": [
-            "80%",
-            "0%"
+            "102%",
+            "20%"
         ],
         "scale": [
             "0.5",

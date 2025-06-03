@@ -235,5 +235,6 @@
 
 
 </main>
+<x-partials.whatsapp />
 <x-partials.footer />
 </x-layouts.app>

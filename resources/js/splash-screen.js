@@ -36,21 +36,23 @@
       const splash = document.getElementById("splash-screen");
       const content = document.getElementById("main-content");
 
-      // Fade out splash screen
       splash.style.opacity = 0;
 
       setTimeout(() => {
         splash.style.display = "none";
+        document.body.classList.remove("no-scroll"); // Aktifkan scroll
         content.style.display = "block";
 
-        // Fade in konten utama
         setTimeout(() => {
           content.style.opacity = 1;
           content.style.transform = "translateY(0)";
         }, 50);
-      }, 1000); // waktu untuk menyelesaikan fade out splash
+      }, 1000);
     }
   }
 
   // Mulai animasi saat window selesai dimuat
-  window.addEventListener("load", showNextLogo);
+  window.addEventListener("load", () => {
+    document.body.classList.add("no-scroll"); // Kunci scroll sebelum animasi
+    showNextLogo();
+  });
