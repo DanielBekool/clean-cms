@@ -26,6 +26,7 @@ use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Forms\Components\SeoFields;
 use Illuminate\Support\Facades\File;
 use App\Enums\ContentStatus;
+use Filament\Forms\Components\KeyValue;
 
 abstract class BaseResource extends Resource
 {
@@ -38,6 +39,8 @@ abstract class BaseResource extends Resource
         return $form
             ->schema([
                 ...static::formSchema(),
+                ...static::formCustomFields(),
+                ...static::formSeoSection(),
             ])
             ->columns(1); // Main form now has 1 column as Translate takes full width
     }
@@ -59,6 +62,7 @@ abstract class BaseResource extends Resource
                             return [
                                 ...static::formTitleSlugFields($locale),
                                 ...static::formContentFields($locale),
+                                ...static::formSectionField($locale),
                             ];
                         })
                         ->columnSpan([
@@ -85,7 +89,6 @@ abstract class BaseResource extends Resource
                             '2xl' => 1,
                         ]),
                 ]),
-            ...static::formSeoSection(),
 
         ];
 
@@ -134,6 +137,24 @@ abstract class BaseResource extends Resource
     {
 
         return [];
+    }
+
+    protected static function formSectionField(string $locale): array
+    {
+
+        return [];
+    }
+
+    protected static function formCustomFields(): array
+    {
+        return [
+            Section::make()
+                ->schema([
+                    KeyValue::make('custom_fields')
+                        ->nullable(),
+                ])
+                ->columns(1),
+        ];
     }
 
 

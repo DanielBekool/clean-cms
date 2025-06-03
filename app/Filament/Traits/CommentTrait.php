@@ -4,16 +4,11 @@ namespace App\Filament\Traits;
 
 use Filament\Tables;
 use App\Enums\CommentStatus;
-use App\Models\Comment;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
+
 
 trait CommentTrait
 {
@@ -95,11 +90,13 @@ trait CommentTrait
             Tables\Columns\TextColumn::make('commentable.id')
                 ->sortable()
                 ->searchable()
-                ->url(fn($record): string =>
-                    (self::getCommentableResources()[$record->commentable_type])::getUrl(
-                        'edit',
-                        ['record' => $record->commentable]
-                    )),
+                ->url(function ($record): ?string {
+                    $resources = self::getCommentableResources();
+                    $resourceClass = $resources[$record->commentable_type] ?? null;
+                    if (!$resourceClass)
+                        return null;
+                    return $resourceClass::getUrl('edit', ['record' => $record->commentable]);
+                }),
         ];
     }
 

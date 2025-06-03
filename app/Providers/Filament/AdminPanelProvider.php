@@ -25,6 +25,8 @@ use Filament\Navigation\NavigationGroup;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
 use Illuminate\Support\Facades\Gate;
+use Spatie\ResponseCache\Middlewares\DoNotCacheResponse;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -57,6 +59,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                DoNotCacheResponse::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -83,9 +86,12 @@ class AdminPanelProvider extends PanelProvider
                         'header' => 'Header',
                         'footer' => 'Footer',
                     ]),
+                FilamentSpatieLaravelBackupPlugin::make()
+                    ->authorize(fn(): bool => auth()->user()->hasRole(['admin', 'super_admin'])),
             ])
             ->unsavedChangesAlerts()
             ->sidebarCollapsibleOnDesktop()
+            ->databaseNotifications()
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Contents')
