@@ -41,4 +41,25 @@ return [
         'secret' => env('MAILGUN_SECRET'),
     ],
 
+    'social' => [
+        'facebook' => env('CMS_FACEBOOK'),
+        'twitter' => env('CMS_TWITTER'),
+        'instagram' => env('CMS_INSTAGRAM'),
+        'linkedin' => env('CMS_LINKEDIN'),
+        'youtube' => env('CMS_YOUTUBE'),
+        'whatsapp' => env('CMS_WHATSAPP'),
+    ],
+    'contact' => [
+        'email1' => env('CMS_SITE_EMAIL'),
+        'email2' => env('CMS_SITE_EMAIL2'),
+        'phone1' => env('CMS_SITE_PHONE'),
+        'phone2' => env('CMS_SITE_PHONE2'),
+        'address1' => env('CMS_ADDRESS'),
+        'short_address1' => env('CMS_SHORT_ADDRESS'),
+        'address2' => env('CMS_ADDRESS2'),
+        'link_address1' => env('CMS_LINK_ADDRESS'),
+        'link_address2' => env('CMS_LINK_ADDRESS2'),
+        'contact_map' => env('CMS_CONTACT_MAP'),
+    ],
+
 ];

@@ -42,17 +42,8 @@
     </div>
 
     <!--Content-->
-    <x-instagram-feed type="all" :columns="4" />
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
-        <img src="{{ asset('media/ig-1.jpg') }}">
-        <img src="{{ asset('media/ig-2.jpg') }}">
-        <img src="{{ asset('media/ig-1.jpg') }}">
-        <img src="{{ asset('media/ig-2.jpg') }}">
-        <img src="{{ asset('media/ig-1.jpg') }}">
-        <img src="{{ asset('media/ig-2.jpg') }}">
-        <img src="{{ asset('media/ig-1.jpg') }}">
-        <img src="{{ asset('media/ig-2.jpg') }}">
-    </div>
+
+    <x-instagram-feed type="image" :columns="4" />
 
 
 </section>
@@ -106,16 +97,7 @@
 
         
         <x-tab.tab-contents-video id="tab2">
-             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
-                <img src="{{ asset('media/ig-1.jpg') }}">
-                <img src="{{ asset('media/ig-2.jpg') }}">
-                <img src="{{ asset('media/ig-1.jpg') }}">
-                <img src="{{ asset('media/ig-2.jpg') }}">
-                <img src="{{ asset('media/ig-1.jpg') }}">
-                <img src="{{ asset('media/ig-2.jpg') }}">
-                <img src="{{ asset('media/ig-1.jpg') }}">
-                <img src="{{ asset('media/ig-2.jpg') }}">
-            </div>
+             <x-instagram-feed type="video" :columns="4" />
         </x-tab.tab-contents-video>
 
     </div>

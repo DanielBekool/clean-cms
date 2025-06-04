@@ -1,3 +1,6 @@
+@pushOnce('before_body_close')
+@vite('resources/js/phone-separator.js')
+ @endPushOnce
 
 <!--Footer-->
 <footer id="footer" class="lg:pt-30 pt-18 bg-cover bg-[var(--color-transit)]" style="background-image:url('{{ asset('media/Footer.jpg') }}')">
@@ -15,12 +18,12 @@
 
                 <!--Button-->
                 <div class="flex flex-col gap-5">
-                    <a class="sm:w-[400px] w-[100%] btn4 group" href="https://maps.app.goo.gl/ujmEMzm5t5cCsjGx9" target="_blank" rel="noopener noreferrer">
+                    <a class="sm:w-[400px] w-[100%] btn4 group" href="{{ config('services.contact.link_address1') }}" target="_blank" rel="noopener noreferrer">
                         <span class="transition-all duration-300 sm:!text-[.9em] !text-[.8em]
                                     group-hover:text-transparent 
                                     group-hover:bg-clip-text 
                                     group-hover:[background-image:linear-gradient(268deg,#1F77D3_1.1%,#321B71_99.1%)]">
-                            Jl. Raya Semarang, Kendal KM 12, Indonesia
+                            {{ config('services.contact.short_address1') }}
                         </span>
 
                         <span class="gradient-icon group-hover:hidden">
@@ -32,12 +35,12 @@
                         </span>
                     </a>
 
-                    <a class="sm:w-[300px] w-[90%] btn4 group" href="mailto:pemasaran@kiw.co.id">
+                    <a class="sm:w-[300px] w-[90%] btn4 group" href="mailto:{{ config('services.contact.email1') }}">
                         <span class="transition-all duration-300 sm:!text-[.9em] !text-[.8em]
                                     group-hover:text-transparent 
                                     group-hover:bg-clip-text 
                                     group-hover:[background-image:linear-gradient(268deg,#1F77D3_1.1%,#321B71_99.1%)]">
-                            pemasaran@kiw.co.id
+                            {{ config('services.contact.email1') }}
                         </span>
 
                         <span class="gradient-icon group-hover:hidden">
@@ -49,12 +52,12 @@
                         </span>
                     </a>
 
-                    <a class="sm:w-[250px] w-[80%] btn4 group" href="tel:+6281211118022">
-                        <span class="transition-all duration-300 sm:!text-[.9em] !text-[.8em]
+                    <a class="sm:w-[250px] w-[80%] btn4 group" href="tel:{{ config('services.contact.phone1') }}">
+                        <span class="phone transition-all duration-300 sm:!text-[.9em] !text-[.8em]
                                     group-hover:text-transparent 
                                     group-hover:bg-clip-text 
                                     group-hover:[background-image:linear-gradient(268deg,#1F77D3_1.1%,#321B71_99.1%)]">
-                            +62 812 1111 8022
+                            {{ config('services.contact.phone1') }}
                         </span>
 
                         <span class="gradient-icon group-hover:hidden">
@@ -118,21 +121,22 @@
 
                 <!--Social Media-->
                 <div class="flex flex-row gap-5">
-                    <a href="https://www.facebook.com/PT.KIW/" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ config('services.social.facebook') }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ asset('media/facebook-white.png') }}" alt="facebook">
                     </a>
-                    <a href="https://twitter.com/pt_kiw" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ config('services.social.twitter') }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ asset('media/twitter-white.png') }}" alt="twitter">
                     </a>
-                    <a href="https://www.instagram.com/ptkiw/" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ config('services.social.instagram') }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ asset('media/instagram-white.png') }}" alt="instagram">
                     </a>
-                    <a href="https://www.linkedin.com/company/pt-kawasan-industri-wijayakusuma-persero/" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ config('services.social.linkedin') }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ asset('media/linkedin-white.png') }}" alt="linkedin">
                     </a>
-                    <a href="https://www.youtube.com/channel/UCqKN0Lf8lnGJ1buVMiUyN4A/featured" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ config('services.social.youtube') }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ asset('media/youtube-white.png') }}" alt="youtube">
                     </a>
+
                 </div>
 
 

@@ -31,7 +31,7 @@
                 <input
                     id="waInput"
                     type="search"
-                    placeholder="Ketik Pesan..."
+                    placeholder="Ketik pesan"
                     class="w-full px-4 py-2 border rounded-full border-[var(--color-border)] focus:outline-none focus:ring-2 focus:var(--color-blue)"
                 />
                 <button type="submit" 
