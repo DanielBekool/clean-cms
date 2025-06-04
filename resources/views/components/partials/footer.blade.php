@@ -18,12 +18,12 @@
 
                 <!--Button-->
                 <div class="flex flex-col gap-5">
-                    <a class="sm:w-[400px] w-[100%] btn4 group" href="{{ config('services.contact.link_address1') }}" target="_blank" rel="noopener noreferrer">
+                    <a class="sm:w-[400px] w-[100%] btn4 group" href="{{ config('cms.site_contact.link_address1') }}" target="_blank" rel="noopener noreferrer">
                         <span class="transition-all duration-300 sm:!text-[.9em] !text-[.8em]
                                     group-hover:text-transparent 
                                     group-hover:bg-clip-text 
                                     group-hover:[background-image:linear-gradient(268deg,#1F77D3_1.1%,#321B71_99.1%)]">
-                            {{ config('services.contact.short_address1') }}
+                            {{ config('cms.site_contact.short_address1') }}
                         </span>
 
                         <span class="gradient-icon group-hover:hidden">
@@ -35,12 +35,12 @@
                         </span>
                     </a>
 
-                    <a class="sm:w-[300px] w-[90%] btn4 group" href="mailto:{{ config('services.contact.email1') }}">
+                    <a class="sm:w-[300px] w-[90%] btn4 group" href="mailto:{{ config('cms.site_contact.email1') }}">
                         <span class="transition-all duration-300 sm:!text-[.9em] !text-[.8em]
                                     group-hover:text-transparent 
                                     group-hover:bg-clip-text 
                                     group-hover:[background-image:linear-gradient(268deg,#1F77D3_1.1%,#321B71_99.1%)]">
-                            {{ config('services.contact.email1') }}
+                            {{ config('cms.site_contact.email1') }}
                         </span>
 
                         <span class="gradient-icon group-hover:hidden">
@@ -52,12 +52,12 @@
                         </span>
                     </a>
 
-                    <a class="sm:w-[250px] w-[80%] btn4 group" href="tel:{{ config('services.contact.phone1') }}">
+                    <a class="sm:w-[250px] w-[80%] btn4 group" href="tel:{{ config('cms.site_contact.phone1') }}">
                         <span class="phone transition-all duration-300 sm:!text-[.9em] !text-[.8em]
                                     group-hover:text-transparent 
                                     group-hover:bg-clip-text 
                                     group-hover:[background-image:linear-gradient(268deg,#1F77D3_1.1%,#321B71_99.1%)]">
-                            {{ config('services.contact.phone1') }}
+                            {{ config('cms.site_contact.phone1') }}
                         </span>
 
                         <span class="gradient-icon group-hover:hidden">
@@ -110,30 +110,30 @@
 
 
             <!--Logo-->
-            <div class="flex justify-between lg:mt-20 sm:mt-0 mt-20 sm:mr-0 mr-45">
+            <div class="flex flex-col lg:flex-row justify-between gap-9 lg:mt-20 sm:mt-0 mt-20 sm:mr-0 mr-45">
 
                 <!--Partner-->
-                <div class="flex flex-row sm:gap-5 gap-8">
+                <div class="flex flex-row sm:gap-5 gap-8 sm:w-1/6">
                     <img src="{{ asset('media/kiwinners.png') }}" alt="kiwinners">
                     <img src="{{ asset('media/akhlak.png') }}" alt="akhlak">
                     <img src="{{ asset('media/bumn-untuk-indonesia.png') }}" alt="bumn">
                 </div>
 
                 <!--Social Media-->
-                <div class="flex flex-row gap-5">
-                    <a href="{{ config('services.social.facebook') }}" target="_blank" rel="noopener noreferrer">
+                <div class="flex flex-row sm:gap-5 gap-3 sm:w-1/6 w-[200px]">
+                    <a href="{{ config('cms.site_social_media.facebook') }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ asset('media/facebook-white.png') }}" alt="facebook">
                     </a>
-                    <a href="{{ config('services.social.twitter') }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ config('cms.site_social_media.twitter') }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ asset('media/twitter-white.png') }}" alt="twitter">
                     </a>
-                    <a href="{{ config('services.social.instagram') }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ config('cms.site_social_media.instagram') }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ asset('media/instagram-white.png') }}" alt="instagram">
                     </a>
-                    <a href="{{ config('services.social.linkedin') }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ config('cms.site_social_media.linkedin') }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ asset('media/linkedin-white.png') }}" alt="linkedin">
                     </a>
-                    <a href="{{ config('services.social.youtube') }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ config('cms.site_social_media.youtube') }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ asset('media/youtube-white.png') }}" alt="youtube">
                     </a>
 
