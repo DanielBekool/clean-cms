@@ -35,7 +35,7 @@
         </h2>
       
         <!--button-->
-        <a class="w-fit btn1" data-aos="fade-down" href="https://www.instagram.com/ptkiw/" target="_blank" rel="noopener noreferrer">kunjungi instagram
+        <a class="w-fit btn1" data-aos="fade-down" href="{{ config('cms.site_social_media.instagram') }}" target="_blank" rel="noopener noreferrer">kunjungi instagram
             <x-icon.instagram-icon-white/>
         </a>
        
