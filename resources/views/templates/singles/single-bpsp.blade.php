@@ -16,6 +16,7 @@
 @pushOnce('before_body_close')
 @vite('resources/js/accessibility.js')
 @vite('resources/js/aos-animate.js')
+@vite('resources/js/single-get-message-whatsapp.js')
 
 <!--Light Box Image Body Bottom -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -36,8 +37,8 @@
     
     <!--Title-->
     <div class="flex flex-col lg:flex-row lg:items-start gap-7 lg:gap-9">
-        <h2 data-aos="fade-up" class="lg:w-1/3">
-            BPSP Modern & Fungsional
+        <h2 class="get-message" data-aos="fade-up" class="lg:w-1/3">
+            BPSP 1
         </h2>
       
         <div class="lg:w-2/3 flex flex-col gap-5">
@@ -45,7 +46,7 @@
                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
             <!--button-->
-            <a class="w-fit btn1 mt-5"data-aos="fade-down" href="https://api.whatsapp.com/send?phone=6281211118022&text=Halo%20PT%20Kawasan%20Industri%20Wijayakusuma,%20saya%20ingin%20informasi%20mengenai%20BPSP," target="_blank">hubungi sekarang
+            <a class="w-fit btn1 mt-5 wa-message"data-aos="fade-down" href="" target="_blank">hubungi sekarang
                 <span>
                     <img src="{{ asset('media/whatsapp-white.png') }}">
                 </span>
