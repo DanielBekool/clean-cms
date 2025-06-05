@@ -173,7 +173,8 @@ class ContentController extends Controller
      */
     private function tryFallbackContentModel(string $lang, string $slug, Request $request): ?Model
     {
-        $modelClass = Config::get("cms.content_models.posts.model");
+        $fallbackContentType = Config::get('cms.fallback_content_model', 'posts');
+        $modelClass = Config::get("cms.content_models.{$fallbackContentType}.model");
 
         $content = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
 
@@ -181,7 +182,7 @@ class ContentController extends Controller
             // Redirect to post route if found
             redirect()->route('cms.single.content', array_merge([
                 'lang' => $lang,
-                'content_type_key' => 'posts',
+                'content_type_key' => $fallbackContentType,
                 'content_slug' => $slug,
             ], $request->query()))->send(); // Send response immediately
             exit;
@@ -274,6 +275,11 @@ class ContentController extends Controller
         }
 
         $content = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $content_slug, true);
+
+        // Increment page views for models that use the HasPageViews trait
+        if (in_array(\App\Traits\HasPageViews::class, class_uses_recursive($content))) {
+            $content->incrementPageViews();
+        }
 
         // Determine the template using our single content template hierarchy
         $viewName = $this->resolveSingleTemplate($content, $content_type_key, $content_slug);
@@ -629,7 +635,7 @@ class ContentController extends Controller
         ];
 
         if ($content instanceof Model) {
-             $bodyClasses[] = 'template-' . Str::slug(class_basename($content ?? 'default'));
+            $bodyClasses[] = 'template-' . Str::slug(class_basename($content ?? 'default'));
             if (!empty($content->slug)) {
                 $bodyClasses[] = 'page-' . ($content->slug[$lang] ?? $content->slug); // handle translation
             }
@@ -638,7 +644,7 @@ class ContentController extends Controller
                 $bodyClasses[] = 'template-' . Str::slug($content->template);
             }
         } elseif (is_object($content) && isset($content->post_type)) {
-             $bodyClasses[] = 'template-archive-' . $content->post_type;
+            $bodyClasses[] = 'template-archive-' . $content->post_type;
         }
 
         if ($contentTypeKey) {
