@@ -443,6 +443,49 @@ This abstract class extends Filament's `CreateRecord` page class and provides a 
 
 Resource create pages (e.g., `CreatePost`, `CreateCategory`) extend this class to inherit this standard action.
 
+## Multi-language Content and URL Handling
+
+This project includes intelligent multilingual content handling with automatic fallback and redirect mechanisms to ensure proper URL-content language consistency.
+
+### Language Fallback and Redirect System
+
+The CMS implements a smart fallback system that maintains SEO-friendly URLs while providing good UX for content creators during translation workflows.
+
+**How it works:**
+
+When a user accesses content in a language that doesn't have a translation, the system:
+
+1. **First**: Attempts to find content in the requested language
+2. **Fallback**: If not found, checks if content exists in the default language
+3. **Redirect**: If found in default language, automatically redirects to the correct language URL
+
+**Example Scenario:**
+- Default language: `id` (Indonesian)
+- Page with slug `tentang` exists only in Indonesian
+- User accesses: `/en/tentang`
+- System redirects to: `/id/tentang`
+
+**Benefits:**
+- ✅ **SEO-friendly**: Maintains URL-content language consistency
+- ✅ **Creator-friendly**: No 404 errors during translation work
+- ✅ **User-friendly**: Users get the content they're looking for
+- ✅ **Performance**: Single redirect instead of serving wrong language content
+
+**Applies to all content types:**
+- Static pages (`/en/about` → `/id/tentang`)
+- Single content (`/en/posts/artikel` → `/id/posts/artikel`)
+- Taxonomy archives (`/en/categories/kategori` → `/id/categories/kategori`)
+
+**Technical Implementation:**
+
+The redirect mechanism is implemented in `ContentController.php` through:
+- `getPublishedContentBySlug()` - Returns both content and language detection info
+- `findStaticOrFallbackContent()` - Handles redirects for static pages
+- `singleContent()` - Handles redirects for posts and custom post types
+- `taxonomyArchive()` - Handles redirects for taxonomy archives
+
+All redirects preserve query parameters and use proper HTTP status codes.
+
 ## Template Hierarchy
 
 This project implements a WordPress-like template hierarchy system for Laravel 12, providing a flexible and powerful way to customize the appearance of different content types and pages.

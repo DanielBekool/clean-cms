@@ -100,12 +100,19 @@ class ContentController extends Controller
             return $this->redirectToHome($lang, $request);
         }
 
-        $content = $this->findStaticOrFallbackContent($lang, $content_slug, $request);
+        $result = $this->findStaticOrFallbackContent($lang, $content_slug, $request);
+
+        // If result is a redirect response, return it
+        if ($result instanceof \Illuminate\Http\RedirectResponse) {
+            return $result;
+        }
 
         // If no content found, throw a 404 error
-        if (!$content) {
+        if (!$result) {
             abort(404, "Content not found for slug '{$content_slug}' in language '{$lang}'.");
         }
+
+        $content = $result;
 
         // Determine the template using our page template hierarchy
         $viewName = $this->resolvePageTemplate($content);
@@ -151,19 +158,27 @@ class ContentController extends Controller
      * @param string $lang The current language.
      * @param string $slug The slug of the content.
      * @param \Illuminate\Http\Request $request The incoming request.
-     * @return \Illuminate\Database\Eloquent\Model|null The found content model or null.
+     * @return \Illuminate\Database\Eloquent\Model|null|\Illuminate\Http\RedirectResponse The found content model, null, or redirect response.
      */
-    private function findStaticOrFallbackContent(string $lang, string $slug, Request $request): ?Model
+    private function findStaticOrFallbackContent(string $lang, string $slug, Request $request)
     {
         $modelClass = class_exists($this->staticPageClass) ? $this->staticPageClass : Page::class;
 
         // Use the updated getPublishedContentBySlug which now handles default language fallback
-        $content = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
+        $result = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
 
-        if (!$content) {
-            $content = $this->tryFallbackContentModel($lang, $slug, $request);
+        if ($result['content']) {
+            // If content found in fallback language (not requested language), redirect to default language URL
+            if (!$result['found_in_requested_lang'] && $lang !== $this->defaultLanguage) {
+                return redirect()->route('cms.static.page', array_merge([
+                    'lang' => $this->defaultLanguage,
+                    'page_slug' => $slug
+                ], $request->query()));
+            }
+            return $result['content'];
         }
 
+        $content = $this->tryFallbackContentModel($lang, $slug, $request);
         return $content;
     }
 
@@ -181,12 +196,15 @@ class ContentController extends Controller
         $modelClass = Config::get("cms.content_models.{$fallbackContentType}.model");
 
         // Use the updated getPublishedContentBySlug which now handles default language fallback
-        $content = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
+        $result = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
 
-        if ($content) {
+        if ($result['content']) {
+            // Determine target language for redirect
+            $targetLang = $result['found_in_requested_lang'] ? $lang : $this->defaultLanguage;
+            
             // Redirect to post route if found
             redirect()->route('cms.single.content', array_merge([
-                'lang' => $lang, // Keep the requested language in the redirect URL
+                'lang' => $targetLang,
                 'content_type_key' => $fallbackContentType,
                 'content_slug' => $slug,
             ], $request->query()))->send(); // Send response immediately
@@ -224,15 +242,15 @@ class ContentController extends Controller
      * @param string $lang The language code requested (e.g., 'en').
      * @param string $contentSlug The slug of the content.
      * @param bool $checkStatus Whether to filter by published status.
-     * @return \Illuminate\Database\Eloquent\Model|null The found content model or null.
+     * @return array ['content' => Model|null, 'found_in_requested_lang' => bool] 
      */
-    private function getPublishedContentBySlug(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): ?Model
+    private function getPublishedContentBySlug(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): array
     {
         // 1. Try to find content in the requested language
         $content = $this->queryContentBySlugAndLanguage($modelClass, $lang, $contentSlug, $checkStatus)->first();
 
         if ($content) {
-            return $content;
+            return ['content' => $content, 'found_in_requested_lang' => true];
         }
 
         // 2. If not found in the requested language, try to find in the default language
@@ -241,11 +259,11 @@ class ContentController extends Controller
         if ($lang !== $this->defaultLanguage) {
             $content = $this->queryContentBySlugAndLanguage($modelClass, $this->defaultLanguage, $contentSlug, $checkStatus)->first();
             if ($content) {
-                return $content;
+                return ['content' => $content, 'found_in_requested_lang' => false];
             }
         }
 
-        return null;
+        return ['content' => null, 'found_in_requested_lang' => false];
     }
 
     /**
@@ -255,16 +273,16 @@ class ContentController extends Controller
      * @param string $lang The language code requested (e.g., 'en').
      * @param string $contentSlug The slug of the content.
      * @param bool $checkStatus Whether to filter by published status.
-     * @return \Illuminate\Database\Eloquent\Model The found content model.
+     * @return array ['content' => Model, 'found_in_requested_lang' => bool]
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    private function getPublishedContentBySlugOrFail(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): Model
+    private function getPublishedContentBySlugOrFail(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): array
     {
         // Attempt to get content using the same logic as getPublishedContentBySlug
-        $content = $this->getPublishedContentBySlug($modelClass, $lang, $contentSlug, $checkStatus);
+        $result = $this->getPublishedContentBySlug($modelClass, $lang, $contentSlug, $checkStatus);
 
-        if ($content) {
-            return $content;
+        if ($result['content']) {
+            return $result;
         }
 
         // If still not found after trying both requested and default languages, throw an exception
@@ -308,7 +326,18 @@ class ContentController extends Controller
         }
 
         // This call will now use the updated getPublishedContentBySlugOrFail, handling the default language fallback
-        $content = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $content_slug, true);
+        $result = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $content_slug, true);
+
+        // If content found in fallback language (not requested language), redirect to default language URL
+        if (!$result['found_in_requested_lang'] && $lang !== $this->defaultLanguage) {
+            return redirect()->route('cms.single.content', array_merge([
+                'lang' => $this->defaultLanguage,
+                'content_type_key' => $content_type_key,
+                'content_slug' => $content_slug
+            ], $request->query()));
+        }
+
+        $content = $result['content'];
 
         // Increment page views for models that use the HasPageViews trait
         if (in_array(\App\Traits\HasPageViews::class, class_uses_recursive($content))) {
@@ -414,7 +443,18 @@ class ContentController extends Controller
 
         // Fetch the taxonomy term based on the slug using the private helper function
         // This call will now use the updated getPublishedContentBySlugOrFail, handling the default language fallback
-        $taxonomyModel = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $taxonomy_slug, false);
+        $result = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $taxonomy_slug, false);
+
+        // If content found in fallback language (not requested language), redirect to default language URL
+        if (!$result['found_in_requested_lang'] && $lang !== $this->defaultLanguage) {
+            return redirect()->route('cms.taxonomy.archive', array_merge([
+                'lang' => $this->defaultLanguage,
+                'taxonomy_key' => $taxonomy_key,
+                'taxonomy_slug' => $taxonomy_slug
+            ], request()->query()));
+        }
+
+        $taxonomyModel = $result['content'];
 
         // Fetch posts related to this taxonomy term
         $relationshipName = Config::get("cms.content_models.{$taxonomy_key}.display_content_from", 'posts');
