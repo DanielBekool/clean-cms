@@ -39,7 +39,7 @@ models:
       status:
         type: enum
         nullable: false
-        enum: [draft, published]
+        enum: [draft, published, scheduled]
         default: draft
         enum_class: App\Enums\ContentStatus
       published_at:
@@ -115,7 +115,7 @@ models:
       status:
         type: enum
         nullable: false
-        enum: [draft, published]
+        enum: [draft, published, scheduled]
         default: draft
         enum_class: App\Enums\ContentStatus
       published_at:
