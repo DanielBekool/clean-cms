@@ -912,3 +912,58 @@ To ensure your Instagram Access Token remains valid, an Artisan command is avail
 *   **Artisan Command:** `php artisan instagram:refresh-token`
 *   **Automation:** This command is scheduled to run monthly to automatically update the token.
 
+## Role Management and Permissions
+
+This project includes a comprehensive role management system using Spatie Permission package with predefined roles for CMS administration.
+
+### Generating Roles
+
+The `cms:generate-roles` Artisan command automatically creates three predefined roles with appropriate permissions:
+
+**Command Signature:**
+
+```bash
+php artisan cms:generate-roles {--force}
+```
+
+- `--force`: Optional. Overwrite existing roles without prompting for confirmation.
+
+**Predefined Roles:**
+
+1. **Super Admin**: Full access to all permissions and system administration.
+2. **Admin**: Comprehensive access to all content and user management features.
+3. **Editor**: Content-focused access with restrictions on user/role management and system backups.
+
+**How It Works:**
+
+The command automatically:
+- Generates Shield permissions for all Filament resources
+- Creates or updates the three predefined roles
+- Assigns appropriate permissions based on role hierarchy
+- Excludes sensitive permissions (user management, role management, backup operations) from the editor role
+
+**Example Usage:**
+
+Generate all roles with default settings:
+
+```bash
+php artisan cms:generate-roles
+```
+
+Force overwrite existing roles without confirmation:
+
+```bash
+php artisan cms:generate-roles --force
+```
+
+**Permission Structure:**
+
+- **Super Admin**: All available permissions
+- **Admin**: All available permissions (same as Super Admin)
+- **Editor**: Content management permissions (posts, pages, categories, tags, comments, submissions, components) but excludes:
+  - User management permissions
+  - Role management permissions  
+  - System backup permissions
+
+The `GenerateRolesCommand.php` file (`app/Console/Commands/GenerateRolesCommand.php`) contains the logic for role creation, permission filtering, and assignment. The command integrates with Filament Shield to ensure all resource permissions are properly generated before role assignment.
+
