@@ -49,7 +49,7 @@ class Page extends Model
         'section' => 'array',
         'menu_order' => 'integer',
         'parent_id' => 'integer',
-        'status' => App\Enums\ContentStatus::class,
+        'status' => \App\Enums\ContentStatus::class,
         'published_at' => 'datetime'
     ];
 

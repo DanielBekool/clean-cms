@@ -54,7 +54,7 @@ class Post extends Model
         'custom_fields' => 'array',
         'menu_order' => 'integer',
         'featured' => 'boolean',
-        'status' => App\Enums\ContentStatus::class,
+        'status' => \App\Enums\ContentStatus::class,
         'published_at' => 'datetime'
     ];
 

@@ -480,8 +480,8 @@ PHP;
                     // Check if enum_class is specified
                     if (!empty($fieldDef['enum_class'])) {
                         $enumClass = $fieldDef['enum_class'];
-                        // Use fully qualified name
-                        $casts[$fieldName] = $enumClass . '::class';
+                        // Use fully qualified name with leading backslash
+                        $casts[$fieldName] = '\\' . $enumClass . '::class';
                     } else {
                         // Basic string cast for backward compatibility
                         $casts[$fieldName] = 'string';
