@@ -3,9 +3,11 @@
     <main>
         test
         <h1>{{ $content->title ?? 'Default Page' }}</h1>
-        <x-instagram-feed :type="request('type', 'all')" />
 
         {{-- Content goes here --}}
+        <div class="content">
+            {!! $content->content ?? 'No content available.' !!}
+        </div>
 
     </main>
     <x-partials.footer />
