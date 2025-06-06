@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
 use App\Models\Post;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
-use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
+
 class Tag extends Model
 {
     use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite;
@@ -53,6 +54,8 @@ class Tag extends Model
         'title'
     ];
 
+
+
     //--------------------------------------------------------------------------
     // Relationships
     //--------------------------------------------------------------------------
@@ -74,4 +77,5 @@ class Tag extends Model
         // Add foreign key argument if specified in YAML
         return $this->belongsToMany(Post::class);
     }
+
 }
