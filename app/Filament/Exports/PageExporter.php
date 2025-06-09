@@ -19,6 +19,15 @@ class PageExporter extends Exporter
     }
 
     /**
+     * Get translatable attributes from the model
+     */
+    protected static function getTranslatableAttributes(): array
+    {
+        $model = new (static::$model);
+        return $model->getTranslatableAttributes();
+    }
+
+    /**
      * Override resolveRecord to add virtual attributes for translations
      */
     public static function resolveRecord(Model $baseRecord): array
@@ -29,13 +38,13 @@ class PageExporter extends Exporter
         // Start with the base array
         $data = $record->toArray();
         
-        $translatableAttributes = ['title', 'slug', 'content', 'excerpt', 'section'];
+        // Get translatable attributes from the model
+        $translatableAttributes = static::getTranslatableAttributes();
         $availableLocales = array_keys(config('cms.language_available', ['en' => 'English']));
         
         // Add translation data as separate keys
         foreach ($translatableAttributes as $attribute) {
             $translations = $record->getTranslations($attribute);
-            
             foreach ($availableLocales as $locale) {
                 $key = "{$attribute}_{$locale}";
                 $value = $translations[$locale] ?? '';
@@ -76,7 +85,8 @@ class PageExporter extends Exporter
                 ->formatStateUsing(fn ($state) => is_array($state) ? json_encode($state) : $state),
         ];
 
-        $translatableAttributes = ['title', 'slug', 'content', 'excerpt', 'section'];
+        // Get translatable attributes from the model
+        $translatableAttributes = static::getTranslatableAttributes();
         $availableLocales = array_keys(config('cms.language_available', ['en' => 'English']));
 
         // Now we can safely add columns for each translation
