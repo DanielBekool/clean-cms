@@ -75,6 +75,12 @@ return [
         App\Models\Page::class => App\Filament\Resources\PageResource::class,
     ],
 
+    'navigation_menu_locations' => [
+        'header' => 'Header',
+        'footer' => 'Footer',
+        'sidebar'   => 'Sidebar',
+    ],
+
     'debug_mode' => [
         'enabled' => env('CMS_DEBUG_MODE_ENABLED', true),
         'environments' => ['local', 'development'],

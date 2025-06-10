@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
+use Datlechin\FilamentMenuBuilder\Concerns\HasMenuPanel;
+use Datlechin\FilamentMenuBuilder\Contracts\MenuPanelable;
 
-class Page extends Model
+class Page extends Model implements MenuPanelable
 {
-    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite;
+    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite,HasMenuPanel;
 
 
 
@@ -118,6 +120,16 @@ class Page extends Model
         // Use the base class name for the ::class constant
         // Add foreign key argument if specified in YAML
         return $this->belongsTo(Page::class, 'parent_id');
+    }
+
+        public function getMenuPanelTitleColumn(): string
+    {
+        return 'name';
+    }
+ 
+    public function getMenuPanelUrlUsing(): callable
+    {
+        return fn (self $model) => route('cms.static.page', $model->slug);
     }
 
 }
