@@ -78,7 +78,6 @@ return [
     'navigation_menu_locations' => [
         'header' => 'Header',
         'footer' => 'Footer',
-        'sidebar'   => 'Sidebar',
     ],
 
     'debug_mode' => [
