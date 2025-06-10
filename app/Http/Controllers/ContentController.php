@@ -148,7 +148,7 @@ class ContentController extends Controller
                 'content_type' => $content_type_key,
                 'content_slug' => $content_slug,
                 'content' => $content,
-                'title' => $content->getTranslation('title', $lang, true) ?? Str::title($content_slug),
+                'title' => $this->getTranslatedFieldWithFallback($content, 'title', $lang) ?? Str::title($content_slug),
                 'translation_info' => $result,
             ]
         );
@@ -164,6 +164,7 @@ class ContentController extends Controller
         $posts = $modelClass::where('status', ContentStatus::Published)
             ->orderBy('created_at', 'desc')
             ->paginate($this->paginationLimit);
+
 
         $archive = $this->createArchiveObject($content_type_archive_key);
         $this->setArchiveSeoMetadata($content_type_archive_key);
@@ -198,6 +199,7 @@ class ContentController extends Controller
         }
 
         $taxonomyModel = $result['content'];
+
         $posts = $this->getTaxonomyRelatedContent($taxonomyModel, $taxonomy_key);
 
         if (method_exists($this, 'setsSeo')) {
@@ -214,7 +216,7 @@ class ContentController extends Controller
                 'taxonomy' => $taxonomy_key,
                 'taxonomy_slug' => $taxonomy_slug,
                 'taxonomy_model' => $taxonomyModel,
-                'title' => $taxonomyModel->getTranslation('title', $lang, true) ??
+                'title' => $this->getTranslatedFieldWithFallback($taxonomyModel, 'title', $lang) ??
                     Str::title(str_replace('-', ' ', $taxonomy_key)) . ': ' .
                     Str::title(str_replace('-', ' ', $taxonomy_slug)),
                 'posts' => $posts,
@@ -224,53 +226,180 @@ class ContentController extends Controller
     }
 
     /**
-     * Find content with a refined, conditional fallback mechanism.
+     * Enhanced method to find content with comprehensive partial translation support
      */
     private function findContentWithFallback(string $modelClass, string $requestedLocale, string $slug): array
     {
+        // Step 1: Try to find content with exact slug match in requested locale
         $content = $modelClass::where('status', ContentStatus::Published)
             ->whereJsonContains("slug->{$requestedLocale}", $slug)
             ->first();
 
         if ($content) {
-            $isPartial = method_exists($content, 'isFullyTranslated') && !$content->isFullyTranslated($requestedLocale);
+            $isPartial = $this->isPartialTranslation($content, $requestedLocale);
             return [
                 'content' => $content,
                 'requested_locale' => $requestedLocale,
                 'matched_locale' => $requestedLocale,
                 'used_fallback' => false,
                 'is_partial_translation' => $isPartial,
+                'fallback_fields' => $isPartial ? $this->getFallbackFields($content, $requestedLocale) : [],
             ];
         }
 
+        // Step 2: If requested locale is not default, try partial translation scenarios
         if ($requestedLocale !== $this->defaultLanguage) {
-            $content = $modelClass::where('status', ContentStatus::Published)
+            // Scenario 1: Slug is null/empty in requested locale but exists in default locale
+            $partialContent = $modelClass::where('status', ContentStatus::Published)
                 ->whereJsonContains("slug->{$this->defaultLanguage}", $slug)
                 ->where(function ($query) use ($requestedLocale) {
                     $query->whereNull("slug->{$requestedLocale}")
-                        ->orWhereJsonContains("slug->{$requestedLocale}", '');
+                        ->orWhereJsonLength("slug->{$requestedLocale}", 0)
+                        ->orWhere("slug->{$requestedLocale}", '')
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(slug, '$.{$requestedLocale}')) = 'null'");
                 })
                 ->first();
 
-            if ($content) {
-                $isPartial = method_exists($content, 'isFullyTranslated') && !$content->isFullyTranslated($requestedLocale);
+            if ($partialContent) {
+                $isPartial = $this->isPartialTranslation($partialContent, $requestedLocale);
                 return [
-                    'content' => $content,
+                    'content' => $partialContent,
                     'requested_locale' => $requestedLocale,
                     'matched_locale' => $this->defaultLanguage,
                     'used_fallback' => true,
-                    'is_partial_translation' => $isPartial,
+                    'is_partial_translation' => true,
+                    'fallback_fields' => $this->getFallbackFields($partialContent, $requestedLocale),
+                    'fallback_reason' => 'slug_not_translated'
                 ];
+            }
+
+            // Step 3: full fallback to default language
+            // Only allowed **iff** the requested locale has **no own slug translation**
+            // (i.e. the slug column is truly null/empty for $requestedLocale)
+            $needFullFallback = $modelClass::where('status', ContentStatus::Published)
+                ->whereJsonContains("slug->{$this->defaultLanguage}", $slug)
+                ->where(function ($q) use ($requestedLocale) {
+                    $q->whereNull("slug->{$requestedLocale}")
+                        ->orWhereJsonLength("slug->{$requestedLocale}", 0)
+                        ->orWhere("slug->{$requestedLocale}", '')
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(slug, '$.{$requestedLocale}')) = 'null'");
+                })
+                ->exists();
+
+            if ($needFullFallback) {
+                $defaultContent = $modelClass::where('status', ContentStatus::Published)
+                    ->whereJsonContains("slug->{$this->defaultLanguage}", $slug)
+                    ->first();
+
+                if ($defaultContent) {
+                    return [
+                        'content' => $defaultContent,
+                        'requested_locale' => $requestedLocale,
+                        'matched_locale' => $this->defaultLanguage,
+                        'used_fallback' => true,
+                        'is_partial_translation' => false,
+                        'fallback_fields' => [],
+                        'fallback_reason' => 'content_not_found_in_locale'
+                    ];
+                }
             }
         }
 
+        // Step 4: No content found
         return [
             'content' => null,
             'requested_locale' => $requestedLocale,
             'matched_locale' => null,
             'used_fallback' => false,
             'is_partial_translation' => false,
+            'fallback_fields' => [],
         ];
+    }
+
+    /**
+     * Check if content has partial translation for the given locale
+     */
+    private function isPartialTranslation(Model $content, string $locale): bool
+    {
+        if ($locale === $this->defaultLanguage) {
+            return false;
+        }
+
+        $translatableFields = $this->getTranslatableFields($content);
+        $missingFields = 0;
+
+        foreach ($translatableFields as $field) {
+            $fieldData = $content->getTranslations($field);
+            if (
+                !isset($fieldData[$locale]) ||
+                $fieldData[$locale] === null ||
+                $fieldData[$locale] === '' ||
+                $fieldData[$locale] === 'null'
+            ) {
+                $missingFields++;
+            }
+        }
+
+        return $missingFields > 0;
+    }
+
+    /**
+     * Get fields that need fallback for partial translations
+     */
+    private function getFallbackFields(Model $content, string $locale): array
+    {
+        if ($locale === $this->defaultLanguage) {
+            return [];
+        }
+
+        $translatableFields = $this->getTranslatableFields($content);
+        $fallbackFields = [];
+
+        foreach ($translatableFields as $field) {
+            $fieldData = $content->getTranslations($field);
+            if (
+                !isset($fieldData[$locale]) ||
+                $fieldData[$locale] === null ||
+                $fieldData[$locale] === '' ||
+                $fieldData[$locale] === 'null'
+            ) {
+                $fallbackFields[] = $field;
+            }
+        }
+
+        return $fallbackFields;
+    }
+
+    /**
+     * Get translatable fields from the model
+     */
+    private function getTranslatableFields(Model $content): array
+    {
+        if (property_exists($content, 'translatable')) {
+            return $content->translatable;
+        }
+
+        // Common translatable fields as fallback
+        return ['title', 'content', 'slug', 'excerpt', 'meta_title', 'meta_description'];
+    }
+
+    /**
+     * Get translated field with automatic fallback to default language
+     */
+    private function getTranslatedFieldWithFallback(Model $content, string $field, string $locale)
+    {
+        if (!method_exists($content, 'getTranslation')) {
+            return $content->{$field} ?? null;
+        }
+
+        $value = $content->getTranslation($field, $locale, false);
+
+        // If value is null, empty, or 'null' string, fallback to default language
+        if ($value === null || $value === '' || $value === 'null') {
+            $value = $content->getTranslation($field, $this->defaultLanguage, false);
+        }
+
+        return $value;
     }
 
     /**
@@ -526,7 +655,7 @@ class ContentController extends Controller
                 $classes[] = 'type-' . ($contentTypeKey ?? Str::kebab(Str::singular($content->getTable())));
                 $slugForClass = '';
                 if (method_exists($content, 'getTranslation')) {
-                    $slugForClass = $content->getTranslation('slug', $this->defaultLanguage) ?? $contentSlug;
+                    $slugForClass = $this->getTranslatedFieldWithFallback($content, 'slug', $lang) ?? $contentSlug;
                 } else {
                     $slugForClass = $contentSlug;
                 }
