@@ -2,6 +2,8 @@
 @vite('resources/js/phone-separator.js')
  @endPushOnce
 
+ 
+
 <!--Footer-->
 <footer id="footer" class="lg:pt-30 pt-18 bg-cover bg-[var(--color-transit)]" style="background-image:url('{{ asset('media/Footer.jpg') }}')">
     <div class="flex flex-col overflow-hidden relative lg:gap-20 sm:gap-10 gap-10 lg:max-w-[1200px] mx-auto lg:px-0 sm:px-6 px-4">
@@ -75,7 +77,7 @@
                     <h6 class="text-white uppercase">Link</h6>
                     <div class="grid grid-cols-2 gap-x-10 gap-y-2 !text-[.9em] lg:w-full sm:w-[150px]">
                         <a href="/">Beranda</a>
-                        <a href="/keunggulan">Keunggulan</a>
+                        <a href="{{ route('cms.static.page', [app()->getLocale(), 'keunggulan']) }}">Keunggulan</a>
                         <a href="/profil-perusahaan">Tentang</a>
                         <a href="/pengadaan-barang-jasa">Informasi</a>
                         <a href="/lahan-industri">Produk & Layanan</a>
