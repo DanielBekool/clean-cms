@@ -298,7 +298,7 @@ class ContentController extends Controller
         return null;
     }
 
-    // ===== HELPER METHODS (keeping the existing ones) =====
+    // ===== HELPER METHODS =====
 
     private function renderContentView(
         string $template,
@@ -402,7 +402,6 @@ class ContentController extends Controller
         return redirect()->route('cms.home', array_merge(['lang' => $lang], $request->query()));
     }
 
-    // Keep all template resolution methods unchanged...
     private function resolveHomeTemplate(?Model $content = null): string
     {
         $templates = [
