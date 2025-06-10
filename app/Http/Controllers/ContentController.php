@@ -23,12 +23,16 @@ class ContentController extends Controller
     protected string $defaultLanguage;
     protected int $paginationLimit;
     protected string $staticPageClass;
+    protected bool $showFallbackIndicator;
+    protected string $fallbackBehavior;
 
     public function __construct()
     {
         $this->defaultLanguage = Config::get('cms.default_language');
         $this->paginationLimit = Config::get('cms.pagination_limit', 12);
         $this->staticPageClass = Config::get('cms.static_page_model', Page::class);
+        $this->showFallbackIndicator = Config::get('cms.show_fallback_indicator', true);
+        $this->fallbackBehavior = Config::get('cms.fallback_behavior', 'show_in_requested_language');
     }
 
     /**
@@ -38,45 +42,78 @@ class ContentController extends Controller
     {
         $modelClass = $this->getValidModelClass($this->staticPageClass);
 
-        // Try to find home page content
-        $content = $this->findHomeContent($modelClass);
+        // Try to find home page content with fallback support
+        $result = $this->findContentWithFallback($modelClass, $lang, 'home');
 
-        if (!$content) {
-            abort(404, "Home page content not found or not configured.");
+        if (!$result['content']) {
+            // Fallback to first published page
+            $content = $modelClass::where('status', ContentStatus::Published)
+                ->orderBy('id', 'asc')
+                ->first();
+
+            if (!$content) {
+                abort(404, "Home page content not found.");
+            }
+
+            $result = [
+                'content' => $content,
+                'requested_locale' => $lang,
+                'matched_locale' => $lang,
+                'used_fallback' => false,
+            ];
         }
 
         return $this->renderContentView(
-            template: $this->resolveHomeTemplate($content),
+            template: $this->resolveHomeTemplate($result['content']),
             lang: $lang,
-            content: $content,
-            viewData: ['content' => $content]
+            content: $result['content'],
+            viewData: [
+                'content' => $result['content'],
+                'translation_info' => $result,
+                'show_fallback_notice' => $result['used_fallback'] && $this->showFallbackIndicator,
+            ]
         );
     }
 
     /**
      * Displays a static page
      */
-    public function staticPage(Request $request, $lang, $content_slug)
+    public function staticPage(Request $request, $lang, $page_slug)
     {
-        if ($this->isFrontPage($content_slug)) {
+        if ($this->isFrontPage($page_slug)) {
             return $this->redirectToHome($lang, $request);
         }
 
-        $result = $this->findStaticOrFallbackContent($lang, $content_slug, $request);
+        $modelClass = $this->getValidModelClass($this->staticPageClass);
+        $result = $this->findContentWithFallback($modelClass, $lang, $page_slug);
 
-        if ($result instanceof \Illuminate\Http\RedirectResponse) {
-            return $result;
+        if (!$result['content']) {
+            // Try fallback content model
+            $fallbackResult = $this->tryFallbackContentModel($lang, $page_slug, $request);
+            if ($fallbackResult) {
+                return $fallbackResult;
+            }
+
+            abort(404, "Page not found for slug '{$page_slug}'");
         }
 
-        if (!$result) {
-            abort(404, "Content not found for slug '{$content_slug}' in language '{$lang}'.");
+        // Handle redirect behavior if configured
+        if ($result['used_fallback'] && $this->fallbackBehavior === 'redirect_to_available') {
+            return redirect()->route('cms.static.page', array_merge([
+                'lang' => $this->defaultLanguage,
+                'page_slug' => $page_slug
+            ], $request->query()));
         }
 
         return $this->renderContentView(
-            template: $this->resolvePageTemplate($result),
+            template: $this->resolvePageTemplate($result['content']),
             lang: $lang,
-            content: $result,
-            viewData: ['content' => $result]
+            content: $result['content'],
+            viewData: [
+                'content' => $result['content'],
+                'translation_info' => $result,
+                'show_fallback_notice' => $result['used_fallback'] && $this->showFallbackIndicator,
+            ]
         );
     }
 
@@ -94,10 +131,17 @@ class ContentController extends Controller
         }
 
         $modelClass = $this->getContentModelClass($content_type_key);
-        $result = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $content_slug, true);
+        $result = $this->findContentWithFallback($modelClass, $lang, $content_slug);
 
-        // Handle language fallback redirects
-        if (!$result['found_in_requested_lang'] && $lang !== $this->defaultLanguage) {
+        if (!$result['content']) {
+            throw (new ModelNotFoundException)->setModel(
+                $modelClass,
+                "No content found for slug '{$content_slug}'"
+            );
+        }
+
+        // Handle redirect behavior if configured
+        if ($result['used_fallback'] && $this->fallbackBehavior === 'redirect_to_available') {
             return redirect()->route('cms.single.content', array_merge([
                 'lang' => $this->defaultLanguage,
                 'content_type_key' => $content_type_key,
@@ -120,7 +164,9 @@ class ContentController extends Controller
                 'content_type' => $content_type_key,
                 'content_slug' => $content_slug,
                 'content' => $content,
-                'title' => $content->title ?? Str::title($content_slug),
+                'title' => $content->getTranslationWithFallback('title', $lang) ?? Str::title($content_slug),
+                'translation_info' => $result,
+                'show_fallback_notice' => $result['used_fallback'] && $this->showFallbackIndicator,
             ]
         );
     }
@@ -131,8 +177,7 @@ class ContentController extends Controller
     public function archiveContent($lang, $content_type_archive_key)
     {
         $modelClass = $this->getContentModelClass($content_type_archive_key);
-        
-        // Consider adding filters/sorting options here
+
         $posts = $modelClass::where('status', ContentStatus::Published)
             ->orderBy('created_at', 'desc')
             ->paginate($this->paginationLimit);
@@ -161,10 +206,17 @@ class ContentController extends Controller
     public function taxonomyArchive($lang, $taxonomy_key, $taxonomy_slug)
     {
         $modelClass = $this->getContentModelClass($taxonomy_key);
-        $result = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $taxonomy_slug, false);
+        $result = $this->findContentWithFallback($modelClass, $lang, $taxonomy_slug);
 
-        // Handle language fallback redirects
-        if (!$result['found_in_requested_lang'] && $lang !== $this->defaultLanguage) {
+        if (!$result['content']) {
+            throw (new ModelNotFoundException)->setModel(
+                $modelClass,
+                "Taxonomy not found for slug '{$taxonomy_slug}'"
+            );
+        }
+
+        // Handle redirect behavior if configured
+        if ($result['used_fallback'] && $this->fallbackBehavior === 'redirect_to_available') {
             return redirect()->route('cms.taxonomy.archive', array_merge([
                 'lang' => $this->defaultLanguage,
                 'taxonomy_key' => $taxonomy_key,
@@ -185,13 +237,111 @@ class ContentController extends Controller
                 'taxonomy' => $taxonomy_key,
                 'taxonomy_slug' => $taxonomy_slug,
                 'taxonomy_model' => $taxonomyModel,
-                'title' => Str::title(str_replace('-', ' ', $taxonomy_key)) . ': ' . Str::title(str_replace('-', ' ', $taxonomy_slug)),
+                'title' => $taxonomyModel->getTranslationWithFallback('title', $lang) ??
+                    Str::title(str_replace('-', ' ', $taxonomy_key)) . ': ' .
+                    Str::title(str_replace('-', ' ', $taxonomy_slug)),
                 'posts' => $posts,
+                'translation_info' => $result,
+                'show_fallback_notice' => $result['used_fallback'] && $this->showFallbackIndicator,
             ]
         );
     }
 
-    // ===== HELPER METHODS =====
+    /**
+     * Find content with fallback support
+     */
+    private function findContentWithFallback(string $modelClass, string $requestedLocale, string $slug): array
+    {
+        // First try exact match in requested locale
+        $content = $modelClass::whereJsonContains("slug->{$requestedLocale}", $slug)
+            ->where('status', ContentStatus::Published)
+            ->first();
+
+        if ($content) {
+            return [
+                'content' => $content,
+                'requested_locale' => $requestedLocale,
+                'matched_locale' => $requestedLocale,
+                'used_fallback' => false,
+                'is_partial_translation' => !$content->isFullyTranslated($requestedLocale),
+            ];
+        }
+
+        // If not found and not default language, try default language
+        if ($requestedLocale !== $this->defaultLanguage) {
+            $content = $modelClass::whereJsonContains("slug->{$this->defaultLanguage}", $slug)
+                ->where('status', ContentStatus::Published)
+                ->first();
+
+            if ($content) {
+                return [
+                    'content' => $content,
+                    'requested_locale' => $requestedLocale,
+                    'matched_locale' => $this->defaultLanguage,
+                    'used_fallback' => true,
+                    'is_partial_translation' => false, // We're showing default language content
+                ];
+            }
+        }
+
+        // Try to find content that has this slug in any language
+        // This helps when user uses wrong slug for the language
+        $content = $modelClass::where('status', ContentStatus::Published)
+            ->where(function ($query) use ($slug, $requestedLocale) {
+                $query->whereJsonContains("slug->{$requestedLocale}", $slug)
+                    ->orWhereJsonContains("slug->{$this->defaultLanguage}", $slug);
+            })
+            ->first();
+
+        if ($content) {
+            // Check which slug matched
+            $matchedInRequestedLocale = $content->getTranslation('slug', $requestedLocale) === $slug;
+
+            return [
+                'content' => $content,
+                'requested_locale' => $requestedLocale,
+                'matched_locale' => $matchedInRequestedLocale ? $requestedLocale : $this->defaultLanguage,
+                'used_fallback' => !$matchedInRequestedLocale,
+                'is_partial_translation' => !$content->isFullyTranslated($requestedLocale),
+            ];
+        }
+
+        return [
+            'content' => null,
+            'requested_locale' => $requestedLocale,
+            'matched_locale' => null,
+            'used_fallback' => false,
+            'is_partial_translation' => false,
+        ];
+    }
+
+    /**
+     * Try fallback content model
+     */
+    private function tryFallbackContentModel(string $lang, string $slug, Request $request): ?\Illuminate\Http\RedirectResponse
+    {
+        $fallbackContentType = Config::get('cms.fallback_content_type', 'posts');
+        $modelClass = Config::get("cms.content_models.{$fallbackContentType}.model");
+
+        if (!$modelClass || !class_exists($modelClass)) {
+            return null;
+        }
+
+        $result = $this->findContentWithFallback($modelClass, $lang, $slug);
+
+        if ($result['content']) {
+            // Always redirect to the correct content type URL
+            return redirect()->route('cms.single.content', array_merge([
+                'lang' => $lang,
+                'content_type_key' => $fallbackContentType,
+                'content_slug' => $slug,
+            ], $request->query()));
+        }
+
+        return null;
+    }
+
+    // ===== HELPER METHODS (keeping the existing ones) =====
 
     /**
      * Centralized method to render content views with consistent data
@@ -219,9 +369,7 @@ class ContentController extends Controller
         return view($template, array_merge($defaultData, $viewData));
     }
 
-    /**
-     * Get valid model class with fallback
-     */
+    // Keep all other existing private methods unchanged...
     private function getValidModelClass(string $modelClass): string
     {
         if (!$modelClass || !class_exists($modelClass)) {
@@ -230,13 +378,10 @@ class ContentController extends Controller
         return $modelClass;
     }
 
-    /**
-     * Get content model class from configuration
-     */
     private function getContentModelClass(string $contentTypeKey): string
     {
         $modelConfig = Config::get("cms.content_models.{$contentTypeKey}");
-        
+
         if (!$modelConfig) {
             abort(404, "Content type '{$contentTypeKey}' not found in configuration.");
         }
@@ -250,30 +395,6 @@ class ContentController extends Controller
         return $modelClass;
     }
 
-    /**
-     * Find home page content with caching
-     */
-    private function findHomeContent(string $modelClass): ?Model
-    {
-        // Consider adding caching for frequently accessed home content
-        return Cache::remember("home_content_{$this->defaultLanguage}", 3600, function () use ($modelClass) {
-            $content = $modelClass::whereJsonContains('slug->' . $this->defaultLanguage, 'home')
-                ->where('status', ContentStatus::Published)
-                ->first();
-
-            if (!$content) {
-                $content = $modelClass::where('status', ContentStatus::Published)
-                    ->orderBy('id', 'asc')
-                    ->first();
-            }
-
-            return $content;
-        });
-    }
-
-    /**
-     * Increment page views if the model supports it
-     */
     private function incrementPageViewsIfSupported(Model $content): void
     {
         if (in_array(\App\Traits\HasPageViews::class, class_uses_recursive($content))) {
@@ -281,9 +402,6 @@ class ContentController extends Controller
         }
     }
 
-    /**
-     * Create archive object
-     */
     private function createArchiveObject(string $contentTypeKey): object
     {
         return (object) [
@@ -293,9 +411,6 @@ class ContentController extends Controller
         ];
     }
 
-    /**
-     * Set SEO metadata for archive pages
-     */
     private function setArchiveSeoMetadata(string $contentTypeKey): void
     {
         $archiveTitle = Config::get("cms.content_models.{$contentTypeKey}.archive_SEO_title");
@@ -314,13 +429,10 @@ class ContentController extends Controller
         }
     }
 
-    /**
-     * Get taxonomy related content with better error handling
-     */
     private function getTaxonomyRelatedContent(Model $taxonomyModel, string $taxonomyKey)
     {
         $relationshipName = Config::get("cms.content_models.{$taxonomyKey}.display_content_from", 'posts');
-        
+
         if (!method_exists($taxonomyModel, $relationshipName)) {
             \Illuminate\Support\Facades\Log::warning("Configured relationship '{$relationshipName}' not found for taxonomy '{$taxonomyKey}'. Falling back to 'posts'.");
             $relationshipName = 'posts';
@@ -337,8 +449,6 @@ class ContentController extends Controller
         return collect();
     }
 
-    // ===== EXISTING PRIVATE METHODS (keeping the good ones) =====
-
     private function isFrontPage(string $slug): bool
     {
         return $slug === Config::get('cms.front_page_slug');
@@ -349,95 +459,7 @@ class ContentController extends Controller
         return redirect()->route('cms.home', array_merge(['lang' => $lang], $request->query()));
     }
 
-    private function findStaticOrFallbackContent(string $lang, string $slug, Request $request)
-    {
-        $modelClass = $this->getValidModelClass($this->staticPageClass);
-        $result = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
-
-        if ($result['content']) {
-            if (!$result['found_in_requested_lang'] && $lang !== $this->defaultLanguage) {
-                return redirect()->route('cms.static.page', array_merge([
-                    'lang' => $this->defaultLanguage,
-                    'page_slug' => $slug
-                ], $request->query()));
-            }
-            return $result['content'];
-        }
-
-        return $this->tryFallbackContentModel($lang, $slug, $request);
-    }
-
-    private function tryFallbackContentModel(string $lang, string $slug, Request $request): ?Model
-    {
-        $fallbackContentType = Config::get('cms.fallback_content_model', 'posts');
-        $modelClass = Config::get("cms.content_models.{$fallbackContentType}.model");
-
-        if (!$modelClass || !class_exists($modelClass)) {
-            return null;
-        }
-
-        $result = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
-
-        if ($result['content']) {
-            $targetLang = $result['found_in_requested_lang'] ? $lang : $this->defaultLanguage;
-            
-            redirect()->route('cms.single.content', array_merge([
-                'lang' => $targetLang,
-                'content_type_key' => $fallbackContentType,
-                'content_slug' => $slug,
-            ], $request->query()))->send();
-            exit;
-        }
-
-        return null;
-    }
-
-    private function queryContentBySlugAndLanguage(string $modelClass, string $queryLang, string $contentSlug, bool $checkStatus): Builder
-    {
-        $query = $modelClass::whereJsonContains('slug->' . $queryLang, $contentSlug);
-
-        if ($checkStatus) {
-            $query->where('status', ContentStatus::Published);
-        }
-
-        return $query;
-    }
-
-    private function getPublishedContentBySlug(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): array
-    {
-        // Try requested language first
-        $content = $this->queryContentBySlugAndLanguage($modelClass, $lang, $contentSlug, $checkStatus)->first();
-
-        if ($content) {
-            return ['content' => $content, 'found_in_requested_lang' => true];
-        }
-
-        // Try default language if different
-        if ($lang !== $this->defaultLanguage) {
-            $content = $this->queryContentBySlugAndLanguage($modelClass, $this->defaultLanguage, $contentSlug, $checkStatus)->first();
-            if ($content) {
-                return ['content' => $content, 'found_in_requested_lang' => false];
-            }
-        }
-
-        return ['content' => null, 'found_in_requested_lang' => false];
-    }
-
-    private function getPublishedContentBySlugOrFail(string $modelClass, string $lang, string $contentSlug, bool $checkStatus = false): array
-    {
-        $result = $this->getPublishedContentBySlug($modelClass, $lang, $contentSlug, $checkStatus);
-
-        if ($result['content']) {
-            return $result;
-        }
-
-        throw (new ModelNotFoundException)->setModel(
-            $modelClass,
-            "No query results for [{$modelClass}] with slug '{$contentSlug}' in language '{$lang}' or default language '{$this->defaultLanguage}'."
-        );
-    }
-
-    // Template resolution methods remain the same...
+    // Keep all template resolution methods unchanged...
     private function resolveHomeTemplate(?Model $content = null): string
     {
         $templates = [
@@ -460,7 +482,7 @@ class ContentController extends Controller
     private function resolvePageTemplate(Model $content): string
     {
         $slug = $content->slug;
-        $defaultSlug = method_exists($content, 'getTranslation') ? 
+        $defaultSlug = method_exists($content, 'getTranslation') ?
             ($content->getTranslation('slug', $this->defaultLanguage) ?? $slug) : $slug;
 
         $templates = [
@@ -480,7 +502,7 @@ class ContentController extends Controller
     private function resolveSingleTemplate(?Model $content = null, string $content_type_key, string $contentSlug): string
     {
         $postType = Str::kebab(Str::singular($content_type_key));
-        $defaultSlug = method_exists($content, 'getTranslation') ? 
+        $defaultSlug = method_exists($content, 'getTranslation') ?
             ($content->getTranslation('slug', $this->defaultLanguage) ?? $contentSlug) : $contentSlug;
 
         $templates = [

@@ -32,12 +32,14 @@ return [
     'content_models' => [
         'pages' => [
             'model' => App\Models\Page::class,
+            'name' => 'Pages',
             'type' => 'content',
             'has_archive' => false,
             'has_single' => true,
         ],
         'posts' => [
             'model' => App\Models\Post::class,
+            'name' => 'Posts',
             'type' => 'content',
             'has_archive' => true,
             'has_single' => true,
@@ -47,6 +49,7 @@ return [
         ],
         'categories' => [
             'model' => App\Models\Category::class,
+            'name' => 'Categories',
             'type' => 'taxonomy',
             'has_archive' => true,
             'has_single' => false,
@@ -55,6 +58,7 @@ return [
         ],
         'tags' => [
             'model' => App\Models\Tag::class,
+            'name' => 'Tags',
             'type' => 'taxonomy',
             'has_archive' => true,
             'has_single' => false,
