@@ -10,12 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
-use Datlechin\FilamentMenuBuilder\Concerns\HasMenuPanel;
-use Datlechin\FilamentMenuBuilder\Contracts\MenuPanelable;
+use App\Traits\HandlesPartialTranslation;
 
-class Page extends Model implements MenuPanelable
+class Page extends Model
 {
-    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite,HasMenuPanel;
+    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite, HandlesPartialTranslation;
 
 
 
@@ -122,14 +121,6 @@ class Page extends Model implements MenuPanelable
         return $this->belongsTo(Page::class, 'parent_id');
     }
 
-        public function getMenuPanelTitleColumn(): string
-    {
-        return 'name';
-    }
- 
-    public function getMenuPanelUrlUsing(): callable
-    {
-        return fn (self $model) => route('cms.static.page', $model->slug);
-    }
+
 
 }
