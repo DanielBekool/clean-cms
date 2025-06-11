@@ -1010,3 +1010,280 @@ php artisan cms:generate-roles --force
 
 The `GenerateRolesCommand.php` file (`app/Console/Commands/GenerateRolesCommand.php`) contains the logic for role creation, permission filtering, and assignment. The command integrates with Filament Shield to ensure all resource permissions are properly generated before role assignment.
 
+## Settings Management System
+
+This project includes a comprehensive settings management system using Spatie Laravel Settings, providing a database-driven configuration system that can be managed through the Filament admin panel.
+
+### Available Settings Classes
+
+#### GeneralSettings (`App\Settings\GeneralSettings`)
+
+The GeneralSettings class manages core site information and contact details. It includes the following configurable properties:
+
+**Site Information:**
+- `site_name` (string|null): The name of your website
+- `site_description` (string|null): Brief description of your website  
+- `site_logo` (string|null): Path to your site logo
+- `site_favicon` (string|null): Path to your site favicon
+
+**Contact Information:**
+- `email` (string|null): Primary site email address
+- `phone_1` (string|null): Primary phone number
+- `phone_2` (string|null): Secondary phone number  
+- `whatsapp_1` (string|null): Primary WhatsApp number
+- `whatsapp_2` (string|null): Secondary WhatsApp number
+- `address` (string|null): Physical address
+
+**Social Media:**
+- `facebook` (string|null): Facebook page URL
+- `twitter` (string|null): Twitter profile URL
+- `instagram` (string|null): Instagram profile URL
+- `linkedin` (string|null): LinkedIn profile URL
+- `youtube` (string|null): YouTube channel URL
+
+### Retrieving Settings Data
+
+You can retrieve settings data in several ways throughout your application:
+
+#### 1. Dependency Injection (Recommended)
+
+The most efficient method is to use dependency injection in your controllers, services, or other classes:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Settings\GeneralSettings;
+use Illuminate\Http\Request;
+
+class HomeController extends Controller
+{
+    public function index(GeneralSettings $settings)
+    {
+        return view('home', [
+            'siteName' => $settings->site_name,
+            'siteDescription' => $settings->site_description,
+            'contactEmail' => $settings->email,
+            'phoneNumber' => $settings->phone_1,
+            'facebookUrl' => $settings->facebook,
+            // ... other settings
+        ]);
+    }
+}
+```
+
+#### 2. Using the Application Container
+
+Resolve settings from the Laravel application container:
+
+```php
+// In a controller method
+public function contact()
+{
+    $settings = app(GeneralSettings::class);
+    
+    return view('contact', [
+        'email' => $settings->email,
+        'phone1' => $settings->phone_1,
+        'phone2' => $settings->phone_2,
+        'whatsapp1' => $settings->whatsapp_1,
+        'address' => $settings->address,
+    ]);
+}
+
+// Or using the resolve helper
+$settings = resolve(GeneralSettings::class);
+$siteName = $settings->site_name;
+```
+
+#### 3. In Blade Templates
+
+You can access settings directly in your Blade templates by resolving them:
+
+```blade
+{{-- Get settings in a Blade template --}}
+@php
+    $settings = app(\App\Settings\GeneralSettings::class);
+@endphp
+
+<header>
+    <h1>{{ $settings->site_name }}</h1>
+    <p>{{ $settings->site_description }}</p>
+</header>
+
+<footer>
+    <div class="contact-info">
+        @if($settings->email)
+            <p>Email: <a href="mailto:{{ $settings->email }}">{{ $settings->email }}</a></p>
+        @endif
+        
+        @if($settings->phone_1)
+            <p>Phone: <a href="tel:{{ $settings->phone_1 }}">{{ $settings->phone_1 }}</a></p>
+        @endif
+        
+        @if($settings->address)
+            <p>Address: {{ $settings->address }}</p>
+        @endif
+    </div>
+    
+    <div class="social-media">
+        @if($settings->facebook)
+            <a href="{{ $settings->facebook }}" target="_blank">Facebook</a>
+        @endif
+        
+        @if($settings->twitter)
+            <a href="{{ $settings->twitter }}" target="_blank">Twitter</a>
+        @endif
+        
+        @if($settings->instagram)
+            <a href="{{ $settings->instagram }}" target="_blank">Instagram</a>
+        @endif
+    </div>
+</footer>
+```
+
+#### 4. Creating a View Composer (Global Access)
+
+For global access across all views, create a view composer:
+
+```php
+<?php
+
+namespace App\View\Composers;
+
+use App\Settings\GeneralSettings;
+use Illuminate\View\View;
+
+class SettingsComposer
+{
+    public function __construct(
+        protected GeneralSettings $settings
+    ) {}
+
+    public function compose(View $view): void
+    {
+        $view->with('settings', $this->settings);
+    }
+}
+```
+
+Register it in a service provider:
+
+```php
+// In AppServiceProvider.php boot() method
+use Illuminate\Support\Facades\View;
+use App\View\Composers\SettingsComposer;
+
+public function boot(): void
+{
+    View::composer('*', SettingsComposer::class);
+}
+```
+
+Then use in any Blade template:
+
+```blade
+{{-- Now available in all views --}}
+<title>{{ $settings->site_name }}</title>
+<meta name="description" content="{{ $settings->site_description }}">
+
+<div class="contact">
+    <a href="mailto:{{ $settings->email }}">{{ $settings->email }}</a>
+</div>
+```
+
+#### 5. Using in Livewire Components
+
+Access settings in your Livewire components:
+
+```php
+<?php
+
+namespace App\Livewire;
+
+use App\Settings\GeneralSettings;
+use Livewire\Component;
+
+class ContactForm extends Component
+{
+    public function render(GeneralSettings $settings)
+    {
+        return view('livewire.contact-form', [
+            'contactEmail' => $settings->email,
+            'whatsappNumber' => $settings->whatsapp_1,
+        ]);
+    }
+}
+```
+
+#### 6. In Artisan Commands
+
+Use settings in your custom Artisan commands:
+
+```php
+<?php
+
+namespace App\Console\Commands;
+
+use App\Settings\GeneralSettings;
+use Illuminate\Console\Command;
+
+class SendNewsletterCommand extends Command
+{
+    protected $signature = 'newsletter:send';
+
+    public function handle(GeneralSettings $settings): void
+    {
+        $fromEmail = $settings->email;
+        $siteName = $settings->site_name;
+        
+        // Send newsletter logic...
+        $this->info("Newsletter sent from {$fromEmail} on behalf of {$siteName}");
+    }
+}
+```
+
+### Managing Settings
+
+Settings can be managed through the Filament admin panel:
+
+1. **Access the Admin Panel**: Navigate to `/admin` and log in
+2. **Go to Settings**: Click on "Settings" in the navigation menu
+3. **Select General Settings**: Click on "General" to manage general site settings
+4. **Edit Values**: Update any of the available fields
+5. **Save Changes**: Click "Save" to persist your changes
+
+### Performance Considerations
+
+- Settings are cached automatically by Spatie Laravel Settings
+- The dependency injection method is the most performant as it leverages Laravel's container caching
+- Consider using view composers for settings that are used across many views
+- Settings are only loaded when accessed, not on every request
+
+### Null Safety
+
+All settings properties are nullable, so always check for null values when displaying:
+
+```php
+// Safe way to display settings
+echo $settings->site_name ?? 'Default Site Name';
+
+// Or in Blade
+{{ $settings->site_name ?: 'Default Site Name' }}
+
+// Using conditional display
+@if($settings->phone_1)
+    <a href="tel:{{ $settings->phone_1 }}">{{ $settings->phone_1 }}</a>
+@endif
+```
+
+### Extending Settings
+
+To add new settings properties:
+
+1. Add the property to `app/Settings/GeneralSettings.php`
+2. Add corresponding form fields to `app/Filament/Pages/ManageGeneralSettings.php`
+3. Create and run a settings migration to set default values
+4. Access the new property using any of the methods above
+
