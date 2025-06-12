@@ -47,8 +47,6 @@ class ContentController extends Controller
             }
         }
 
-        $content = $this->prepareModelWithTranslations($content, $lang);
-
         if (method_exists($this, 'setsSeo')) {
             $this->setsSeo($content);
         }
@@ -82,8 +80,6 @@ class ContentController extends Controller
             }
             abort(404, "Page not found for slug '{$page_slug}'");
         }
-
-        $content = $this->prepareModelWithTranslations($content, $lang);
 
         if (method_exists($this, 'setsSeo')) {
             $this->setsSeo($content);
@@ -121,7 +117,6 @@ class ContentController extends Controller
             );
         }
 
-        $content = $this->prepareModelWithTranslations($content, $lang);
         $this->incrementPageViewsIfSupported($content);
 
         if (method_exists($this, 'setsSeo')) {
@@ -187,7 +182,6 @@ class ContentController extends Controller
             );
         }
 
-        $taxonomyModel = $this->prepareModelWithTranslations($taxonomyModel, $lang);
         $posts = $this->getTaxonomyRelatedContent($taxonomyModel, $taxonomy_key);
 
         if (method_exists($this, 'setsSeo')) {
@@ -213,7 +207,8 @@ class ContentController extends Controller
     }
 
     /**
-     * Simplified content finding using Spatie's whereJsonContainsLocales method
+      * Find a localized content entry by slug, with fallback to default language slug if missing.
+      * If not found and the requested locale is not the default language, it tries to find content using the default locale's slug.
      */
     private function findContent(string $modelClass, string $requestedLocale, string $slug): ?Model
     {
@@ -240,8 +235,6 @@ class ContentController extends Controller
             }
         }
 
-       
-
         // Content not found
         if (!$content) {
             abort(404, "Content not found for '{$requestedLocale}/{$slug}'");
@@ -249,22 +242,6 @@ class ContentController extends Controller
     
         return $content;
 
-    }
-
-
-    /**
-     * Prepare model with translated values for the current locale
-     */
-    private function prepareModelWithTranslations($model, string $locale)
-    {
-        if (!$model || !method_exists($model, 'hasTranslation')) {
-            return $model;
-        }
-        
-        // Set the locale on the model so it automatically returns translated values
-        $model->setLocale($locale);
-        
-        return $model;
     }
 
     private function tryFallbackContentModel(string $lang, string $slug, Request $request): ?\Illuminate\Http\RedirectResponse
