@@ -21,12 +21,14 @@ class ContentController extends Controller
     protected string $defaultLanguage;
     protected int $paginationLimit;
     protected string $staticPageClass;
+    protected string $frontPageSlug;
 
     public function __construct()
     {
         $this->defaultLanguage = Config::get('cms.default_language');
         $this->paginationLimit = Config::get('cms.pagination_limit', 12);
         $this->staticPageClass = Config::get('cms.static_page_model', Page::class);
+        $this->frontPageSlug = Config::get('cms.front_page_slug', 'home');
     }
 
     /**
@@ -35,8 +37,13 @@ class ContentController extends Controller
     public function home(string $lang)
     {
         $modelClass = $this->getValidModelClass($this->staticPageClass);
-        $content = $this->findContent($modelClass, $lang, 'home');
-
+        
+        // find home
+        $content = $modelClass::where('status', ContentStatus::Published)
+            ->whereJsonContainsLocale('slug', $this->defaultLanguage, $this->frontPageSlug)
+            ->first();
+        
+        // if not found, find the first page
         if (!$content) {
             $content = $modelClass::where('status', ContentStatus::Published)
                 ->orderBy('id', 'asc')
