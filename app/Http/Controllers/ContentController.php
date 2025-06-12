@@ -235,13 +235,8 @@ class ContentController extends Controller
             }
         }
 
-        // Content not found
-        if (!$content) {
-            abort(404, "Content not found for '{$requestedLocale}/{$slug}'");
-        }
-    
+        // Return null if content not found
         return $content;
-
     }
 
     private function tryFallbackContentModel(string $lang, string $slug, Request $request): ?\Illuminate\Http\RedirectResponse
