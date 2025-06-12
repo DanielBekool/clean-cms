@@ -67,11 +67,13 @@ return [
         ],
     ],
 
+    // fallback content type works when the page slug is not found, it will try to find the content from this type
+    // ex: "about-us slug" does not exist in Pages, it will try to find in Posts
     'fallback_content_type' => 'posts',
 
     'static_page_model' => App\Models\Page::class,
     'static_page_slug' => 'pages',
-    'front_page_slug' => 'home',
+    'front_page_slug' => 'beranda',
 
     'pagination_limit' => env('CMS_PAGINATION_LIMIT', 12),
     'commentable_resources' => [

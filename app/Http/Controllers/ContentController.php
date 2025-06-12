@@ -37,12 +37,12 @@ class ContentController extends Controller
     public function home(string $lang)
     {
         $modelClass = $this->getValidModelClass($this->staticPageClass);
-        
+
         // find home
         $content = $modelClass::where('status', ContentStatus::Published)
             ->whereJsonContainsLocale('slug', $this->defaultLanguage, $this->frontPageSlug)
             ->first();
-        
+
         // if not found, find the first page
         if (!$content) {
             $content = $modelClass::where('status', ContentStatus::Published)
@@ -73,7 +73,7 @@ class ContentController extends Controller
      */
     public function staticPage(Request $request, string $lang, string $page_slug)
     {
-        if ($this->isFrontPage($page_slug)) {
+        if ($this->isFrontPage($lang, $page_slug)) {
             return $this->redirectToHome($lang, $request);
         }
 
@@ -214,8 +214,8 @@ class ContentController extends Controller
     }
 
     /**
-      * Find a localized content entry by slug, with fallback to default language slug if missing.
-      * If not found and the requested locale is not the default language, it tries to find content using the default locale's slug.
+     * Find a localized content entry by slug, with fallback to default language slug if missing.
+     * If not found and the requested locale is not the default language, it tries to find content using the default locale's slug.
      */
     private function findContent(string $modelClass, string $requestedLocale, string $slug): ?Model
     {
@@ -225,7 +225,7 @@ class ContentController extends Controller
         $content = $modelClass::where('status', ContentStatus::Published)
             ->whereJsonContainsLocale('slug', $requestedLocale, $slug)
             ->first();
-        
+
         // Fallback to default locale
         if (!$content && $requestedLocale !== $defaultLanguage) {
             $content = $modelClass::where('status', ContentStatus::Published)
@@ -362,9 +362,37 @@ class ContentController extends Controller
         return collect();
     }
 
-    private function isFrontPage(string $slug): bool
+    /**
+     * Check if given slug (in a specific language) is the site's front page.
+     */
+    private function isFrontPage(string $lang, string $slug): bool
     {
-        return $slug === Config::get('cms.front_page_slug');
+        // Get the configured front page slug, default to 'home'
+        $frontPageSlug = Config::get('cms.front_page_slug', 'home');
+
+        // Fast check: is this the front page in the default language?
+        if ($lang == $this->defaultLanguage && $slug === $frontPageSlug) {
+            return true;
+        }
+
+        // Get the static page model class (e.g., Page)
+        $modelClass = $this->getValidModelClass($this->staticPageClass);
+
+        // Try to find published content with the requested language and slug
+        $content = $modelClass::where('status', ContentStatus::Published)
+            ->whereJsonContainsLocale('slug', $lang, $slug)
+            ->first();
+
+        if ($content) {
+            // Get the slug for the default language for this content
+            $defaultLangSlug = $content->getTranslation('slug', $this->defaultLanguage, false);
+            // Check if its default language slug matches the configured front page slug
+            if ($defaultLangSlug && $defaultLangSlug === $frontPageSlug) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function redirectToHome(string $lang, Request $request)
