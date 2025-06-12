@@ -80,6 +80,12 @@ class ContentController extends Controller
         $modelClass = $this->getValidModelClass($this->staticPageClass);
         $content = $this->findContent($modelClass, $lang, $page_slug);
 
+        if ($content) {
+            if ($redirect = $this->maybeRedirectToLocalizedSlug('cms.static.page', $lang, $page_slug, $content, 'page_slug')) {
+                return $redirect;
+            }
+        }
+
         if (!$content) {
             $fallbackResult = $this->tryFallbackContentModel($lang, $page_slug, $request);
             if ($fallbackResult) {
@@ -116,6 +122,12 @@ class ContentController extends Controller
 
         $modelClass = $this->getContentModelClass($content_type_key);
         $content = $this->findContent($modelClass, $lang, $content_slug);
+
+        if ($content) {
+            if ($redirect = $this->maybeRedirectToLocalizedSlug('cms.single.content', $lang, $content_slug, $content, 'content_slug')) {
+                return $redirect;
+            }
+        }
 
         if (!$content) {
             throw (new ModelNotFoundException)->setModel(
@@ -156,7 +168,6 @@ class ContentController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate($this->paginationLimit);
 
-
         $archive = $this->createArchiveObject($content_type_archive_key);
         $this->setArchiveSeoMetadata($content_type_archive_key);
 
@@ -181,6 +192,12 @@ class ContentController extends Controller
     {
         $modelClass = $this->getContentModelClass($taxonomy_key);
         $taxonomyModel = $this->findContent($modelClass, $lang, $taxonomy_slug);
+
+        if ($taxonomyModel) {
+            if ($redirect = $this->maybeRedirectToLocalizedSlug('cms.taxonomy.archive', $lang, $taxonomy_slug, $taxonomyModel, 'taxonomy_slug')) {
+                return $redirect;
+            }
+        }
 
         if (!$taxonomyModel) {
             throw (new ModelNotFoundException)->setModel(
@@ -215,7 +232,6 @@ class ContentController extends Controller
 
     /**
      * Find a localized content entry by slug, with fallback to default language slug if missing.
-     * If not found and the requested locale is not the default language, it tries to find content using the default locale's slug.
      */
     private function findContent(string $modelClass, string $requestedLocale, string $slug): ?Model
     {
@@ -231,18 +247,8 @@ class ContentController extends Controller
             $content = $modelClass::where('status', ContentStatus::Published)
                 ->whereJsonContainsLocale('slug', $defaultLanguage, $slug)
                 ->first();
-
-            // Only serve if requested locale slug is NULL (not set),
-            if ($content) {
-                $localeSlug = $content->getTranslation('slug', $requestedLocale, false);
-                if ($localeSlug) {
-                    // If there *is* a requested locale slug, but it's not matching, treat as not found
-                    abort(404, "Content not found for '{$requestedLocale}/{$slug}'");
-                }
-            }
         }
 
-        // Return null if content not found
         return $content;
     }
 
@@ -560,4 +566,39 @@ class ContentController extends Controller
         }
         return implode(' ', array_unique($classes));
     }
+
+    /**
+     * Checks if the requested slug matches the localized slug for the current language.
+     * If not, returns a redirect to the correct route with the correct slug.
+     * Otherwise, returns null.
+     *
+     * @param string $routeName     Name of the route to redirect to
+     * @param string $lang          The requested language
+     * @param string $requestedSlug The slug used in the URL
+     * @param Model  $content       The content model (must support getTranslation)
+     * @param string $slugParamName The name of the slug parameter in the route ('page_slug', 'content_slug', etc.)
+     * @return \Illuminate\Http\RedirectResponse|null
+     */
+    protected function maybeRedirectToLocalizedSlug(
+        string $routeName,
+        string $lang,
+        string $requestedSlug,
+        Model $content,
+        string $slugParamName = 'page_slug'
+    ) {
+        $localizedSlug = $content->getTranslation('slug', $lang, false);
+
+        if ($localizedSlug && $localizedSlug !== $requestedSlug) {
+            $params = [
+                'lang' => $lang,
+                $slugParamName => $localizedSlug,
+            ] + request()->query();
+
+            return redirect()->route($routeName, $params, 301);
+        }
+
+        return null;
+    }
+
+
 }
