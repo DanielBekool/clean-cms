@@ -27,6 +27,8 @@ use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
 use Illuminate\Support\Facades\Gate;
 use Spatie\ResponseCache\Middlewares\DoNotCacheResponse;
 use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
+use Filament\Forms\Components\TextInput;
+
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -82,9 +84,10 @@ class AdminPanelProvider extends PanelProvider
                 FilamentTranslatableFieldsPlugin::make(),
                 FilamentShieldPlugin::make(),
                 FilamentMenuBuilderPlugin::make()
-                    ->addLocations([
-                        'header' => 'Header',
-                        'footer' => 'Footer',
+                    ->showCustomTextPanel()
+                    ->addLocations($this->getMenuLocations())
+                    ->addMenuItemFields([
+                        TextInput::make('classes'),
                     ]),
                 FilamentSpatieLaravelBackupPlugin::make()
                     ->authorize(fn(): bool => auth()->user()->hasRole(['admin', 'super_admin'])),
@@ -112,5 +115,24 @@ class AdminPanelProvider extends PanelProvider
     {
         Gate::policy(\Awcodes\Curator\Models\Media::class, \App\Policies\MediaPolicy::class);
         Gate::policy(\Datlechin\FilamentMenuBuilder\Models\Menu::class, \App\Policies\MenuPolicy::class);
+    }
+
+    private function getMenuLocations(): array
+    {
+        $languages = config('cms.language_available', []);
+        $locations = [];
+
+        $baseLocations = config('cms.navigation_menu_locations', [
+            'header' => 'Header',
+            'footer' => 'Footer',
+        ]);
+
+        foreach ($baseLocations as $key => $label) {
+            foreach ($languages as $langCode => $langName) {
+                $locations["{$key}_{$langCode}"] = "{$label} ({$langName})";
+            }
+        }
+
+        return $locations;
     }
 }

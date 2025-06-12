@@ -11,7 +11,7 @@
             <article>
                 <h2>{{ $post->title ?? 'Untitled' }}</h2>
                 {{-- Display excerpt or content --}}
-                <p>{{ $post->excerpt ?? Str::limit($post->content, 150) }}</p>
+                <p>{{ $post->excerpt }}</p>
                 <a href="{{ url($lang . '/' . ($post->post_type ?? 'post') . '/' . $post->slug) }}">Read More</a>
             </article>
         @empty

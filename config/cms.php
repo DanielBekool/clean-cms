@@ -45,12 +45,14 @@ return [
     'content_models' => [
         'pages' => [
             'model' => App\Models\Page::class,
+            'name' => 'Pages',
             'type' => 'content',
             'has_archive' => false,
             'has_single' => true,
         ],
         'posts' => [
             'model' => App\Models\Post::class,
+            'name' => 'Posts',
             'type' => 'content',
             'has_archive' => true,
             'has_single' => true,
@@ -60,6 +62,7 @@ return [
         ],
         'categories' => [
             'model' => App\Models\Category::class,
+            'name' => 'Categories',
             'type' => 'taxonomy',
             'has_archive' => true,
             'has_single' => false,
@@ -68,6 +71,7 @@ return [
         ],
         'tags' => [
             'model' => App\Models\Tag::class,
+            'name' => 'Tags',
             'type' => 'taxonomy',
             'has_archive' => true,
             'has_single' => false,
@@ -76,16 +80,23 @@ return [
         ],
     ],
 
+    // fallback content type works when the page slug is not found, it will try to find the content from this type
+    // ex: "about-us slug" does not exist in Pages, it will try to find in Posts
     'fallback_content_type' => 'posts',
 
     'static_page_model' => App\Models\Page::class,
     'static_page_slug' => 'pages',
-    'front_page_slug' => 'home',
+    'front_page_slug' => 'beranda',
 
     'pagination_limit' => env('CMS_PAGINATION_LIMIT', 12),
     'commentable_resources' => [
         App\Models\Post::class => App\Filament\Resources\PostResource::class,
         App\Models\Page::class => App\Filament\Resources\PageResource::class,
+    ],
+
+    'navigation_menu_locations' => [
+        'header' => 'Header',
+        'footer' => 'Footer',
     ],
 
     'debug_mode' => [
