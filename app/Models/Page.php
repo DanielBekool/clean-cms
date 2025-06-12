@@ -10,11 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
-use App\Traits\HandlesPartialTranslation;
 
 class Page extends Model
 {
-    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite, HandlesPartialTranslation;
+    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite;
 
 
 
