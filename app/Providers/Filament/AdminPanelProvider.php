@@ -27,7 +27,7 @@ use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
 use Illuminate\Support\Facades\Gate;
 use Spatie\ResponseCache\Middlewares\DoNotCacheResponse;
 use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
-use Datlechin\FilamentMenuBuilder\MenuPanel\ModelMenuPanel;
+use Filament\Forms\Components\TextInput;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -84,7 +84,11 @@ class AdminPanelProvider extends PanelProvider
                 FilamentTranslatableFieldsPlugin::make(),
                 FilamentShieldPlugin::make(),
                 FilamentMenuBuilderPlugin::make()
-                   ->addLocations($this->getMenuLocations()),
+                    ->showCustomTextPanel()
+                    ->addLocations($this->getMenuLocations())
+                    ->addMenuItemFields([
+                        TextInput::make('classes'),
+                    ]),
                 FilamentSpatieLaravelBackupPlugin::make()
                     ->authorize(fn(): bool => auth()->user()->hasRole(['admin', 'super_admin'])),
             ])
@@ -117,18 +121,18 @@ class AdminPanelProvider extends PanelProvider
     {
         $languages = config('cms.language_available', []);
         $locations = [];
-        
+
         $baseLocations = config('cms.navigation_menu_locations', [
             'header' => 'Header',
             'footer' => 'Footer',
         ]);
-        
+
         foreach ($baseLocations as $key => $label) {
             foreach ($languages as $langCode => $langName) {
                 $locations["{$key}_{$langCode}"] = "{$label} ({$langName})";
             }
         }
-        
+
         return $locations;
     }
 }
