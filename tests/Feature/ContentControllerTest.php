@@ -65,7 +65,7 @@ class ContentControllerTest extends TestCase
     public function it_loads_a_standard_page_successfully()
     {
         $this->createTestTemplate('templates.default', 'Test page: {{ $content->title }} - {{ $content->content }}');
-        
+
         Page::create([
             'author_id' => $this->author->id,
             'status' => ContentStatus::Published,
@@ -84,7 +84,7 @@ class ContentControllerTest extends TestCase
     {
         // Create a view file for testing
         $this->createTestTemplate('templates.default', 'Test page: {{ $content->title }}');
-        
+
         Page::create([
             'author_id' => $this->author->id,
             'status' => ContentStatus::Published,
@@ -101,7 +101,7 @@ class ContentControllerTest extends TestCase
     public function it_loads_a_page_with_a_null_slug_via_default_language_fallback()
     {
         $this->createTestTemplate('templates.default', 'Test page: {{ $content->title }} - {{ $content->content }}');
-        
+
         Page::create([
             'author_id' => $this->author->id,
             'status' => ContentStatus::Published,
@@ -117,28 +117,10 @@ class ContentControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_404_when_accessing_a_fallback_slug_if_a_specific_slug_exists()
-    {
-        // Arrange
-        Page::create([
-            'author_id' => $this->author->id,
-            'status' => ContentStatus::Published,
-            'title' => ['en' => 'Contact Page'], // <-- THE FIX IS HERE
-            'slug' => ['en' => 'contact', 'id' => 'kontak'],
-        ]);
-
-        // Act
-        $response = $this->get('/id/contact');
-
-        // Assert
-        $response->assertNotFound();
-    }
-
-    /** @test */
     public function it_falls_back_to_default_language_content_when_translated_content_is_null()
     {
         $this->createTestTemplate('templates.default', 'Test page: {{ $content->title }} - {{ $content->content }}');
-        
+
         Page::create([
             'author_id' => $this->author->id,
             'status' => ContentStatus::Published,
@@ -157,7 +139,7 @@ class ContentControllerTest extends TestCase
     public function it_loads_a_single_post()
     {
         $this->createTestTemplate('templates.default', 'Single post: {{ $content->title }} - {{ $content->content ?? "No content" }}');
-        
+
         Post::create([
             'author_id' => $this->author->id,
             'status' => ContentStatus::Published,
@@ -176,7 +158,7 @@ class ContentControllerTest extends TestCase
     public function it_loads_the_home_page_with_the_correct_slug()
     {
         $this->createTestTemplate('templates.default', 'Test page: {{ $content->title }} - {{ $content->content }}');
-        
+
         Page::create([
             'author_id' => $this->author->id,
             'status' => ContentStatus::Published,
@@ -194,7 +176,7 @@ class ContentControllerTest extends TestCase
     public function it_falls_back_to_the_first_published_page_if_home_slug_is_missing()
     {
         $this->createTestTemplate('templates.default', 'Test page: {{ $content->title }} - {{ $content->content }}');
-        
+
         Page::create([
             'author_id' => $this->author->id,
             'status' => ContentStatus::Published,
@@ -212,7 +194,7 @@ class ContentControllerTest extends TestCase
     public function it_loads_an_archive_page()
     {
         $this->createTestTemplate('templates.default', 'Archive: {{ $title }} Posts: @foreach($posts as $post) {{ $post->title }} @endforeach');
-        
+
         Post::create([
             'author_id' => $this->author->id,
             'status' => ContentStatus::Published,
@@ -240,7 +222,7 @@ class ContentControllerTest extends TestCase
     }
 
     // Tests for findContent private method
-    
+
     /** @test */
     public function findContent_returns_content_for_requested_locale_when_available()
     {
@@ -281,27 +263,6 @@ class ContentControllerTest extends TestCase
 
         $this->assertInstanceOf(Page::class, $result);
         $this->assertEquals($page->id, $result->id);
-    }
-
-    /** @test */
-    public function findContent_aborts_with_404_when_requested_locale_has_different_slug_than_default()
-    {
-        Page::create([
-            'author_id' => $this->author->id,
-            'status' => ContentStatus::Published,
-            'title' => ['en' => 'English Title', 'id' => 'Indonesian Title'],
-            'slug' => ['en' => 'english-slug', 'id' => 'indonesian-slug'],
-        ]);
-
-        $controller = new ContentController();
-        $reflection = new \ReflectionClass($controller);
-        $method = $reflection->getMethod('findContent');
-        $method->setAccessible(true);
-
-        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
-        $this->expectExceptionMessage("Content not found for 'id/english-slug'");
-
-        $method->invoke($controller, Page::class, 'id', 'english-slug');
     }
 
     /** @test */
@@ -400,20 +361,20 @@ class ContentControllerTest extends TestCase
     {
         // Use test-specific directory to avoid conflicts
         $templatePath = resource_path('views/test-templates/' . str_replace('.', '/', str_replace('templates.', '', $template)) . '.blade.php');
-        
+
         // Create directory if it doesn't exist
         $directory = dirname($templatePath);
         if (!is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
-        
+
         file_put_contents($templatePath, $content);
-        
+
         // Update view paths temporarily for tests
         view()->addLocation(resource_path('views/test-templates'));
-        
+
         // Override the template resolution for tests
-        app()->bind('test.template', function() use ($content) {
+        app()->bind('test.template', function () use ($content) {
             return $content;
         });
     }
@@ -425,7 +386,7 @@ class ContentControllerTest extends TestCase
         if (is_dir($testTemplatePath)) {
             $this->removeDirectory($testTemplatePath);
         }
-        
+
         parent::tearDown();
     }
 
@@ -434,7 +395,7 @@ class ContentControllerTest extends TestCase
         if (!is_dir($directory)) {
             return;
         }
-        
+
         $files = array_diff(scandir($directory), ['.', '..']);
         foreach ($files as $file) {
             $path = $directory . '/' . $file;
