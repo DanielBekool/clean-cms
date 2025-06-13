@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
 use App\Models\User;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
-use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
-use App\Enums\ContentStatus;
+
 class Page extends Model
 {
     use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite;
+
 
 
     /**
@@ -44,12 +45,12 @@ class Page extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'custom_fields' => 'array',
+        'section' => 'array',
         'menu_order' => 'integer',
         'parent_id' => 'integer',
-        'status' => ContentStatus::class,
-        'published_at' => 'datetime',
-        'section' => 'array',
-        'custom_fields' => 'array',
+        'status' => \App\Enums\ContentStatus::class,
+        'published_at' => 'datetime'
     ];
 
 
@@ -66,6 +67,27 @@ class Page extends Model
         'title'
     ];
 
+
+    protected $appends = ['blocks'];
+
+
+    /**
+     * Return the raw data blocks, but with image URLs injected.
+     *
+     * @return array
+     */
+    public function getBlocksAttribute(): array
+    {
+        return collect($this->section)->map(function (array $block) {
+            // if this block has an "media" key, fetch its URL
+            if (isset($block['data']['media_id'])) {
+                $media = Media::find($block['data']['media_id']);
+                $block['data']['media_url'] = $media?->url;
+            }
+
+            return $block;
+        })->all();
+    }
     //--------------------------------------------------------------------------
     // Relationships
     //--------------------------------------------------------------------------
@@ -98,23 +120,6 @@ class Page extends Model
         return $this->belongsTo(Page::class, 'parent_id');
     }
 
-    protected $appends = ['blocks'];
 
-    /**
-     * Return the raw data blocks, but with image URLs injected.
-     *
-     * @return array
-     */
-    public function getBlocksAttribute(): array
-    {
-        return collect($this->section)->map(function (array $block) {
-            // if this block has an "media" key, fetch its URL
-            if (isset($block['data']['media_id'])) {
-                $media = Media::find($block['data']['media_id']);
-                $block['data']['media_url'] = $media?->url;
-            }
 
-            return $block;
-        })->all();
-    }
 }

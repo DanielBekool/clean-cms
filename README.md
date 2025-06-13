@@ -2,7 +2,7 @@
 
 This document provides an overview of key development aspects of this project, including model and migration generation from YAML schemas, Tailwind CSS compilation, and the structure of Filament resources.
 
-## 1. Generating Models from YAML
+## Generating Models from YAML
 
 Eloquent models can be generated automatically from a YAML schema file using the `make:model:from-yaml` Artisan command.
 
@@ -40,7 +40,7 @@ php artisan make:model:from-yaml --force
 
 The `CreateModelCommand.php` file (`app/Console/Commands/CreateModelCommand.php`) contains the logic for parsing the YAML and generating the model files, including fields, casts, translatable attributes, relationships, and constants for enums.
 
-## 2. Generating Migrations from YAML
+## Generating Migrations from YAML
 
 Database migrations can also be generated from the same YAML schema file using the `make:migration:from-yaml` Artisan command.
 
@@ -71,17 +71,100 @@ php artisan make:migration:from-yaml --model=Category
 
 The `CreateMigrationCommand.php` file (`app/Console/Commands/CreateMigrationCommand.php`) contains the logic for parsing the YAML, determining the necessary tables and columns (including foreign keys and constraints), and using Laravel's `MigrationCreator` to generate the migration files.
 
-## 3. Modifying the `schemas/models.yaml` File
+## Creating and Modifying the `schemas/models.yaml` File
 
-The `schemas/models.yaml` file defines the structure of your Eloquent models and their corresponding database tables. You can modify this file to add, remove, or change models, fields, relationships, and traits.
+The `schemas/models.yaml` file is the central configuration that defines the structure of your Eloquent models and their corresponding database tables. This schema-driven approach ensures consistency between your models, migrations, and database structure.
 
-The basic structure is a top-level `models` key, under which each key represents a model name (e.g., `Post`, `Page`, `Category`, `Tag`). Each model definition can have the following keys:
+### File Structure
 
--   `fields`: Defines the columns for the model's main database table. Each field has a name (the key) and properties like `type`, `nullable`, `unique`, `default`, `index`, `unsigned`, `comment`, and `translatable`. For `enum` types, an `enum` array is required.
--   `relationships`: Defines the Eloquent relationships for the model. Each relationship has a name (the method name on the model) and properties like `type` (e.g., `belongsTo`, `hasMany`, `belongsToMany`), `model` (the related model name), and optional keys like `foreign_key`, `related_key`, `onDelete`, `onUpdate`.
--   `traits`: Lists the fully qualified class names of traits to be used by the model (e.g., `Spatie\Translatable\HasTranslations`, `Illuminate\Database\Eloquent\SoftDeletes`).
+The file follows a hierarchical YAML structure with a top-level `models` key. Each model is defined as a key under `models`, with the following possible sections:
 
-**Example Snippet from `schemas/models.yaml`:**
+```yaml
+models:
+    ModelName:
+        fields:          # Database columns and their properties
+        relationships:   # Eloquent relationships (belongsTo, hasMany, etc.)
+        traits:         # PHP traits to be used by the model
+        special_methods: # Custom methods, accessors, and appends
+```
+
+### Field Definitions
+
+Each field in the `fields` section represents a database column. Supported field types and properties:
+
+**Field Types:**
+- `string` (with optional `length` parameter)
+- `text`, `longtext`
+- `int`, `integer`, `bigint`, `tinyint`
+- `float`, `double`, `decimal` (with `precision` and `scale`)
+- `bool`, `boolean`
+- `date`, `datetime`, `timestamp`, `time`
+- `json`
+- `uuid`
+- `enum` (requires `enum` array with possible values)
+
+**Field Properties:**
+- `type`: The column type (required)
+- `nullable`: Whether the field can be null (default: true)
+- `unique`: Whether the field should have a unique constraint
+- `default`: Default value for the field
+- `index`: Whether to create an index on this field
+- `unsigned`: For integer types, whether to be unsigned
+- `comment`: Database comment for the field
+- `translatable`: Whether field should be handled by Spatie Translatable
+- `enum`: Array of possible values (for enum types)
+- `enum_class`: PHP enum class reference (for modern enum casting)
+
+### Relationships
+
+The `relationships` section defines Eloquent relationships:
+
+**Relationship Types:**
+- `belongsTo`: Many-to-one relationship
+- `hasMany`: One-to-many relationship
+- `belongsToMany`: Many-to-many relationship (creates pivot tables)
+- `morphTo`: Polymorphic relationship
+- `morphMany`: One-to-many polymorphic relationship
+
+**Relationship Properties:**
+- `type`: The relationship type (required)
+- `model`: The related model name (required)
+- `foreign_key`: Custom foreign key name
+- `related_key`: Custom related key name
+- `onDelete`: Foreign key constraint action (cascade, restrict, set null)
+- `onUpdate`: Foreign key constraint action
+- `nullable`: Whether the foreign key can be null
+
+### Traits
+
+List PHP traits that should be included in the model:
+
+```yaml
+traits:
+    - Spatie\Translatable\HasTranslations
+    - Illuminate\Database\Eloquent\SoftDeletes
+    - App\Traits\HasPageViews
+```
+
+### Special Methods
+
+Define custom methods, accessors, and appends:
+
+```yaml
+special_methods:
+    appends:
+        - blocks
+    accessors:
+        - name: getBlocksAttribute
+          return_type: array
+          description: "Return the raw data blocks, but with image URLs injected."
+    methods:
+        - name: customMethod
+          return_type: string
+          description: "Custom method description"
+```
+
+### Complete Example
 
 ```yaml
 models:
@@ -94,26 +177,145 @@ models:
             slug:
                 type: json
                 nullable: false
-                unique: false
                 translatable: true
-            # ... other fields
+            content:
+                type: json
+                nullable: true
+                translatable: true
+            excerpt:
+                type: json
+                nullable: true
+                translatable: true
+            custom_fields:
+                type: json
+                nullable: true
+            featured_image:
+                type: string
+                length: 255
+                nullable: true
+            template:
+                type: string
+                length: 255
+                nullable: true
+            menu_order:
+                type: integer
+                default: 0
+            featured:
+                type: boolean
+                default: false
+            status:
+                type: enum
+                enum: ['draft', 'published', 'scheduled']
+                enum_class: App\Enums\ContentStatus
+                default: 'draft'
+            published_at:
+                type: timestamp
+                nullable: true
         relationships:
             author:
                 type: belongsTo
                 model: User
+                foreign_key: author_id
             categories:
                 type: belongsToMany
                 model: Category
-            # ... other relationships
+            tags:
+                type: belongsToMany
+                model: Tag
+            comments:
+                type: morphMany
+                model: Comment
+                foreign_key: commentable_id
+                related_key: commentable_type
         traits:
             - Spatie\Translatable\HasTranslations
             - Illuminate\Database\Eloquent\SoftDeletes
-    # ... other models
+            - App\Traits\HasPageViews
+            - App\Traits\HasPageLikes
+        special_methods:
+            appends:
+                - page_views
+                - page_likes
+
+    Category:
+        fields:
+            title:
+                type: json
+                nullable: false
+                translatable: true
+            slug:
+                type: json
+                nullable: false
+                translatable: true
+            content:
+                type: json
+                nullable: true
+                translatable: true
+            featured_image:
+                type: string
+                length: 255
+                nullable: true
+            parent_id:
+                type: bigint
+                nullable: true
+                index: true
+                unsigned: true
+            menu_order:
+                type: integer
+                default: 0
+            template:
+                type: string
+                length: 255
+                nullable: true
+        relationships:
+            parent:
+                type: belongsTo
+                model: Category
+                foreign_key: parent_id
+            children:
+                type: hasMany
+                model: Category
+                foreign_key: parent_id
+            posts:
+                type: belongsToMany
+                model: Post
+        traits:
+            - Spatie\Translatable\HasTranslations
+            - Illuminate\Database\Eloquent\SoftDeletes
 ```
 
-After modifying the `schemas/models.yaml` file, you should run the `make:model:from-yaml` and `make:migration:from-yaml` commands to regenerate your models and migrations based on the updated schema. Remember to run `php artisan migrate` after generating new migration files.
+### Best Practices
 
-## 4. Syncing Curator Media
+1. **Consistent Naming**: Use consistent field names across models (e.g., always use `author_id` for user references)
+
+2. **Enum Classes**: Use modern PHP enum classes instead of string constants:
+   ```yaml
+   status:
+       type: enum
+       enum: ['draft', 'published', 'scheduled']
+       enum_class: App\Enums\ContentStatus
+   ```
+
+3. **Translatable Fields**: Group translatable fields (title, slug, content, excerpt) and mark them appropriately
+
+4. **Relationships**: Define both sides of relationships for completeness
+
+5. **Indexing**: Add indexes to foreign keys and frequently queried fields
+
+6. **Validation**: Ensure enum values match your PHP enum classes
+
+### Usage Workflow
+
+After modifying the `schemas/models.yaml` file:
+
+1. **Generate Models**: `php artisan make:model:from-yaml`
+2. **Generate Migrations**: `php artisan make:migration:from-yaml`
+3. **Run Migrations**: `php artisan migrate`
+4. **Verify**: Check generated files match your expectations
+
+The commands will read from the YAML schema and generate corresponding PHP files, ensuring consistency across your application.
+
+## Syncing Curator Media
 
 The `SyncCuratorMedia` Artisan command (`app/Console/Commands/SyncCuratorMedia.php`) is used to synchronize files on a specified filesystem disk with the `media` database table.
 
@@ -160,7 +362,7 @@ Default (only imports new files)
 php artisan media:sync
 ```
 
-## 5. Generating Sitemap
+## Generating Sitemap
 
 The `GenerateSitemap` Artisan command (`app/Console/Commands/GenerateSitemap.php`) is used to generate the sitemap.xml file for the website. It iterates through configured content models, retrieves published records, and adds their localized URLs to the sitemap.
 
@@ -172,7 +374,7 @@ The generated sitemap file is saved to `public/sitemap.xml`.
 php artisan sitemap:generate
 ```
 
-## 6. Building Tailwind CSS
+## Building Tailwind CSS
 
 The project uses Tailwind CSS for styling the Filament admin panel. To compile the CSS after making changes to the Tailwind configuration or source CSS files, use the following command:
 
@@ -184,7 +386,7 @@ This command reads the input CSS file (`./resources/css/filament/admin/theme.css
 
 You can add this command to your `package.json` scripts for easier execution (e.g., `npm run build-tailwind`).
 
-## 6. Filament Resource Structure
+## Filament Resource Structure
 
 The Filament admin panel resources in this project follow a hierarchical structure based on base classes to promote code reusability and consistency.
 
@@ -241,7 +443,50 @@ This abstract class extends Filament's `CreateRecord` page class and provides a 
 
 Resource create pages (e.g., `CreatePost`, `CreateCategory`) extend this class to inherit this standard action.
 
-## 7. Template Hierarchy
+## Multi-language Content and URL Handling
+
+This project includes intelligent multilingual content handling with automatic fallback and redirect mechanisms to ensure proper URL-content language consistency.
+
+### Language Fallback and Redirect System
+
+The CMS implements a smart fallback system that maintains SEO-friendly URLs while providing good UX for content creators during translation workflows.
+
+**How it works:**
+
+When a user accesses content in a language that doesn't have a translation, the system:
+
+1. **First**: Attempts to find content in the requested language
+2. **Fallback**: If not found, checks if content exists in the default language
+3. **Redirect**: If found in default language, automatically redirects to the correct language URL
+
+**Example Scenario:**
+- Default language: `id` (Indonesian)
+- Page with slug `tentang` exists only in Indonesian
+- User accesses: `/en/tentang`
+- System redirects to: `/id/tentang`
+
+**Benefits:**
+- ✅ **SEO-friendly**: Maintains URL-content language consistency
+- ✅ **Creator-friendly**: No 404 errors during translation work
+- ✅ **User-friendly**: Users get the content they're looking for
+- ✅ **Performance**: Single redirect instead of serving wrong language content
+
+**Applies to all content types:**
+- Static pages (`/en/about` → `/id/tentang`)
+- Single content (`/en/posts/artikel` → `/id/posts/artikel`)
+- Taxonomy archives (`/en/categories/kategori` → `/id/categories/kategori`)
+
+**Technical Implementation:**
+
+The redirect mechanism is implemented in `ContentController.php` through:
+- `getPublishedContentBySlug()` - Returns both content and language detection info
+- `findStaticOrFallbackContent()` - Handles redirects for static pages
+- `singleContent()` - Handles redirects for posts and custom post types
+- `taxonomyArchive()` - Handles redirects for taxonomy archives
+
+All redirects preserve query parameters and use proper HTTP status codes.
+
+## Template Hierarchy
 
 This project implements a WordPress-like template hierarchy system for Laravel 12, providing a flexible and powerful way to customize the appearance of different content types and pages.
 
@@ -349,7 +594,7 @@ To create a custom template for a specific page with the slug "about":
 
 This template will be automatically used for the page with the slug "about", while other pages will use more general templates in the hierarchy.
 
-## 8. Dynamic Component Loading
+## Dynamic Component Loading
 
 The project includes a `ComponentLoader` Blade component (`app/View/Components/ComponentLoader.php`) that allows for dynamic loading and rendering of components based on data stored in the database.
 
@@ -386,7 +631,7 @@ To use the `ComponentLoader`, simply include it in your Blade file with the `nam
     ```
     *   In the CMS, create a Component entry with the `name` field set to `slider`.
 
-## 9. Using the Section Field in the Page Model
+## Using the Section Field in the Page Model
 
 The `Page` model includes a `section` field, which is cast to an array and can store flexible content blocks. This allows for building dynamic page layouts where different sections of content can be defined and rendered.
 
@@ -433,7 +678,7 @@ Here's an example demonstrating how to display the provided `complete` block dat
 This example checks for the existence of each data field before attempting to display it, ensuring robustness. The `description` field uses `{!! !!}` to render HTML content safely.
 
 
-## 10. Advanced Debug Mode
+## Advanced Debug Mode
 
 This project includes an advanced debug mode that injects detailed HTML comments into the frontend output, providing comprehensive debugging information. This mode is designed to be active only in development environments, ensuring no impact on production performance or security.
 
@@ -492,7 +737,7 @@ You can modify these settings to control the verbosity and scope of the debug in
 
 Once enabled, simply view the source code of any HTML page in your browser (e.g., by right-clicking and selecting "View Page Source" or using your browser's developer tools) to see the injected HTML comments. These comments will provide a detailed breakdown of the request and rendering process.
 
-## 11. Email Notification System for Form Submissions
+## Email Notification System for Form Submissions
 
 This system provides automatic email notifications to admins for Laravel Livewire form submissions. It features professional formatting using Markdown mail templates, queue support for better performance, and reply-to functionality. Notification emails include submitter information, message details, technical information (IP, user agent, submission ID), and a direct link to the admin panel.
 
@@ -522,7 +767,7 @@ The system works automatically: user submits form -> data saved -> email queued 
 - **Security:** Email validation, CAPTCHA protection, data sanitization, and background processing via queues.
 - **Performance:** Queued processing prevents blocking form submission, lightweight templates, and immediate form response.
 
-## 12. Livewire Page Likes Feature
+## Livewire Page Likes Feature
 
 This feature enables users to like/unlike posts with real-time updates and cookie-based tracking to prevent multiple likes from the same user. It is built with Laravel Livewire and uses Tailwind CSS for styling.
 
@@ -558,35 +803,7 @@ Add the `HasPageLikes` trait to your model and use the component in templates.
 - Check browser cookie settings, domain, and expiry for cookie issues.
 - Ensure Tailwind CSS is configured correctly for styling issues.
 
-## 13. Page Likes Feature (Non-Livewire)
-
-This feature allows logged-out users to like posts using cookie-based tracking and AJAX for real-time updates.
-
-**Features:**
-- Cookie-based tracking (`liked_content_{post_id}` cookie, 1-year expiry).
-- Toggle functionality for liking/unliking.
-- Real-time updates via AJAX.
-- Responsive design, accessibility, and visual feedback (heart animation).
-
-**Implementation:**
-- **Model Trait:** `HasPageViews` trait (now includes likes functionality) provides methods (`incrementPageLikes`, `decrementPageLikes`, `setPageLikes`, `resetPageLikes`) and query scopes (`orderByPageLikes`, `mostLiked`, `withMinLikes`).
-- **Controller:** `ContentController`'s `toggleLike()` method handles validation, cookie management, database updates, and returns JSON responses.
-- **Route:** `POST /{content_type_key}/{content_slug}/like` (`cms.content.like`).
-- **Blade Component:** `<x-ui.like-button>` for interactive buttons.
-- **Styling:** `resources/css/like-button.css`.
-- **JavaScript:** Built-in JS handles clicks, loading states, UI updates, error handling, and CSRF tokens.
-- **Database:** Requires a migration to initialize `page_likes` field (e.g., `php artisan migrate`).
-
-**Security & Performance:**
-- **Security:** CSRF token validation, Laravel cookie encryption. Rate limiting can be added to the route.
-- **Performance:** Single database update per like/unlike, minimal cookie impact, lightweight JSON responses. Caching and queue-based processing are options for high-traffic sites.
-
-**Troubleshooting:**
-- Check CSRF token, JavaScript errors, route registration, and trait usage.
-- Verify browser cookie settings, domain, and expiry.
-- Ensure CSS is loaded and classes are applied correctly.
-
-## 14. Page Views Tracking
+## Page Views Tracking
 
 This feature automatically counts and displays page views for posts, storing the count in the `custom_fields` JSON column (`page_views` key).
 
@@ -621,7 +838,7 @@ Add the `HasPageViews` trait to your model; the controller automatically detects
 - Check component inclusion, CSS loading, and accessor functionality for display issues.
 - Consider database indexes, caching, or queues for performance issues.
 
-## 15. Google reCAPTCHA Setup Guide
+## Google reCAPTCHA Setup Guide
 
 This guide details setting up Google reCAPTCHA v2 ("I'm not a robot" Checkbox) for Laravel Livewire forms.
 
@@ -648,7 +865,7 @@ This guide details setting up Google reCAPTCHA v2 ("I'm not a robot" Checkbox) f
 - Customize widget appearance (`theme`, `size`, `callback`) in Blade views.
 - Force specific language using `hl` parameter in script URL.
 
-## 16. Laravel Livewire Submission Form Component
+## Laravel Livewire Submission Form Component
 
 This Livewire component handles form submissions with real-time validation, user-friendly errors, and success notifications. It supports responsive design with Tailwind CSS, flexible JSON data storage in the `submissions` table (including IP/user agent), and single submission protection.
 
@@ -667,7 +884,7 @@ This Livewire component handles form submissions with real-time validation, user
 
 The component consists of `app/Livewire/SubmissionForm.php` and `resources/views/livewire/submission-form.blade.php`. Validation rules are defined using `#[Validate]` attributes. Customization of styling, rules, fields, and messages is supported. Security features include CSRF protection, input sanitization, IP tracking, and reCAPTCHA. Performance is optimized with debounced real-time validation and efficient updates.
 
-## 17. Scheduled Content Publishing
+## Scheduled Content Publishing
 
 This project includes a scheduled task to automatically publish content that has a `published_at` date in the future. This ensures that content goes live at the intended time without manual intervention.
 
@@ -692,7 +909,7 @@ To ensure the Laravel scheduler runs, you must add the following Cron entry to y
 * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 ```
 
-## 18. Instagram Feed Integration
+## Instagram Feed Integration
 
 This project integrates Instagram feeds using the `Yizack/instagram-feed` package.
 
@@ -737,4 +954,336 @@ To ensure your Instagram Access Token remains valid, an Artisan command is avail
 
 *   **Artisan Command:** `php artisan instagram:refresh-token`
 *   **Automation:** This command is scheduled to run monthly to automatically update the token.
+
+## Role Management and Permissions
+
+This project includes a comprehensive role management system using Spatie Permission package with predefined roles for CMS administration.
+
+### Generating Roles
+
+The `cms:generate-roles` Artisan command automatically creates three predefined roles with appropriate permissions:
+
+**Command Signature:**
+
+```bash
+php artisan cms:generate-roles {--force}
+```
+
+- `--force`: Optional. Overwrite existing roles without prompting for confirmation.
+
+**Predefined Roles:**
+
+1. **Super Admin**: Full access to all permissions and system administration.
+2. **Admin**: Comprehensive access to all content and user management features.
+3. **Editor**: Content-focused access with restrictions on user/role management and system backups.
+
+**How It Works:**
+
+The command automatically:
+- Generates Shield permissions for all Filament resources
+- Creates or updates the three predefined roles
+- Assigns appropriate permissions based on role hierarchy
+- Excludes sensitive permissions (user management, role management, backup operations) from the editor role
+
+**Example Usage:**
+
+Generate all roles with default settings:
+
+```bash
+php artisan cms:generate-roles
+```
+
+Force overwrite existing roles without confirmation:
+
+```bash
+php artisan cms:generate-roles --force
+```
+
+**Permission Structure:**
+
+- **Super Admin**: All available permissions
+- **Admin**: All available permissions (same as Super Admin)
+- **Editor**: Content management permissions (posts, pages, categories, tags, comments, submissions, components) but excludes:
+  - User management permissions
+  - Role management permissions  
+  - System backup permissions
+
+The `GenerateRolesCommand.php` file (`app/Console/Commands/GenerateRolesCommand.php`) contains the logic for role creation, permission filtering, and assignment. The command integrates with Filament Shield to ensure all resource permissions are properly generated before role assignment.
+
+## Settings Management System
+
+This project includes a comprehensive settings management system using Spatie Laravel Settings, providing a database-driven configuration system that can be managed through the Filament admin panel.
+
+### Available Settings Classes
+
+#### GeneralSettings (`App\Settings\GeneralSettings`)
+
+The GeneralSettings class manages core site information and contact details. It includes the following configurable properties:
+
+**Site Information:**
+- `site_name` (string|null): The name of your website
+- `site_description` (string|null): Brief description of your website  
+- `site_logo` (string|null): Path to your site logo
+- `site_favicon` (string|null): Path to your site favicon
+
+**Contact Information:**
+- `email` (string|null): Primary site email address
+- `phone_1` (string|null): Primary phone number
+- `phone_2` (string|null): Secondary phone number  
+- `whatsapp_1` (string|null): Primary WhatsApp number
+- `whatsapp_2` (string|null): Secondary WhatsApp number
+- `address` (string|null): Physical address
+
+**Social Media:**
+- `facebook` (string|null): Facebook page URL
+- `twitter` (string|null): Twitter profile URL
+- `instagram` (string|null): Instagram profile URL
+- `linkedin` (string|null): LinkedIn profile URL
+- `youtube` (string|null): YouTube channel URL
+
+### Retrieving Settings Data
+
+You can retrieve settings data in several ways throughout your application:
+
+#### 1. Dependency Injection (Recommended)
+
+The most efficient method is to use dependency injection in your controllers, services, or other classes:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Settings\GeneralSettings;
+use Illuminate\Http\Request;
+
+class HomeController extends Controller
+{
+    public function index(GeneralSettings $settings)
+    {
+        return view('home', [
+            'siteName' => $settings->site_name,
+            'siteDescription' => $settings->site_description,
+            'contactEmail' => $settings->email,
+            'phoneNumber' => $settings->phone_1,
+            'facebookUrl' => $settings->facebook,
+            // ... other settings
+        ]);
+    }
+}
+```
+
+#### 2. Using the Application Container
+
+Resolve settings from the Laravel application container:
+
+```php
+// In a controller method
+public function contact()
+{
+    $settings = app(GeneralSettings::class);
+    
+    return view('contact', [
+        'email' => $settings->email,
+        'phone1' => $settings->phone_1,
+        'phone2' => $settings->phone_2,
+        'whatsapp1' => $settings->whatsapp_1,
+        'address' => $settings->address,
+    ]);
+}
+
+// Or using the resolve helper
+$settings = resolve(GeneralSettings::class);
+$siteName = $settings->site_name;
+```
+
+#### 3. In Blade Templates
+
+You can access settings directly in your Blade templates by resolving them:
+
+```blade
+{{-- Get settings in a Blade template --}}
+@php
+    $settings = app(\App\Settings\GeneralSettings::class);
+@endphp
+
+<header>
+    <h1>{{ $settings->site_name }}</h1>
+    <p>{{ $settings->site_description }}</p>
+</header>
+
+<footer>
+    <div class="contact-info">
+        @if($settings->email)
+            <p>Email: <a href="mailto:{{ $settings->email }}">{{ $settings->email }}</a></p>
+        @endif
+        
+        @if($settings->phone_1)
+            <p>Phone: <a href="tel:{{ $settings->phone_1 }}">{{ $settings->phone_1 }}</a></p>
+        @endif
+        
+        @if($settings->address)
+            <p>Address: {{ $settings->address }}</p>
+        @endif
+    </div>
+    
+    <div class="social-media">
+        @if($settings->facebook)
+            <a href="{{ $settings->facebook }}" target="_blank">Facebook</a>
+        @endif
+        
+        @if($settings->twitter)
+            <a href="{{ $settings->twitter }}" target="_blank">Twitter</a>
+        @endif
+        
+        @if($settings->instagram)
+            <a href="{{ $settings->instagram }}" target="_blank">Instagram</a>
+        @endif
+    </div>
+</footer>
+```
+
+#### 4. Creating a View Composer (Global Access)
+
+For global access across all views, create a view composer:
+
+```php
+<?php
+
+namespace App\View\Composers;
+
+use App\Settings\GeneralSettings;
+use Illuminate\View\View;
+
+class SettingsComposer
+{
+    public function __construct(
+        protected GeneralSettings $settings
+    ) {}
+
+    public function compose(View $view): void
+    {
+        $view->with('settings', $this->settings);
+    }
+}
+```
+
+Register it in a service provider:
+
+```php
+// In AppServiceProvider.php boot() method
+use Illuminate\Support\Facades\View;
+use App\View\Composers\SettingsComposer;
+
+public function boot(): void
+{
+    View::composer('*', SettingsComposer::class);
+}
+```
+
+Then use in any Blade template:
+
+```blade
+{{-- Now available in all views --}}
+<title>{{ $settings->site_name }}</title>
+<meta name="description" content="{{ $settings->site_description }}">
+
+<div class="contact">
+    <a href="mailto:{{ $settings->email }}">{{ $settings->email }}</a>
+</div>
+```
+
+#### 5. Using in Livewire Components
+
+Access settings in your Livewire components:
+
+```php
+<?php
+
+namespace App\Livewire;
+
+use App\Settings\GeneralSettings;
+use Livewire\Component;
+
+class ContactForm extends Component
+{
+    public function render(GeneralSettings $settings)
+    {
+        return view('livewire.contact-form', [
+            'contactEmail' => $settings->email,
+            'whatsappNumber' => $settings->whatsapp_1,
+        ]);
+    }
+}
+```
+
+#### 6. In Artisan Commands
+
+Use settings in your custom Artisan commands:
+
+```php
+<?php
+
+namespace App\Console\Commands;
+
+use App\Settings\GeneralSettings;
+use Illuminate\Console\Command;
+
+class SendNewsletterCommand extends Command
+{
+    protected $signature = 'newsletter:send';
+
+    public function handle(GeneralSettings $settings): void
+    {
+        $fromEmail = $settings->email;
+        $siteName = $settings->site_name;
+        
+        // Send newsletter logic...
+        $this->info("Newsletter sent from {$fromEmail} on behalf of {$siteName}");
+    }
+}
+```
+
+### Managing Settings
+
+Settings can be managed through the Filament admin panel:
+
+1. **Access the Admin Panel**: Navigate to `/admin` and log in
+2. **Go to Settings**: Click on "Settings" in the navigation menu
+3. **Select General Settings**: Click on "General" to manage general site settings
+4. **Edit Values**: Update any of the available fields
+5. **Save Changes**: Click "Save" to persist your changes
+
+### Performance Considerations
+
+- Settings are cached automatically by Spatie Laravel Settings
+- The dependency injection method is the most performant as it leverages Laravel's container caching
+- Consider using view composers for settings that are used across many views
+- Settings are only loaded when accessed, not on every request
+
+### Null Safety
+
+All settings properties are nullable, so always check for null values when displaying:
+
+```php
+// Safe way to display settings
+echo $settings->site_name ?? 'Default Site Name';
+
+// Or in Blade
+{{ $settings->site_name ?: 'Default Site Name' }}
+
+// Using conditional display
+@if($settings->phone_1)
+    <a href="tel:{{ $settings->phone_1 }}">{{ $settings->phone_1 }}</a>
+@endif
+```
+
+### Extending Settings
+
+To add new settings properties:
+
+1. Add the property to `app/Settings/GeneralSettings.php`
+2. Add corresponding form fields to `app/Filament/Pages/ManageGeneralSettings.php`
+3. Create and run a settings migration to set default values
+4. Access the new property using any of the methods above
 

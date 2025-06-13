@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
 use App\Models\Post;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
-use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
 
 class Category extends Model
 {
@@ -57,6 +57,8 @@ class Category extends Model
         'title'
     ];
 
+
+
     //--------------------------------------------------------------------------
     // Relationships
     //--------------------------------------------------------------------------
@@ -98,4 +100,5 @@ class Category extends Model
         // Add foreign key argument if specified in YAML
         return $this->hasMany(Category::class, 'parent_id');
     }
+
 }

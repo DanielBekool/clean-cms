@@ -172,8 +172,11 @@ class CreateModelCommand extends Command
         $traits = $this->buildTraits($definition);
         $constants = $this->buildConstants($definition); // <-- Build constants
         $fillable = $this->buildFillable($definition);
-        $casts = $this->buildCasts($definition);
+        $casts = $this->buildCasts($definition); // Build casts normally
         $translatable = $this->buildTranslatable($definition);
+        $appends = $this->buildAppends($definition);
+        $accessors = $this->buildAccessors($definition);
+        $customMethods = $this->buildCustomMethods($definition);
         $relationships = $this->buildRelationships($namespace, $definition); // Pass namespace
 
         // Basic template for the model file
@@ -192,10 +195,13 @@ class {$className} extends Model
 {$fillable}
 {$casts}
 {$translatable}
+{$appends}
+{$accessors}
     //--------------------------------------------------------------------------
     // Relationships
     //--------------------------------------------------------------------------
 {$relationships}
+{$customMethods}
 }
 
 PHP;
@@ -221,14 +227,8 @@ PHP;
 
         if (!empty($definition['traits'])) {
             foreach ($definition['traits'] as $trait) {
-                // Basic check to add common relationship/trait namespaces
-                if (str_contains($trait, 'SoftDeletes')) {
-                    $uses[] = 'Illuminate\Database\Eloquent\SoftDeletes';
-                }
-                if (str_contains($trait, 'HasTranslations')) {
-                    $uses[] = 'Spatie\Translatable\HasTranslations';
-                }
-                // Add more trait namespaces if needed
+                // Add the full trait namespace
+                $uses[] = $trait;
             }
         }
 
@@ -239,7 +239,8 @@ PHP;
                     $uses[] = 'Awcodes\Curator\Models\Media';
                     $relationshipTypes[] = 'Illuminate\Database\Eloquent\Relations\BelongsTo'; // Add BelongsTo for featuredImage
                 }
-                // Add other field-specific imports here if needed
+                
+                // Note: We don't import enum classes since we use fully qualified names
             }
         }
 
@@ -263,7 +264,13 @@ PHP;
                         case 'hasone':
                             $relationshipTypes[] = 'Illuminate\Database\Eloquent\Relations\HasOne';
                             break;
-                        // Add more relationship types if needed (MorphTo, MorphMany, etc.)
+                        case 'morphto':
+                            $relationshipTypes[] = 'Illuminate\Database\Eloquent\Relations\MorphTo';
+                            break;
+                        case 'morphmany':
+                            $relationshipTypes[] = 'Illuminate\Database\Eloquent\Relations\MorphMany';
+                            break;
+                        // Add more relationship types if needed
                     }
                 }
 
@@ -335,7 +342,12 @@ PHP;
         }
 
         foreach ($definition['fields'] as $fieldName => $fieldDef) {
-            if (strtolower($fieldDef['type'] ?? '') === 'enum' && !empty($fieldDef['enum']) && is_array($fieldDef['enum'])) {
+            // Only generate constants for enum fields that don't have enum_class specified
+            if (strtolower($fieldDef['type'] ?? '') === 'enum' && 
+                !empty($fieldDef['enum']) && 
+                is_array($fieldDef['enum']) && 
+                empty($fieldDef['enum_class'])) {
+                
                 // Generate constant name, e.g., status -> STATUS_OPTIONS
                 $constantName = Str::upper(Str::snake($fieldName)) . '_OPTIONS';
 
@@ -457,17 +469,23 @@ PHP;
                     $casts[$fieldName] = 'datetime'; // Or 'immutable_datetime'
                     break;
                 case 'json':
-                    // Handled by spatie/laravel-translatable if marked translatable
-                    if (!$isTranslatable) {
-                        $casts[$fieldName] = 'array'; // Cast non-translatable JSON to array
+                    // Cast JSON fields as array, with special handling for translatable fields
+                    if (!$isTranslatable || $fieldName === 'section') {
+                        // Non-translatable JSON fields or special case for 'section' field
+                        $casts[$fieldName] = 'array';
                     }
+                    // Translatable JSON fields (title, slug, content, excerpt) are handled by Spatie Translatable
                     break;
                 case 'enum':
-                    // Basic string cast, recommend using PHP 8.1 Enums + Casts for better type safety
-                    $casts[$fieldName] = 'string';
-                    // Example for Enum casting (requires Enum class definition)
-                    // $enumClass = Str::studly($fieldName) . 'Enum'; // Guess Enum class name
-                    // $casts[$fieldName] = $enumClass . '::class';
+                    // Check if enum_class is specified
+                    if (!empty($fieldDef['enum_class'])) {
+                        $enumClass = $fieldDef['enum_class'];
+                        // Use fully qualified name with leading backslash
+                        $casts[$fieldName] = '\\' . $enumClass . '::class';
+                    } else {
+                        // Basic string cast for backward compatibility
+                        $casts[$fieldName] = 'string';
+                    }
                     break;
             }
         }
@@ -477,7 +495,13 @@ PHP;
         }
 
         $castsString = collect($casts)
-            ->map(fn($castType, $field) => "'{$field}' => '{$castType}'")
+            ->map(function($castType, $field) {
+                // Don't quote enum class references
+                if (str_contains($castType, '::class')) {
+                    return "'{$field}' => {$castType}";
+                }
+                return "'{$field}' => '{$castType}'";
+            })
             ->implode(",\n        ");
 
         return <<<PHP
@@ -565,8 +589,31 @@ PHP;
                 $foreignKey = $relDef['foreign_key'] ?? null; // Get potential foreign key
                 // Add other potential keys here if needed (ownerKey, localKey, etc.)
 
-                if (!$type || !$relatedModel)
-                    continue; // Skip if type or model is missing
+                if (!$type) {
+                    continue; // Skip if type is missing
+                }
+
+                // For morphTo relationships, we don't need a model
+                if (strtolower($type) === 'morphto') {
+                    $relationshipType = 'MorphTo';
+                    $relationshipMethod = 'morphTo';
+                    
+                    $methods[] = <<<PHP
+
+    /**
+     * Define the {$methodName} relationship.
+     */
+    public function {$methodName}(): {$relationshipType}
+    {
+        return \$this->{$relationshipMethod}();
+    }
+PHP;
+                    continue;
+                }
+
+                if (!$relatedModel) {
+                    continue; // Skip if model is missing for non-morphTo relationships
+                }
 
                 $relatedModelClass = Str::studly($relatedModel); // Ensure PascalCase
                 $relationshipType = Str::studly($type); // e.g., BelongsTo, BelongsToMany - Get Class name for return type hint
@@ -574,9 +621,16 @@ PHP;
 
                 // Construct arguments string
                 $arguments = ["{$relatedModelClass}::class"];
-                // Add foreign_key as second argument if present
-                if ($foreignKey) {
-                    $arguments[] = "'{$foreignKey}'";
+                
+                // Handle special cases for different relationship types
+                if (strtolower($type) === 'morphmany') {
+                    $morphName = $relDef['name'] ?? Str::snake($methodName);
+                    $arguments = ["{$relatedModelClass}::class", "'{$morphName}'"];
+                } else {
+                    // Add foreign_key as second argument if present
+                    if ($foreignKey) {
+                        $arguments[] = "'{$foreignKey}'";
+                    }
                 }
                 // Add logic here for other keys (ownerKey, localKey, pivot keys etc.) if defined in YAML
 
@@ -592,6 +646,112 @@ PHP;
         // Use the base class name for the ::class constant
         // Add foreign key argument if specified in YAML
         return \$this->{$relationshipMethod}({$argumentsString});
+    }
+PHP;
+            }
+        }
+
+        return implode("\n", $methods);
+    }
+
+    /**
+     * Build the $appends property definition.
+     *
+     * @param array $definition
+     * @return string
+     */
+    protected function buildAppends(array $definition): string
+    {
+        if (empty($definition['special_methods']['appends'])) {
+            return '';
+        }
+
+        $appends = $definition['special_methods']['appends'];
+        $appendsString = collect($appends)->map(fn($field) => "'{$field}'")->implode(", ");
+
+        return <<<PHP
+
+    protected \$appends = [{$appendsString}];
+
+PHP;
+    }
+
+    /**
+     * Build accessor methods.
+     *
+     * @param array $definition
+     * @return string
+     */
+    protected function buildAccessors(array $definition): string
+    {
+        if (empty($definition['special_methods']['accessors'])) {
+            return '';
+        }
+
+        $methods = [];
+        foreach ($definition['special_methods']['accessors'] as $accessor) {
+            $name = $accessor['name'];
+            $returnType = $accessor['return_type'] ?? 'mixed';
+            $description = $accessor['description'] ?? "Get the {$name} attribute.";
+
+            if ($name === 'getBlocksAttribute') {
+                // Special handling for Page model blocks accessor
+                $methods[] = <<<PHP
+
+    /**
+     * {$description}
+     *
+     * @return {$returnType}
+     */
+    public function getBlocksAttribute(): array
+    {
+        return collect(\$this->section)->map(function (array \$block) {
+            // if this block has an "media" key, fetch its URL
+            if (isset(\$block['data']['media_id'])) {
+                \$media = Media::find(\$block['data']['media_id']);
+                \$block['data']['media_url'] = \$media?->url;
+            }
+
+            return \$block;
+        })->all();
+    }
+PHP;
+            }
+        }
+
+        return implode("\n", $methods);
+    }
+
+    /**
+     * Build custom methods.
+     *
+     * @param array $definition
+     * @return string
+     */
+    protected function buildCustomMethods(array $definition): string
+    {
+        if (empty($definition['special_methods']['custom_methods'])) {
+            return '';
+        }
+
+        $methods = [];
+        foreach ($definition['special_methods']['custom_methods'] as $method) {
+            $name = $method['name'];
+            $returnType = $method['return_type'] ?? 'mixed';
+            $description = $method['description'] ?? "Custom method {$name}.";
+
+            if ($name === 'childrenRecursive') {
+                // Special handling for Comment model recursive children
+                $methods[] = <<<PHP
+
+    /**
+     * {$description}
+     *
+     * @return {$returnType}
+     */
+    public function childrenRecursive(): HasMany
+    {
+        return \$this->children()->with('childrenRecursive');
     }
 PHP;
             }

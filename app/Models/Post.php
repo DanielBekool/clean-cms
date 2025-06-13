@@ -2,26 +2,26 @@
 
 namespace App\Models;
 
+use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\User;
+use App\Traits\HasPageLikes;
+use App\Traits\HasPageViews;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
-use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
-use App\Enums\ContentStatus;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use App\Models\Comment;
-use App\Traits\HasPageViews;
-use App\Traits\HasPageLikes;
 
 class Post extends Model
 {
     use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite, HasPageViews, HasPageLikes;
+
 
 
     /**
@@ -51,11 +51,11 @@ class Post extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'custom_fields' => 'array',
         'menu_order' => 'integer',
         'featured' => 'boolean',
-        'status' => ContentStatus::class,
-        'published_at' => 'datetime',
-        'custom_fields' => 'array'
+        'status' => \App\Enums\ContentStatus::class,
+        'published_at' => 'datetime'
     ];
 
 
@@ -70,6 +70,8 @@ class Post extends Model
         'slug',
         'title'
     ];
+
+
 
     //--------------------------------------------------------------------------
     // Relationships
@@ -113,8 +115,13 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    /**
+     * Define the comments relationship.
+     */
     public function comments(): MorphMany
     {
+        // Use the base class name for the ::class constant
+        // Add foreign key argument if specified in YAML
         return $this->morphMany(Comment::class, 'commentable');
     }
 

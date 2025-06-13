@@ -21,7 +21,7 @@ models:
       custom_fields:
         type: json
         nullable: true
-        translatable: true # Assuming custom fields can also be translated
+        translatable: false # Not translatable for custom fields array cast
       featured_image:
         type: string
         nullable: true
@@ -39,8 +39,9 @@ models:
       status:
         type: enum
         nullable: false
-        enum: [draft, published]
+        enum: [draft, published, scheduled]
         default: draft
+        enum_class: App\Enums\ContentStatus
       published_at:
         type: datetime
         nullable: true
@@ -65,6 +66,9 @@ models:
     traits:
       - Spatie\Translatable\HasTranslations
       - Illuminate\Database\Eloquent\SoftDeletes
+      - Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite
+      - App\Traits\HasPageViews
+      - App\Traits\HasPageLikes
 
   Page:
     fields:
@@ -88,7 +92,11 @@ models:
       custom_fields:
         type: json
         nullable: true
-        translatable: true # Assuming custom fields can also be translated
+        translatable: false # Not translatable for custom fields array cast
+      section:
+        type: json
+        nullable: true
+        translatable: true
       featured_image:
         type: string
         nullable: true
@@ -107,8 +115,9 @@ models:
       status:
         type: enum
         nullable: false
-        enum: [draft, published]
+        enum: [draft, published, scheduled]
         default: draft
+        enum_class: App\Enums\ContentStatus
       published_at:
         type: datetime
         nullable: true
@@ -124,9 +133,18 @@ models:
         foreign_key: parent_id # Explicitly state foreign key if needed
         nullable: true # Matches parent_id field nullability
 
+    special_methods:
+      appends:
+        - blocks
+      accessors:
+        - name: getBlocksAttribute
+          return_type: array
+          description: "Return the raw data blocks, but with image URLs injected."
+
     traits:
       - Spatie\Translatable\HasTranslations
       - Illuminate\Database\Eloquent\SoftDeletes
+      - Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite
 
   Category:
     fields:
@@ -176,6 +194,7 @@ models:
     traits:
       - Spatie\Translatable\HasTranslations
       - Illuminate\Database\Eloquent\SoftDeletes
+      - Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite
 
   Tag:
     fields:
@@ -211,6 +230,7 @@ models:
     traits:
       - Spatie\Translatable\HasTranslations
       - Illuminate\Database\Eloquent\SoftDeletes
+      - Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite
 
   Comment:
     fields:
@@ -228,6 +248,12 @@ models:
         nullable: false
         enum: [pending, approved, rejected]
         default: pending
+        enum_class: App\Enums\CommentStatus
+      parent_id:
+        type: bigint
+        nullable: true
+        unsigned: true
+        index: true
       commentable_id:
         type: bigint
         nullable: false
@@ -241,6 +267,21 @@ models:
     relationships:
       commentable:
         type: morphTo
+      parent:
+        type: belongsTo
+        model: Comment
+        foreign_key: parent_id
+        nullable: true
+      children:
+        type: hasMany
+        model: Comment
+        foreign_key: parent_id
+
+    special_methods:
+      custom_methods:
+        - name: childrenRecursive
+          return_type: "Illuminate\\Database\\Eloquent\\Relations\\HasMany"
+          description: "Get all children recursively"
 
     traits:
       - Illuminate\Database\Eloquent\SoftDeletes
